@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on zhangjie&#39;s blog</title>
+    <link>http://blog.njutzhangjie.cn/post/</link>
+    <description>Recent content in Posts on zhangjie&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 09 Mar 2019 18:38:54 +0800</lastBuildDate>
+    
+	<atom:link href="http://blog.njutzhangjie.cn/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>num</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/09/num/</link>
+      <pubDate>Sat, 09 Mar 2019 18:38:54 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/09/num/</guid>
+      <description>文章内容</description>
+    </item>
+    
+  </channel>
+</rss>
