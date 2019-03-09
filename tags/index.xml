@@ -6,28 +6,9 @@
     <description>Recent content in Tags on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 09 Mar 2019 14:48:54 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Blog</title>
-      <link>http://blog.njutzhangjie.cn/tags/blog/</link>
-      <pubDate>Sat, 09 Mar 2019 14:48:54 +0800</pubDate>
-      
-      <guid>http://blog.njutzhangjie.cn/tags/blog/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Post</title>
-      <link>http://blog.njutzhangjie.cn/tags/post/</link>
-      <pubDate>Sat, 09 Mar 2019 14:48:54 +0800</pubDate>
-      
-      <guid>http://blog.njutzhangjie.cn/tags/post/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>
