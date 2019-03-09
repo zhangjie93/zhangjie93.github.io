@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://blog.njutzhangjie.cn/archives/</loc>
+    <lastmod>2019-03-09T16:34:33+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.njutzhangjie.cn/categories/</loc>
     <priority>0</priority>
   </url>
@@ -14,6 +19,7 @@
   
   <url>
     <loc>http://blog.njutzhangjie.cn/</loc>
+    <lastmod>2019-03-09T16:34:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
