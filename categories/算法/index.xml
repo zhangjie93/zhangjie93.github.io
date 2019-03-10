@@ -6,10 +6,19 @@
     <description>Recent content in 算法 on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 09 Mar 2019 16:34:33 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 10 Mar 2019 21:26:20 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第1题 Two Sum</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/</link>
+      <pubDate>Sun, 10 Mar 2019 21:26:20 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/</guid>
+      <description>第1 题 Two Sum 问题： 给定一系列数nums和一个数target，从nums中找到两个数，使之和为target，返回这个数的索引（数组中所在的索引）</description>
+    </item>
     
     <item>
       <title>leetcode 第179题 Largest Number</title>

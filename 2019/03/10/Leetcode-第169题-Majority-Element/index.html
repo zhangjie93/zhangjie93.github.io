@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Leetcode 第169题 Majority Element | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第169题 Majority Element - zhangjie&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-03-10T21:10:14&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-03-10T21:10:14&#43;08:00">
+        
+    <meta name="Keywords" content="Java,算法,leetcode,spring">
+    <meta name="description" content="Leetcode 第169题 Majority Element">
+        
+    <meta name="author" content="zhangjie">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.njutzhangjie.cn/">
+                        zhangjie&#39;s blog
+                    </a>
+                
+                <p class="description">Java初学者</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Leetcode 第169题 Majority Element</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年3月10日
+                        </date>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h1 id="第169题-majority-element-https-leetcode-com-problems-majority-element">第169题 <a href="https://leetcode.com/problems/majority-element/">Majority Element</a></h1>
+
+<h2 id="问题">问题</h2>
+
+<p>给定一个整数数组，长度为n，找到数组中个数超过n/2的元素，注意，<strong>这个元素可能不存在</strong></p>
+
+<h2 id="解答">解答</h2>
+
+<p>最简单的方法就是统计每一个数字的个数，可以借助map来统计个数，然后再找到超过n/2的数。但这种方法的空间复杂度比较大，需要$O(n)$。</p>
+
+<pre><code class="language-java">//hashmap统计每个数字的个数
+public int majorityElement1(int[] nums) {
+    HashMap&lt;Integer, Integer&gt; count = new HashMap&lt;&gt;();
+    int n = nums.length;
+    for (int num : nums) {
+        if(!count.containsKey(num)){
+            count.put(num,1);
+        }else{
+            int temp=count.get(num);
+            count.put(num,temp+1);
+        }
+        //超过n/2则返回
+        if(count.get(num)&gt;n/2){
+            return num;
+        }
+    }
+    return 0;
+}
+</code></pre>
+
+<p>另外一种方法是Moore Voting摩尔投票法。</p>
+
+<blockquote>
+<p>下面的对摩尔投票算法的解释来源于参考链接1</p>
+</blockquote>
+
+<p>算法是基于这样一个事实：如果序列中存在出现次数大于n/2的数字（Majority Number,众数），则每次从序列里选择两个不相同的数字删除掉（或称为“抵消”），最后剩下一个数字或几个相同的数字，就是出现次数大于总数一半的那个。</p>
+
+<p>数组array：存储的是“当前暂时无法删除的数字”，初始为空
+数组result：result里面存储的是每次删除一对元素之后的当前结果，初始时就是原数组</p>
+
+<p>如<code>{1,2,1,3,1,1,2,1,5}</code></p>
+
+<ul>
+<li>从第一个数字1开始，想要把它和一个不是1的数字一起从数组里抵消掉，但是目前只扫描了一个1，所以暂时无法抵消它，把它加入到array，array变成了<code>{1}</code>，result由于没有抵消任何元素所以还是原数组<code>{1,2,1,3,1,1,2,1,5}</code></li>
+<li>继续扫描第二个数，是2，可以把它和一个不是2的数字抵消掉了，因为之前扫描到一个1，所以array变成了{},result变成了{1,3,1,1,2,1,5}</li>
+<li>继续扫描第三个数1，无法抵消，于是array变成了{1},result还是{1,3,1,1,2,1,5};</li>
+<li>接下来扫描到3,可以将3和array数组里面的1抵消,于是array变成了{},result变成了{1,1,2,1,5}</li>
+<li>接下来扫描到1，此时array为空，所以无法抵消这个1，array变成了{1},result还是{1,1,2,1,5}</li>
+<li>接下来扫描到1，此时虽然array不为空，但是array里也是1，所以还是无法抵消，把它也加入这个array,于是array变成了{1,1},result还是{1,1,2,1,5}</li>
+<li>接下来扫描到2，把它和一个1抵消掉，至于抵消哪一个1，无所谓，array变成了{1},result是{1,1,5}</li>
+<li>接下来扫描到1，不能抵消，array变成了{1,1}，result{1,1,5}</li>
+<li>接下来扫描到5，可以将5和一个1抵消，array变成了{1},result变成了{1}</li>
+</ul>
+
+<p>至此扫描完成了数组里的所有数，result里剩了1，所以1就是大于一半的数组。</p>
+
+<p>再回顾一下这个过程，其实就是删除（抵消）了（1，2），（1，3），（1，5）剩下了一个1。</p>
+
+<p>可以看到<strong>array数组中只可能是为空或者是相同的数字</strong>，所以array数组完全可以用一个变量表示数组中的数字，另一个变量表示数字的个数，分别用major和count表示。</p>
+
+<p>用major和count来描述算法过程,count初始为，输入为<code>{1,2,1,3,1,1,2,1,5}</code></p>
+
+<ul>
+<li>扫描到1，count是0（没有元素可以和当前的1抵消），于是major = 1，count = 1（此时有1个1无法被抵消）</li>
+<li>扫描到2，它不等于major，于是可以抵消掉一个major =&gt; count -= 1，此时count = 0,其实可以理解为扫到的元素都抵消完了，这里可以暂时不改变major的值</li>
+<li>扫描到1，它等于major，于是count += 1 =&gt; count = 1</li>
+<li>扫描到3，它不等于major，可以抵消一个major =&gt; count -= 1 =&gt; count = 0，此时又抵消完了(实际的直觉告诉我们，扫描完前四个数，1和2抵消了，1和3抵消了)</li>
+<li>扫描到1，它等于major，于是count += 1 =&gt; count = 1</li>
+<li>扫描到1，他等于major，无法抵消 =&gt; count += 1 =&gt; count = 2 (扫描完前六个数，剩两个1无法抵消)</li>
+<li>扫描到2，它不等于major，可以抵消一个major =&gt; count -= 1 =&gt; count = 1,此时还剩1个1没有被抵消</li>
+<li>扫描到1，它等于major，无法抵消 =&gt; count += 1 =&gt; count = 2</li>
+<li>扫描到5，它不等于major，可以抵消一个major =&gt; count -= 1 =&gt; count = 1</li>
+</ul>
+
+<p>到此，还有1个1没有被抵消，这就是要找的数</p>
+
+<pre><code class="language-java">public int majorityElement(int[] nums) {
+    int count = 0;
+    int n=nums.length;
+    int major = 0;
+    for (int num :
+            nums) {
+        if (count == 0) {
+            major=num;
+            count++;
+        }else if(major==num){
+          count++;
+        }else{
+            count--;
+        }
+    }
+    //由于这题一定是有超过n/2的数，可以直接返回major，就是要找的数
+    //如果没有保证这个数一定存在，需要遍历一次，确定这个数是否超过n/2
+    count=0;
+    for (int num :
+            nums) {
+        if (major == num) {
+            count++;
+        }
+    }
+    if(count&gt;n/2){
+        return major;
+    }else{
+        return 0;
+    }
+}
+</code></pre>
+
+<p>为什么每次从序列里选择两个不相同的数字删除掉（或称为“抵消”），最后剩下一个数字或几个相同的数字，就是出现次数大于总数一半的那个</p>
+
+<p>首先，如果有次数大于n/2的数，则两个不同的数两两抵消后，最终不可能出现一个数都不剩的情况。</p>
+
+<p>证明：若两两抵消之后，最终一个数字都不剩。那么就是说一共有偶数个数字，假设有n个，那么n = 2k，k是整数。所以是进行了k次两两抵消。又因为一定存在众数(Majority Number,数量超过$\lfloor n/2\rfloor=k$)，所以该众数出现次数至少为k+1。这样在k次两两抵消时，会出现两个相同的数在抵消，这与前面是矛盾的。</p>
+
+<p>所以至少剩一个</p>
+
+<!-- TODO -->
+
+<p>假设最终剩下的那一种数字是a，假设前面进行了k次两两抵消。要证明a是欲求的众数，即证明其他数字不可能是众数。在前面抵消的数字中，同一种数字最多出现k次，即是除了a之外的数字最多出现k次。而且最终至少剩下一个数字，所以数字的总数量大于等于2k+1。那么除了a之外的数字出现的频率&lt;= k/(2k+1) &lt; k/2k = 1/2，所以证明了除了a之外的数字均不会是众数。那么就是说最终剩下的那种数字a是所求众数。</p>
+
+<p>抽屉原理：</p>
+
+<p>把（mn+1）个物体放入n个抽屉中，其中必有一个抽屉中至少有（m+1）个物体。</p>
+
+<p>参考：</p>
+
+<ul>
+<li><a href="https://www.zhihu.com/question/49973163/answer/235921864">https://www.zhihu.com/question/49973163/answer/235921864</a></li>
+<li><a href="https://www.zhihu.com/question/49973163/answer/477886752">https://www.zhihu.com/question/49973163/answer/477886752</a></li>
+</ul>
+
+<h2 id="拓展">拓展</h2>
+
+<p>如何找到大于n/3的数，如果数组中不一定存在众数该如何处理，如何找到数组中出现次数大于N/k的数</p>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/03/10/%E5%90%84%E7%A7%8D%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">各种编程工具遇到的问题</a></li>
+        
+        <li><a href="/archives/">Archives</a></li>
+        
+        <li><a href="/2019/03/09/leetcode-%E7%AC%AC179%E9%A2%98-Largest-Number/">leetcode 第179题 Largest Number</a></li>
+        
+        <li><a href="/about/">about</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.njutzhangjie.cn/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/" title="Leetcode 第1题 Two Sum">Leetcode 第1题 Two Sum</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/" title="Leetcode 第169题 Majority Element">Leetcode 第169题 Majority Element</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/10/%E5%90%84%E7%A7%8D%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="各种编程工具遇到的问题">各种编程工具遇到的问题</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/09/leetcode-%E7%AC%AC179%E9%A2%98-Largest-Number/" title="leetcode 第179题 Largest Number">leetcode 第179题 Largest Number</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(2)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.njutzhangjie.cn/tags/leetcode/">leetcode</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.njutzhangjie.cn/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="http://blog.njutzhangjie.cn/">zhangjie&#39;s blog By zhangjie</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

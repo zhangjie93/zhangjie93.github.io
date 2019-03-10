@@ -6,10 +6,28 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 10 Mar 2019 15:40:13 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 10 Mar 2019 21:26:20 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第1题 Two Sum</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/</link>
+      <pubDate>Sun, 10 Mar 2019 21:26:20 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/</guid>
+      <description>第1 题 Two Sum 问题： 给定一系列数nums和一个数target，从nums中找到两个数，使之和为target，返回这个数的索引（数组中所在的索引）</description>
+    </item>
+    
+    <item>
+      <title>Leetcode 第169题 Majority Element</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/</link>
+      <pubDate>Sun, 10 Mar 2019 21:10:14 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/</guid>
+      <description>第169题 Majority Element 问题 给定一个整数数组，长度为n，找到数组中个数超过n/2的元素，注意，这个元素可能不存在 解答 最简单的方法就是统计每一个数字的个</description>
+    </item>
     
     <item>
       <title>各种编程工具遇到的问题</title>
