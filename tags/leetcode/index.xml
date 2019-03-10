@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Leetcode 第169题 Majority Element</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/</link>
+      <pubDate>Sun, 10 Mar 2019 21:10:14 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/</guid>
+      <description>第169题 Majority Element 问题 给定一个整数数组，长度为n，找到数组中个数超过n/2的元素，注意，这个元素可能不存在 解答 最简单的方法就是统计每一个数字的个</description>
+    </item>
+    
+    <item>
       <title>leetcode 第179题 Largest Number</title>
       <link>http://blog.njutzhangjie.cn/2019/03/09/leetcode-%E7%AC%AC179%E9%A2%98-Largest-Number/</link>
       <pubDate>Sat, 09 Mar 2019 16:34:33 +0800</pubDate>
