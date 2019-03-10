@@ -99,6 +99,54 @@
 
 <p>如<code>[10,2]</code>，拼出来的是210</p>
 
+<h2 id="解答">解答</h2>
+
+<p>对数组进行提排序，排序时是按照元素的每一位进行排位，如9要排在32的前面，因为9是大于3的。</p>
+
+<p>排序应该是按照数字的字典序排序的，也就9&gt;30,但注意在字典序中，30&gt;3，但是这里应该要求3&gt;30，也就是330&gt;303</p>
+
+<p>重写<code>compare()</code>时，应该是按位比较，将字符串从左往右按字符比较。但是按位比较是比较复杂的，在两个数位数相同时最好比较，但如果两个数字的位数不同，按位比较并不是太好。比如，按照字典序30应该大于3，但是这里应该是30<3，也就是`330>303`。也就是说按位比较需要考虑的情况太多</p>
+
+<p>可以将两个字符串拼接后比较</p>
+
+<pre><code class="language-java">public String largestNumber(int[] nums) {
+     if(nums == null || nums.length == 0)
+        return &quot;&quot;;
+    String[] numsAsStrings = new String[nums.length];
+    //转换为字符串
+    for (int i = 0; i &lt; nums.length; i++) {
+        numsAsStrings[i]=String.valueOf(nums[i]);
+    }
+    //对字符串排序
+    Arrays.sort(numsAsStrings, new Comparator&lt;String&gt;() {
+        @Override
+        public int compare(String o1, String o2) {
+            //将两个字符串拼接后比较
+            String s1s2=o1+o2;
+            String s2s1=o2+o1;
+            //所以比较o1+o2和o2+o1
+            //如果o1+o2&lt;o2+o1，则返回正数
+            return s2s1.compareTo(s1s2);
+        }
+    });
+    if(numsAsStrings[0].equals(&quot;0&quot;)){
+        return &quot;0&quot;;
+    }
+    StringBuilder sb=new StringBuilder();
+    for (int i = 0; i &lt; numsAsStrings.length; i++) {
+      sb.append(numsAsStrings[i]);
+    }
+    return sb.toString();
+}
+</code></pre>
+
+<p>参考：</p>
+
+<ul>
+<li><a href="https://www.cnblogs.com/yrbbest/p/4491655.html">https://www.cnblogs.com/yrbbest/p/4491655.html</a></li>
+<li><a href="http://www.cnblogs.com/xlturing/p/4473551.html">http://www.cnblogs.com/xlturing/p/4473551.html</a></li>
+</ul>
+
                         </div>
 
                         
