@@ -151,7 +151,9 @@
 }
 </code></pre>
 
-<p>存储到Map中可以遍历前存储，这样会消耗一定的时间。可以在遍历的同时存储。当遍历到nums[i]时，判断<code>target-nums[i]</code>是否在Map中（这个操作相当于在0~i-1中判断是否有数满足nums[i]+nums[j]=target,0&lt;=j&lt;=i-1）。如果<code>target-nums[i]</code>不在Map中，则存入Map中</p>
+<p>存储到Map中可以遍历前存储，这样会消耗一定的时间。先存储还有一个问题，如果要求输出所有可能的组合，会导致重复结果的出现。如遍历到nums[i],有nums[j]符合条件且j&gt;i，当遍历到j时，nums[i]又符合条件，这样会有重复结果。当然这题有唯一解，在符合条件后就会返回</p>
+
+<p>可以在遍历的同时存储。当遍历到nums[i]时，判断<code>target-nums[i]</code>是否在Map中（这个操作相当于在0~i-1中判断是否有数满足nums[i]+nums[j]=target,0&lt;=j&lt;=i-1）。如果<code>target-nums[i]</code>不在Map中，则存入Map中</p>
 
 <h3 id="解法3">解法3</h3>
 
