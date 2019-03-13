@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://blog.njutzhangjie.cn/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/</loc>
+    <lastmod>2019-03-13T20:50:07+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.njutzhangjie.cn/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/</loc>
     <lastmod>2019-03-13T10:47:28+08:00</lastmod>
   </url>
@@ -49,7 +54,7 @@
   
   <url>
     <loc>http://blog.njutzhangjie.cn/post/</loc>
-    <lastmod>2019-03-13T10:47:28+08:00</lastmod>
+    <lastmod>2019-03-13T20:50:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -65,14 +70,38 @@
   </url>
   
   <url>
+    <loc>http://blog.njutzhangjie.cn/tags/mysql/</loc>
+    <lastmod>2019-03-13T20:50:07+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.njutzhangjie.cn/tags/sql/</loc>
+    <lastmod>2019-03-13T20:50:07+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.njutzhangjie.cn/</loc>
-    <lastmod>2019-03-13T10:47:28+08:00</lastmod>
+    <lastmod>2019-03-13T20:50:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
     <lastmod>2019-03-13T10:47:28+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <lastmod>2019-03-13T20:50:07+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <lastmod>2019-03-13T20:50:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   

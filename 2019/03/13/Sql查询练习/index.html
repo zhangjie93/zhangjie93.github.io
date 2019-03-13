@@ -1,0 +1,1214 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sql查询练习 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Sql查询练习 - zhangjie&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-03-13T20:50:07&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-03-13T20:50:07&#43;08:00">
+        
+    <meta name="Keywords" content="Java,算法,leetcode,spring">
+    <meta name="description" content="sql语句练习，sqlzoo.net题目">
+        
+    <meta name="author" content="zhangjie">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.njutzhangjie.cn/">
+                        zhangjie&#39;s blog
+                    </a>
+                
+                <p class="description">Loading...</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Sql查询练习</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年3月13日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<p>[TOC]</p>
+
+<h1 id="sql">SQL</h1>
+
+<p>题目来自<a href="https://sqlzoo.net">https://sqlzoo.net</a></p>
+
+<h2 id="select-basics">Select basics</h2>
+
+<p>world表</p>
+
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>continent</th>
+<th>area</th>
+<th>population</th>
+<th>gdp</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>国家名</td>
+<td>所属大洲</td>
+<td>面积</td>
+<td>人口</td>
+<td>gdp</td>
+</tr>
+</tbody>
+</table>
+
+<ol>
+<li>查询德国Germany人口</li>
+</ol>
+
+<pre><code class="language-sql">    SELECT population FROM world WHERE name = 'Germany'
+</code></pre>
+
+<ol>
+<li><p>查询面积为 5,000,000 以上平方公里的国家,每个国家显示名字name和人均国内生产总值(gdp/population)</p>
+
+<pre><code class="language-sql">SELECT name, gdp / population
+FROM world
+WHERE area &gt; 5000000;
+</code></pre></li>
+
+<li><p>显示“Ireland 爱尔兰”,“Iceland 冰岛”,“Denmark 丹麦”的国家名称和人口</p></li>
+</ol>
+
+<pre><code class="language-sql">    SELECT name, population FROM world
+    WHERE name IN ('Ireland ', 'Iceland ', 'Denmark ');
+</code></pre>
+
+<ol>
+<li>显示面积为 200,000 及 250,000 之间的国家名称和该国面积</li>
+</ol>
+
+<pre><code class="language-sql">    SELECT name, area FROM world
+    WHERE area BETWEEN 200000 AND 250000
+</code></pre>
+
+<ol>
+<li>找出名字以 Y 为开头的国家</li>
+</ol>
+
+<pre><code class="language-sql">   SELECT name FROM world
+   WHERE name LIKE 'Y%'
+</code></pre>
+
+<ol>
+<li><p>找出以 Y 为结尾的国家。</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '%Y'
+</code></pre></li>
+
+<li><p>找出所有国家,其名字包括字母x</p></li>
+</ol>
+
+<pre><code class="language-sql">    SELECT name FROM world
+    WHERE name LIKE '%X%'
+</code></pre>
+
+<ol>
+<li>找出所有国家,其名字以 land 作结尾</li>
+</ol>
+
+<pre><code class="language-sql">    SELECT name FROM world
+    WHERE name LIKE '%land'
+</code></pre>
+
+<ol>
+<li><p>找出所有国家,其名字以 C 作开始,ia 作结尾p</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE 'C%ia'
+</code></pre></li>
+
+<li><p>找出所有国家,其名字包括字母oo</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '%oo%'
+</code></pre></li>
+
+<li><p>找出所有国家,其名字包括三个或以上的a。</p>
+
+<p><code>%</code>匹配任意个任意字符，包括0个字符，如&rsquo;a%&lsquo;也会匹配字符串<code>'a'</code></p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '%a%a%a%'
+</code></pre></li>
+
+<li><p>找出所有国家,其名字以t作第二个字母</p>
+
+<p><code>_</code>表示任意一个字符</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '_t%'
+</code></pre></li>
+
+<li><p>找出所有国家,其名字都有两个字母 o,被另外两个字母相隔着</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '%o__o%'
+</code></pre></li>
+
+<li><p>找出所有国家,其名字都是 4 个字母的</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '____'
+</code></pre></li>
+
+<li><p>显示所有国家名字,其首都和国家名字是相同的</p>
+
+<pre><code class="language-sql">SELECT name
+FROM world
+WHERE name = capital
+</code></pre></li>
+
+<li><p>显示所有国家名字,其首都是国家名字加上”City”</p>
+
+<p>注意mysql不能用<code>||</code>连接字符串</p>
+
+<pre><code class="language-sql">SELECT name
+FROM world
+WHERE capital = concat(name,' City')
+</code></pre></li>
+
+<li><p>找出所有首都和其国家名字,而首都要有国家名字中出现</p>
+
+<pre><code class="language-sql">SELECT capital, name
+FROM world
+WHERE capital LIKE concat('%', name, '%');
+</code></pre></li>
+
+<li><p>找出所有首都和其国家名字,而首都是国家名字的延伸.如果首都和国家名字相同，则不符合条件</p>
+
+<pre><code class="language-sql">SELECT name, capital
+FROM world
+WHERE capital LIKE concat(name, '_%');
+</code></pre></li>
+
+<li><p>如果首都的名字是国家的延伸，则显示国家及延伸词，如&rdquo;Monaco-Ville&rdquo;是合并国家名字 &ldquo;Monaco&rdquo; 和延伸词&rdquo;-Ville&rdquo;.</p>
+
+<p>replace(str1,str2,str3),将str1中的str2替换为str3，如果str1中没有str2，则不变。如replace(&ldquo;abcdd&rdquo;,&ldquo;abc&rdquo;,&ldquo;ABC&rdquo;)结果为<code>&quot;ABCdd&quot;</code></p>
+
+<pre><code class="language-sql">SELECT name, replace(capital, name, '') AS ext
+FROM world
+WHERE capital LIKE concat(name, '_%');
+</code></pre></li>
+</ol>
+
+<h2 id="select-from-world">SELECT from WORLD</h2>
+
+<p>题目：<a href="https://sqlzoo.net/wiki/SQLZOO:SELECT_from_WORLD_Tutorial/zh">https://sqlzoo.net/wiki/SQLZOO:SELECT_from_WORLD_Tutorial/zh</a></p>
+
+<p>world表</p>
+
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>continent</th>
+<th>area</th>
+<th>population</th>
+<th>gdp</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>国家名</td>
+<td>所属大洲</td>
+<td>面积</td>
+<td>人口</td>
+<td>gdp</td>
+</tr>
+</tbody>
+</table>
+
+<ol>
+<li><p><code>SELECT name, continent, population FROM world</code></p></li>
+
+<li><p>显示具有至少2亿人口的国家名称。 2亿是200000000</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+WHERE population&gt;200000000
+</code></pre></li>
+
+<li><p>找出有至少200百万(2亿)人口的国家名称，及人均国内生产总值</p>
+
+<pre><code class="language-sql">SELECT name, gdp / population
+FROM world
+WHERE population &gt;= 200000000
+</code></pre></li>
+
+<li><p>显示&rsquo;South America&rsquo;南美洲大陆的国家名字和以百万为单位人口数。 将人口population 除以一百万(1000000)得可得到以百万为单位人口数</p>
+
+<pre><code class="language-sql">SELECT name, population / 1000000
+FROM world
+WHERE continent = 'South America'
+</code></pre></li>
+
+<li><p>显示法国，德国，意大利(France, Germany, Italy)的国家名称和人口</p>
+
+<pre><code class="language-sql">SELECT name, population
+FROM world
+WHERE name IN ('France', 'Germany', 'Italy')
+</code></pre></li>
+
+<li><p>显示包含单词“United”为名称的国家</p>
+
+<pre><code class="language-sql">SELECT name
+FROM world
+WHERE name LIKE '%United%'
+</code></pre></li>
+
+<li><p>如果它有3百万平方公里以上的面积，或拥有250百万(2.5亿)以上人口为大国。展示大国的名称，人口和面积</p>
+
+<pre><code class="language-sql">SELECT name, population, area
+FROM world
+WHERE area &gt; 3000000
+   OR population &gt; 250000000
+</code></pre></li>
+
+<li><p>显示以人口或面积为大国的国家，但不能同时两者。显示国家名称，人口和面积</p>
+
+<pre><code class="language-sql">SELECT name, population, area
+FROM world
+WHERE (area &gt; 3000000 AND population &lt; 250000000)
+   OR (area &lt; 3000000 AND population &gt; 250000000)
+</code></pre></li>
+
+<li><p>对于南美显示以百万计人口，以十亿计2位小数GDP</p>
+
+<pre><code class="language-sql">SELECT name, round(population / 1000000, 2), round(gdp / 1000000000, 2)
+FROM world
+WHERE continent = 'South America';
+</code></pre></li>
+
+<li><p>显示万亿元国家的人均国内生产总值，四舍五入到最近的$ 1000</p>
+
+<p>round(,-3)表示整数码精确到1000</p>
+
+<pre><code class="language-sql">select name,round(gdp/population,-3) from world where gdp&gt;=1000000000000
+</code></pre></li>
+
+<li><p>如果一个国家的所属大洲是Oceania ，输出时大洲名要变为Australasia</p>
+
+<pre><code class="language-sql">-- 当大洲名为Oceania时，用Australasia代替，否则不变
+SELECT name,
+       CASE WHEN continent='Oceania  ' THEN 'Australasia'
+            ELSE continent END
+FROM world
+WHERE name LIKE 'N%'
+</code></pre></li>
+
+<li><p>找到以A或B开头的国家，如果所属的洲是Europe and Asia则变为Eurasia，如果所属洲是 North America or South America or Caribbean则变为America</p>
+
+<pre><code class="language-sql">SELECT name,
+       CASE
+         WHEN continent = 'Europe' OR continent = 'Asia' THEN 'Eurasia'
+         WHEN continent = 'North America' OR continent = 'South America' OR continent = 'Caribbean' THEN 'America'
+         ELSE continent
+         END AS t
+FROM world
+WHERE name LIKE 'A%'
+   OR name LIKE 'B%'
+</code></pre></li>
+
+<li><p>j</p></li>
+</ol>
+
+<h2 id="select-from-nobel">SELECT from Nobel</h2>
+
+<p>表：nobel(yr, subject, winner)</p>
+
+<ol>
+<li>更改查询以显示1950年诺贝尔奖的奖项资料。</li>
+</ol>
+
+<pre><code class="language-sql">    SELECT yr, subject, winner
+    FROM nobel
+    WHERE yr = 1960
+</code></pre>
+
+<ol>
+<li><p>显示谁赢得了1962年文学奖(Literature)。</p>
+
+<pre><code class="language-sql">SELECT winner
+  FROM nobel
+ WHERE yr = 1962
+   AND subject = 'Literature'
+</code></pre></li>
+
+<li><p>显示“爱因斯坦”(&lsquo;Albert Einstein&rsquo;) 的获奖年份和奖项。</p>
+
+<pre><code class="language-sql">SELECT yr, subject
+FROM nobel
+WHERE winner = 'Albert Einstein'
+</code></pre></li>
+
+<li><p>显示2000年及以后的和平奖(‘Peace’)得奖者。</p></li>
+</ol>
+
+<pre><code class="language-sql">    SELECT winner
+    FROM nobel
+    WHERE subject = 'Peace'
+      AND yr &gt;= 2000
+</code></pre>
+
+<ol>
+<li><p>显示1980年至1989年(包含首尾)的文学奖(Literature)获奖者所有细节（年，主题，获奖者）。</p>
+
+<pre><code class="language-sql">SELECT *
+FROM nobel
+WHERE subject = 'Literature'
+  AND yr &gt;= 1980
+  AND yr &lt;= 1989
+</code></pre></li>
+
+<li><p>显示总统获胜者的所有细节：</p>
+
+<p>西奥多•罗斯福 Theodore Roosevelt
+伍德罗•威尔逊 Woodrow Wilson
+吉米•卡特 Jimmy Carter</p>
+
+<pre><code class="language-sql">SELECT * FROM nobel
+WHERE winner IN ('Theodore Roosevelt',
+              'Woodrow Wilson',
+              'Jimmy Carter')
+</code></pre></li>
+
+<li><p>显示名字为John 的得奖者。 (注意:外国人名字(First name)在前，姓氏(Last name)在后)</p>
+
+<pre><code class="language-sql">SELECT winner
+FROM nobel
+WHERE winner LIKE 'John%'
+</code></pre></li>
+
+<li><p>显示1980年物理学(physics)获奖者，及1984年化学奖(chemistry)获得者</p>
+
+<pre><code class="language-sql">SELECT *
+FROM nobel
+WHERE (yr = 1980 AND subject = 'physics')
+   OR (yr = 1984 AND subject = 'chemistry')
+</code></pre></li>
+
+<li><p>查看1980年获奖者，但不包括化学奖(Chemistry)和医学奖(Medicine)。</p>
+
+<pre><code class="language-sql">SELECT *
+FROM nobel
+WHERE yr = 1980
+  AND subject NOT IN ('Chemistry', 'Medicine')
+</code></pre></li>
+
+<li><p>显示早期的医学奖(Medicine)得奖者（1910之前，不包括1910），及近年文学奖(Literature)得奖者（2004年以后，包括2004年）</p>
+
+<pre><code class="language-sql">SELECT *
+FROM nobel
+WHERE (subject = 'Medicine' AND yr &lt; 1910)
+   OR (yr &gt;= 2004 AND subject = 'Literature')
+</code></pre></li>
+
+<li><p>找到PETER GRÜNBERG的获奖细节</p>
+
+<pre><code class="language-sql">SELECT *
+FROM nobel
+WHERE winner = 'PETER GRÜNBERG'
+</code></pre></li>
+
+<li><p>查找尤金•奥尼尔EUGENE O&rsquo;NEILL得奖的所有细节</p>
+
+<p>不能把一个单引号直接的放在字符串中。但可以连续使用两个单引号在字符串中当作一个单引号</p>
+
+<pre><code class="language-sql">SELECT *
+FROM nobel
+WHERE winner = 'EUGENE O''NEILL'
+</code></pre></li>
+
+<li><p>列出爵士的获奖者、年份、奖页(爵士的名字以Sir开始)。先显示最新获奖者，然后同年再按名称顺序排列</p>
+
+<pre><code class="language-sql">SELECT winner, yr, subject
+FROM nobel
+WHERE winner LIKE 'Sir%'
+ORDER BY yr DESC, winner
+</code></pre></li>
+
+<li><p>找到1984年的获奖者和奖项，先按奖项排名，然后按名称排名，但是Chemistry and Physics要放在最后</p>
+
+<p>subject IN (&lsquo;Physics&rsquo;,&lsquo;Chemistry&rsquo;)如果在这两个中结果为1，否则为0，所以先对这个表达式的结果排序，会使得不在这两项中的记录排在前面，在这两项中的在最后</p>
+
+<pre><code class="language-sql">SELECT winner,subject
+  FROM nobel
+ WHERE yr=1984
+ ORDER BY  subject IN ('Physics','Chemistry'),subject,winner
+</code></pre></li>
+</ol>
+
+<h2 id="select-within-select">SELECT within SELECT</h2>
+
+<p>主要子查询</p>
+
+<p>题目：<a href="https://sqlzoo.net/wiki/SELECT_within_SELECT_Tutorial/zh">https://sqlzoo.net/wiki/SELECT_within_SELECT_Tutorial/zh</a></p>
+
+<p>world表</p>
+
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>continent</th>
+<th>area</th>
+<th>population</th>
+<th>gdp</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>国家名</td>
+<td>所属大洲</td>
+<td>面积</td>
+<td>人口</td>
+<td>gdp</td>
+</tr>
+</tbody>
+</table>
+
+<ol>
+<li><p>列出每个国家的名字 name，当中人口 population 是高于俄罗斯&rsquo;Russia&rsquo;的人口</p>
+
+<pre><code class="language-sql">SELECT name FROM world
+  WHERE population &gt;
+     (SELECT population FROM world
+      WHERE name='Russia')
+</code></pre></li>
+
+<li><p>列出欧州每国家的人均GDP，当中人均GDP要高于英国&rsquo;United Kingdom&rsquo;的数值。</p>
+
+<pre><code class="language-sql">SELECT name
+FROM world
+WHERE continent = 'Europe'
+  AND gdp / population &gt; (SELECT gdp / population FROM world WHERE name = 'United Kingdom')
+</code></pre></li>
+
+<li><p>在阿根廷Argentina 及 澳大利亚 Australia所在的洲份中，列出当中的国家名字 name 及洲分 continent 。按国字名字顺序排序</p>
+
+<pre><code class="language-sql">SELECT name, continent
+FROM world
+WHERE continent IN (SELECT continent FROM world WHERE name = 'Argentina' OR name = 'Australia')
+ORDER BY name
+</code></pre></li>
+
+<li><p>哪一个国家的人口比加拿大Canada的多，但比波兰Poland的少?列出国家名字name和人口population</p>
+
+<pre><code class="language-sql">SELECT name, population
+FROM world
+WHERE population &gt; (SELECT population FROM world WHERE name = 'Canada')
+  AND population &lt; (SELECT population FROM world WHERE name = 'Poland')
+</code></pre></li>
+
+<li><p>显示欧洲的国家名称name和每个国家的人口population。以德国的人口的百分比作人口显示</p>
+
+<pre><code class="language-sql">SELECT name, CONCAT(ROUND(population * 100 / (SELECT population FROM world WHERE name =     'Germany'), 0), '%')
+FROM world
+WHERE continent = 'Europe'
+</code></pre></li>
+
+<li><p>哪些国家的GDP比Europe欧洲的全部国家都要高呢? <a href="有些国家的记录中，GDP是NULL，没有填入资料的。">只需列出 name 。</a></p>
+
+<pre><code class="language-sql">SELECT name
+FROM world
+WHERE gdp &gt; ALL (SELECT gdp FROM world WHERE gdp &gt; 0 AND continent = 'Europe')
+</code></pre></li>
+
+<li><p>在每一个州中找出最大面积的国家，列出洲份 continent, 国家名字 name 及面积 area。 (有些国家的记录中，AREA是NULL，没有填入资料的。</p>
+
+<!-- TODO -->
+
+<!-- 能否用Group by实现 -->
+
+<pre><code class="language-sql">SELECT continent, name, area FROM world x
+  WHERE area &gt;= ALL
+    (SELECT area FROM world y
+        WHERE y.continent=x.continent
+          AND area &gt;0)
+</code></pre></li>
+
+<li><p>列出洲份名称，和每个洲份中国家名字按子母顺序是排首位的国家名。(即每洲只有列一国）</p>
+
+<pre><code class="language-sql">SELECT continent, name
+FROM world x
+WHERE name &lt;= ALL (SELECT name FROM world y WHERE x.continent = y.continent)
+</code></pre></li>
+
+<li><p>找出洲份，当中全部国家都有少于或等于 25000000 人口. 在这些洲份中，列出国家名字name，continent 洲份和population人口。</p>
+
+<pre><code class="language-sql">SELECT name, continent, population
+FROM world x
+WHERE 25000000 &gt;= ALL (SELECT population FROM world y WHERE x.continent = y.continent AND   y.population &gt; 0)
+</code></pre></li>
+
+<li><p>有些国家的人口是同洲份的所有其他国的3倍或以上。列出 国家名字name 和 洲份 continent</p>
+
+<pre><code class="language-sql">SELECT name, continent
+FROM world x
+WHERE population &gt; ALL
+      (SELECT population * 3 FROM world y WHERE x.continent = y.continent AND population &gt; 0 AND y.name != x.name)
+</code></pre></li>
+</ol>
+
+<h2 id="sum-and-count">SUM and COUNT</h2>
+
+<p>题目：<a href="https://sqlzoo.net/wiki/SUM_and_COUNT/zh">https://sqlzoo.net/wiki/SUM_and_COUNT/zh</a></p>
+
+<p>表：world(name, continent, area, population, gdp)</p>
+
+<ol>
+<li><p>展示世界的总人口。</p>
+
+<pre><code class="language-sql">SELECT sum( population)
+FROM world
+</code></pre></li>
+
+<li><p>列出所有的洲份, 每个只有一次</p>
+
+<pre><code class="language-sql">SELECT DISTINCT continent
+FROM world
+</code></pre></li>
+
+<li><p>找出非洲(Africa)的GDP总和。</p>
+
+<pre><code class="language-sql">SELECT sum(gdp)
+FROM world
+WHERE continent = 'Africa'
+</code></pre></li>
+
+<li><p>有多少个国家具有至少百万(1000000)的面积。</p>
+
+<pre><code class="language-sql">SELECT count(name)
+FROM world
+WHERE area &gt; 1000000
+</code></pre></li>
+
+<li><p>(&lsquo;France&rsquo;,&lsquo;Germany&rsquo;,&lsquo;Spain&rsquo;)（“法国”，“德国”，“西班牙”）的总人口是多少？</p>
+
+<pre><code class="language-sql">SELECT sum(population)
+FROM world
+WHERE name IN ('France', 'Germany', 'Spain')
+</code></pre></li>
+
+<li><p>对于每一个洲份，显示洲份和国家的数量。</p>
+
+<p>如果不分组，count会将所有的记录当成一组</p></li>
+</ol>
+
+<pre><code class="language-sql">    SELECT continent, count(name)
+    FROM world
+    GROUP BY continent
+</code></pre>
+
+<ol>
+<li><p>对于每一个洲份，显示洲份和至少有1000万人(10,000,000)口国家的数目。</p>
+
+<pre><code class="language-sql">SELECT continent, count(name)
+FROM world
+WHERE population &gt;= 10000000
+GROUP BY continent
+</code></pre></li>
+
+<li><p>列出有至少100百万(1亿)(100,000,000)人口的洲份。</p>
+
+<p>having是在分组后过滤，count这种函数肯定用在having中来进行过滤</p>
+
+<pre><code class="language-sql">SELECT continent
+FROM world
+GROUP BY continent
+HAVING sum(population) &gt;= 100000000
+</code></pre></li>
+</ol>
+
+<h2 id="the-join-operation">The JOIN operation</h2>
+
+<p>题目：<a href="https://sqlzoo.net/wiki/The_JOIN_operation/zh">https://sqlzoo.net/wiki/The_JOIN_operation/zh</a></p>
+
+<p>表：</p>
+
+<p>game</p>
+
+<table>
+<thead>
+<tr>
+<th>id(编号)</th>
+<th>mdate(日期)</th>
+<th>stadium(场馆)</th>
+<th>team1(队伍1)</th>
+<th>team2(队伍2)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1001</td>
+<td>8 June 2012</td>
+<td>National Stadium, Warsaw</td>
+<td>发布L</td>
+<td>GRE</td>
+</tr>
+</tbody>
+</table>
+
+<p>goal:</p>
+
+<table>
+<thead>
+<tr>
+<th>matchid(赛事编号)</th>
+<th>teamid(队伍编号)</th>
+<th>player(入球球员)</th>
+<th>gtime(入球时间)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1001</td>
+<td>发布L</td>
+<td>Robert Lewandowski</td>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+
+<p>eteam:</p>
+
+<table>
+<thead>
+<tr>
+<th>id(编号)</th>
+<th>teamname(队名)</th>
+<th>coach(教练)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>发布L</td>
+<td>Poland</td>
+<td>Franciszek Smuda</td>
+</tr>
+</tbody>
+</table>
+
+<ol>
+<li><p>列出 赛事编号matchid 和球员名 player ,该球员代表德国队Germany入球的。要找出德国队球员</p>
+
+<pre><code class="language-sql">SELECT matchid,player FROM goal
+  WHERE teamid='GER'
+</code></pre></li>
+
+<li><p>只显示赛事1012的 id, stadium, team1, team2</p>
+
+<pre><code class="language-sql">SELECT id,stadium,team1,team2 from game where id=1012
+</code></pre></li>
+
+<li><p>显示每一个德国入球的球员名，队伍名，场馆和日期</p>
+
+<pre><code class="language-sql">SELECT player,teamid,stadium,mdate
+  FROM game JOIN goal ON (id=matchid) where teamid='GER'
+</code></pre></li>
+
+<li><p>列出球员名字叫Mario (player LIKE &lsquo;Mario%&rsquo;)有入球的 队伍1 team1, 队伍2 team2 和 球员名 player</p>
+
+<pre><code class="language-sql">SELECT team1, team2, player
+FROM game
+       JOIN goal ON id = matchid
+WHERE player LIKE 'Mario%'
+</code></pre></li>
+
+<li><p>列出每场球赛中首10分钟gtime&lt;=10有入球的球员 player, 队伍teamid, 教练coach, 入球时间gtime</p>
+
+<pre><code class="language-sql">SELECT player, teamid,coach, gtime
+  FROM goal join eteam on teamid=id
+ WHERE gtime&lt;=10
+</code></pre></li>
+
+<li><p>列出&rsquo;Fernando Santos&rsquo;作为队伍1 team1 的教练的赛事日期，和队伍名</p>
+
+<pre><code class="language-sql">SELECT mdate, teamname
+FROM game
+       JOIN eteam ON game.team1 = eteam.id
+WHERE coach = 'Fernando Santos'
+</code></pre></li>
+
+<li><p>列出场馆 &lsquo;National Stadium, Warsaw&rsquo;的入球球员。</p>
+
+<pre><code class="language-sql">SELECT player
+FROM game
+       INNER JOIN goal ON id = matchid
+WHERE stadium = 'National Stadium, Warsaw'
+</code></pre></li>
+
+<li><p>只列出全部赛事，射入德国龙门的球员名字</p>
+
+<pre><code class="language-sql">SELECT distinct player
+  FROM game JOIN goal ON matchid = id 
+    WHERE (team1='GER' or team2='GER' ) and teamid!='GER'
+</code></pre></li>
+
+<li><p>列出队伍名称 teamname 和该队入球总数</p>
+
+<pre><code class="language-sql">SELECT teamname, count(player)
+  FROM eteam JOIN goal ON id=teamid
+ group BY teamname
+</code></pre></li>
+
+<li><p>列出场馆名和在该场馆的入球数字</p>
+
+<pre><code class="language-sql">SELECT stadium, count(*)
+FROM game
+       JOIN goal ON id = matchid
+GROUP BY stadium
+</code></pre></li>
+
+<li><p>每一场波兰&rsquo;发布L&rsquo;有参与的赛事中，列出赛事编号 matchid, 日期date 和入球数字。</p>
+
+<pre><code class="language-sql">SELECT matchid,mdate, count(matchid)
+  FROM game JOIN goal ON matchid = id 
+ WHERE (team1 = '发布L' OR team2 = '发布L') group by matchid,mdate
+</code></pre></li>
+
+<li><p>每一场德国&rsquo;GER&rsquo;有参与的赛事中，列出赛事编号 matchid, 日期date 和德国的入球数字。</p>
+
+<pre><code class="language-sql">SELECT matchid, mdate, count(*)
+FROM goal
+       JOIN game ON id = matchid
+WHERE (team1 = 'GER' OR team2 = 'GER')
+  AND teamid = 'GER'
+GROUP BY matchid, mdate
+</code></pre></li>
+
+<li><p>列出每场比赛双方的队伍及各自的比分。<strong>注意有可能该场有队伍未进球</strong></p>
+
+<pre><code class="language-sql">SELECT mdate,
+  team1,
+  sum(CASE WHEN teamid=team1 THEN 1 ELSE 0 END ) AS score1,team2,
+  sum(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) AS socre2
+  FROM game left JOIN goal ON matchid = id group by mdate,team1,team2
+order by mdate,matchid,team1,team2
+</code></pre></li>
+</ol>
+
+<h2 id="more-join-operations">More JOIN Operations</h2>
+
+<p><a href="https://sqlzoo.net/wiki/More_JOIN_operations/zh">https://sqlzoo.net/wiki/More_JOIN_operations/zh</a></p>
+
+<p>表：</p>
+
+<pre><code class="language-sql">movie(id    title   yr  director budget gross )
+actor(id    name )
+-- movieid对应movie表的id，actorid对应actor表的id
+casting(movieid actorid ord)
+
+</code></pre>
+
+<ol>
+<li><p>列出1962年首影的电影， [显示 id, title]</p>
+
+<pre><code class="language-sql">SELECT id, title
+ FROM movie
+ WHERE yr=1962
+</code></pre></li>
+
+<li><p>电影大国民 &lsquo;Citizen Kane&rsquo; 的首影年份</p>
+
+<pre><code class="language-sql">SELECT yr
+FROM movie
+WHERE title = 'Citizen Kane'
+</code></pre></li>
+
+<li><p>列出全部Star Trek星空奇遇记系列的电影，包括id, title 和 yr(此系统电影都以Star Trek为电影名称的开首)。按年份顺序排列</p>
+
+<pre><code class="language-sql">SELECT id, title, yr
+FROM movie
+WHERE title LIKE '%Star Trek%'
+ORDER BY yr
+</code></pre></li>
+
+<li><p>id是 11768, 11955, 21191 的电影是什么名称?</p>
+
+<pre><code class="language-sql">SELECT title
+FROM movie
+WHERE id IN (11768, 11955, 21191)
+</code></pre></li>
+
+<li><p>女演员&rsquo;Glenn Close&rsquo;的编号 id是什么?</p>
+
+<pre><code class="language-sql">SELECT id
+FROM actor
+WHERE name = 'Glenn Close'
+</code></pre></li>
+
+<li><p>电影北非谍影&rsquo;Casablanca&rsquo; 的编号 id是什么?</p>
+
+<pre><code class="language-sql">SELECT id
+FROM movie
+WHERE title = 'Casablanca'
+</code></pre></li>
+
+<li><p>列出电影北非谍影 &lsquo;Casablanca&rsquo;的演员名单。</p>
+
+<p>什么是演员名单?
+演员名单,即是电影中各演员的真实姓名清单。
+使用 movieid=11768, 这是你上一题得到的结果。</p>
+
+<p><code>sql
+SELECT name
+FROM casting
+       JOIN actor ON id = actorid
+WHERE movieid = 11768
+</code>`</p></li>
+
+<li><p>显示电影异型&rsquo;Alien&rsquo; 的演员清单。</p>
+
+<pre><code class="language-sql">-- 三表join
+SELECT name
+FROM casting
+       JOIN actor ON id = actorid
+       JOIN movie ON movie.id = movieid
+WHERE title = 'Alien'
+-- 先子查询，然后两表join
+SELECT name
+FROM casting
+       JOIN actor ON id = actorid
+WHERE movieid = (SELECT id FROM movie WHERE title = 'Alien')
+</code></pre></li>
+
+<li><p>列出演员夏里逊福 &lsquo;Harrison Ford&rsquo; 曾演出的电影。</p>
+
+<pre><code class="language-sql">SELECT title
+FROM movie
+       JOIN casting ON movie.id = casting.movieid
+WHERE actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford')
+</code></pre></li>
+
+<li><p>列出演员夏里逊福 &lsquo;Harrison Ford&rsquo; 曾演出的电影，但他不是第1主角。</p>
+
+<pre><code class="language-sql">SELECT title
+FROM movie
+       JOIN casting ON id = movieid
+WHERE actorid = (SELECT id FROM actor WHERE name = 'Harrison Ford')
+  AND ord != 1;
+</code></pre></li>
+
+<li><p>列出1962年首影的电影及它的第1主角。</p>
+
+<pre><code class="language-sql">SELECT title, name
+FROM movie
+       JOIN casting ON movie.id = casting.movieid
+       JOIN actor ON actor.id = casting.actorid
+WHERE yr = 1962
+  AND ord = 1
+</code></pre></li>
+
+<li><p>尊·特拉华达&rsquo;John Travolta&rsquo;最忙是哪一年? 显示年份和该年的电影数目</p>
+
+<pre><code class="language-sql">SELECT yr, count(title) AS c
+FROM movie
+       JOIN casting ON id = movieid
+WHERE actorid = (SELECT id FROM actor WHERE name = 'John Travolta')
+GROUP BY yr
+ORDER BY c DESC
+LIMIT 1;
+</code></pre>
+
+<p>另一种</p>
+
+<pre><code class="language-sql">SELECT yr,COUNT(title) FROM
+  movie JOIN casting ON movie.id=movieid
+         JOIN actor   ON actorid=actor.id
+where name='John Travolta'
+GROUP BY yr
+HAVING COUNT(title)=(SELECT MAX(c) FROM
+(SELECT yr,COUNT(title) AS c FROM
+   movie JOIN casting ON movie.id=movieid
+         JOIN actor   ON actorid=actor.id
+ where name='John Travolta'
+ GROUP BY yr) AS t
+)
+</code></pre></li>
+
+<li><p>列出演员茱莉·安德丝&rsquo;Julie Andrews&rsquo;曾参与的电影名称及其第1主角</p></li>
+</ol>
+
+<pre><code class="language-sql">SELECT title, name
+FROM movie
+       JOIN casting ON movie.id = movieid
+       JOIN actor ON actor.id = actorid
+WHERE ord = 1
+  AND movieid IN (SELECT movieid
+                  FROM casting
+                  WHERE actorid IN (
+                    SELECT id
+                    FROM actor
+                    WHERE name = 'Julie Andrews'))
+
+-- 在取出所有的movieid时也可以用join
+SELECT title, name FROM movie
+JOIN casting x ON movie.id = movieid
+JOIN actor ON actor.id =actorid
+WHERE ord=1 AND movieid IN
+(SELECT movieid FROM casting y
+JOIN actor ON actor.id=actorid
+WHERE name='Julie Andrews')
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        
+        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC2%E9%A2%98-Add-Tow-Numbers/">Leetcode 第2题 Add Tow Numbers</a></li>
+        
+        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/">Leetcode 第1题 Two Sum</a></li>
+        
+        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/">Leetcode 第169题 Majority Element</a></li>
+        
+        <li><a href="/2019/03/10/%E5%90%84%E7%A7%8D%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">各种编程工具遇到的问题</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/sql">sql</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/mysql">mysql</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.njutzhangjie.cn/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/" title="Sql查询练习">Sql查询练习</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/" title="Leetcode 第3题 Longest Substring Without Repeating Characters">Leetcode 第3题 Longest Substring Without Repeating Characters</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/13/Leetcode-%E7%AC%AC2%E9%A2%98-Add-Tow-Numbers/" title="Leetcode 第2题 Add Tow Numbers">Leetcode 第2题 Add Tow Numbers</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/" title="Leetcode 第1题 Two Sum">Leetcode 第1题 Two Sum</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/" title="Leetcode 第169题 Majority Element">Leetcode 第169题 Majority Element</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/10/%E5%90%84%E7%A7%8D%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="各种编程工具遇到的问题">各种编程工具遇到的问题</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/09/leetcode-%E7%AC%AC179%E9%A2%98-Largest-Number/" title="leetcode 第179题 Largest Number">leetcode 第179题 Largest Number</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(5)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.njutzhangjie.cn/tags/leetcode/">leetcode</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mysql/">mysql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/sql/">sql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.njutzhangjie.cn/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="http://blog.njutzhangjie.cn/">zhangjie&#39;s blog By zhangjie</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>
