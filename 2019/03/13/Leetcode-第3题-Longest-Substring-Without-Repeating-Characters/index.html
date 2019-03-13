@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Leetcode 第1题 Two Sum | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Leetcode 第1题 Two Sum - zhangjie&#39;s blog">
+    <title>Leetcode 第3题 Longest Substring Without Repeating Characters | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第3题 Longest Substring Without Repeating Characters - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-03-10T21:26:20&#43;08:00">
+    <meta property="article:published_time" content="2019-03-13T10:47:28&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-03-10T21:26:20&#43;08:00">
+    <meta property="article:modified_time" content="2019-03-13T10:47:28&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="leetcode">
+    <meta name="description" content="Leetcode 第3题 Longest Substring Without Repeating Characters">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -74,10 +74,10 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Leetcode 第1题 Two Sum</h1>
+                            <h1 class="post-title">Leetcode 第3题 Longest Substring Without Repeating Characters</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年3月10日
+                            2019年3月13日
                         </date>
                         
                         <div class="post-meta">
@@ -91,136 +91,82 @@
                         <div class="post-content">
                             
 
-<h1 id="第1-题-two-sum-https-leetcode-com-problems-two-sum">第1 题 <a href="https://leetcode.com/problems/two-sum/">Two Sum</a></h1>
+<h1 id="第3题-longest-substring-without-repeating-characters-https-leetcode-com-problems-longest-substring-without-repeating-characters">第3题 <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">Longest Substring Without Repeating Characters</a></h1>
 
-<h2 id="问题">问题：</h2>
+<h2 id="题目">题目</h2>
 
-<p>给定一系列数nums和一个数target，从nums中找到两个数，使之和为target，返回这个数的索引（数组中所在的索引）</p>
+<p>给定一个字符串，从这个字符串找到一个最长的子串，要求这个子串不能有重复的字符。</p>
 
-<p>如<code>nums=[2,7,11,15],target=9</code>，返回<code>[0,1]</code>，即2和7所在的位置。</p>
+<p>注意是子串，不是子序列。子串要求在原字符串是连续的，而子序列不一定。如<code>&quot;pwwkew&quot;</code>的最长不重复子串是<code>wke</code>或者<code>kew</code>，而<code>pwke</code>是最长不重复子序列</p>
 
-<p>假定有唯一解，且不能重复使用元素。</p>
+<p>题目最后要求返回最长不重复子串的长度</p>
 
-<h2 id="解答">解答：</h2>
+<h2 id="解答">解答</h2>
 
-<h3 id="解法1">解法1</h3>
+<p>首先考虑如果手工来做会如何做。以<code>abcabcbb</code>为例，从头开始遍历，首先a加入子串，然后b加入，c加入，当到a时，由于前面的字符串已经有a，所以子串变为bca，之前符合条件的子串长度为3。依次遍历下去，最后得到最长的不重复子串的长度为3</p>
 
-<p>这题最简单的就是暴力搜索，但这种方法会超时，复杂度$O(n^2)$</p>
+<p>这个过程就像一个滑动窗口，初始时滑动窗口为空，然后遍历字符串，第一个字符a加入滑动窗口，然后b加入，c加入，当到a时，由于滑动窗口中已有a，所以滑动窗口的左边界需要指向前面重复元素的下一个元素，也就是前一个a的下个元素b，然后右边界需要指向当前的a。</p>
 
-<pre><code class="language-java">public int[] twoSum(int[] numbers, int target) {
-    if(numbers==null || numbers.length&lt;2) {  
-        return null;
+<p>所以当字符在窗口中不存在时加入到滑动窗口，如果已有，则将左边界移到前面重复元素的下一个元素，右边界指向当前的元素</p>
+
+<pre><code class="language-java">public int lengthLongestSubStr(String s){
+    int left=0,right=0;
+    if(s.length()==0||s==null){
+        return 0;
     }
-    for (int i = 0; i &lt; numbers.length - 1; i++) {
-        //在i+1~n中找到numbers[i]+numbers[j]==target的数
-        for (int j = i+1; j &lt; numbers.length; j++) {
-            if(target-numbers[i]==numbers[j]){
-                    return new int[]{i,j};
-            }
-        }
-    }
-    return new int[]{};
-}
-</code></pre>
-
-<p>这种方法虽然leetcode能通过，但这种方法明显不是最优的。</p>
-
-<h3 id="解法2">解法2</h3>
-
-<p>利用HashMap可以做到$O(n)$的复杂度。先将nums数组存放到一个Map中，然后遍历数组，遍历时判断<code>target-nums[i]</code>是否在Map中，如果在Map中，则找到。由于Map的查找是$O(1)$的，所以复杂度为$O(n)$</p>
-
-<pre><code class="language-java">public int[] twoSum2(int[] numbers, int target) {
-    int[] res = new int[2];
-    //判断一下先决条件
-    if(numbers==null || numbers.length&lt;2) {  
-        return null;
-    }
-    HashMap&lt;Integer,Integer&gt; map = new HashMap&lt;&gt;(numbers.length);
-    //遍历数组
-    for(int i=0;i&lt;numbers.length;i++){
-        //如果map中已经有target-numbers[i]，则这两个数符合条件
-        if(map.containsKey(target-numbers[i])){
-            res[0]=map.get(target-numbers[i]);
-            res[1]=i;
-            return res;
-        }
-        //该数放入map
-        map.put(numbers[i],i);
-    }
-    return null;
-}
-</code></pre>
-
-<p>存储到Map中可以遍历前存储，这样会消耗一定的时间。先存储还有一个问题，如果要求输出所有可能的组合，会导致重复结果的出现。如遍历到nums[i],有nums[j]符合条件且j&gt;i，当遍历到j时，nums[i]又符合条件，这样会有重复结果。当然这题有唯一解，在符合条件后就会返回</p>
-
-<p>可以在遍历的同时存储。当遍历到nums[i]时，判断<code>target-nums[i]</code>是否在Map中（这个操作相当于在0~i-1中判断是否有数满足nums[i]+nums[j]=target,0&lt;=j&lt;=i-1）。如果<code>target-nums[i]</code>不在Map中，则存入Map中</p>
-
-<h3 id="解法3">解法3</h3>
-
-<p>这种方法是先对nums数组进行排序，然后采用双指针，分别指向数组的头尾，然后不断逼近。当<code>nums[i]+nums[j]&lt;target</code>时，就将左指针右移；相等时，返回结果；否则右指针左移。</p>
-
-<p>这题由于要输出数所在的索引，而排序会导致失去原来的索引，所以采用对象的方式记录原来的索引</p>
-
-<pre><code class="language-java"> //记录数及所在的索引
- class Record {
-    public Record(int num,int index){
-        this.num=num;
-        this.index=index;
-    }
-    int num;
-    int index;
- }
- //用于对象数组排序
- class MyComparator implements Comparator&lt;Record&gt; {
-    @Override
-    public int compare(Record o1, Record o2) {
-        if (o1.num &gt; o2.num) {
-            return 1;
-        }else if(o1.num&lt;o2.num){
-            return -1;
-        }else {
-            return 0;
-        }
-    }
- }
-
-
- public int[] twoSum(int[] nums, int target) {
-    Record[] records = new Record[nums.length];
-    for (int i = 0; i &lt; nums.length; i++) {
-        records[i]=new Record(nums[i],i);
-    }
-    Comparator cmp=new MyComparator();
-    //排序
-    Arrays.sort(records,cmp);
-    int[] result=new int[2];
-    int i=0,j=nums.length-1;
-    while(i&lt;j){
-        if(records[i].num+records[j].num&lt;target){
-            //左移
-            i++;
-        }else if(records[i].num+records[j].num&gt;target){
-            //右移
-            j--;
+    int max=0;
+    HashMap&lt;Character,Integer&gt; slideWindow=new HashMap&lt;&gt;();
+    while (right&lt;s.length()){
+        //right指向当前窗口的下一个元素
+        char c=s.charAt(right);
+        //如果right指向的元素不在窗口内，则加入，且right右移
+        if(!slideWindow.containsKey(c)){
+            slideWindow.put(c,right);
+            right++;
         }else{
-            result[0]=records[i].index;
-            result[1]=records[j].index;
-            break;
+            //在窗口内则需要将前面重复的元素
+            max=slideWindow.size()&gt;max?slideWindow.size():max;
+            int tempLeft=slideWindow.get(c)+1;
+            //这里left记录的是窗口的边界，所以需要从左边界删除到重复元素
+            while (left&lt;tempLeft){
+                slideWindow.remove(s.charAt(left++));
+            }
+            //right指向的元素要加入到滑动窗口内
+            slideWindow.put(c,right);
+            right++;
         }
     }
-    return result;
- }
+    //最后返回最大值，这里不能直接返回max
+    return slideWindow.size()&gt;max?slideWindow.size():max;
+}
 </code></pre>
 
-<p>这种指针逼近的方式在这题中并不是最优的，因为在排序时就已经有$O(nlogn)$的复杂度，在指针逼近时也有$O(n)$的复杂度。而采用Map的方式有$O(n)$的复杂度。这种方式在Three Summ,Four Sum时是比较好的方法。</p>
+<p>下面使用了HashSet，思想是一样的，出现的字符放入Set中，left指向左边界。right指向窗口的下一个字符，如果没有重复的，right指向的字符会加入，否则从left开始删除，直到删除到重复字符</p>
+
+<pre><code class="language-java">public int lengthOfLongestSubstring(String s) {
+    int res = 0, left = 0, right = 0;
+    HashSet&lt;Character&gt; t = new HashSet&lt;Character&gt;();
+    while (right &lt; s.length()) {
+        //不含字符，加入
+        if (!t.contains(s.charAt(right))) {
+            t.add(s.charAt(right++));
+            res = Math.max(res, t.size());
+        } else {
+            //从左边界开始删除，因为删除一个后，如果还没有删除重复字符后，在下一个循环会继续删除，直到删掉重复字符
+            //由于这里采用了Set，无法直接取到重复字符的索引，所以无法像上面的代码一样用另一个循环删除
+            t.remove(s.charAt(left++));
+        }
+    }
+    return res;
+}
+</code></pre>
 
 <p>参考：</p>
 
 <ul>
-<li><a href="http://www.cnblogs.com/grandyang/p/4130379.html">http://www.cnblogs.com/grandyang/p/4130379.html</a></li>
+<li><a href="https://blog.csdn.net/gatieme/article/details/50809552">https://blog.csdn.net/gatieme/article/details/50809552</a></li>
+<li><a href="http://www.cnblogs.com/grandyang/p/4480780.html">http://www.cnblogs.com/grandyang/p/4480780.html</a></li>
 </ul>
-
-<p>注：文章的时间是我上传的时间，这是我之前写的</p>
 
                         </div>
 
@@ -233,15 +179,15 @@
     <h2>See Also</h2>
     <ul class="listing">
         
+        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC2%E9%A2%98-Add-Tow-Numbers/">Leetcode 第2题 Add Tow Numbers</a></li>
+        
+        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/">Leetcode 第1题 Two Sum</a></li>
+        
         <li><a href="/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/">Leetcode 第169题 Majority Element</a></li>
         
         <li><a href="/2019/03/09/leetcode-%E7%AC%AC179%E9%A2%98-Largest-Number/">leetcode 第179题 Largest Number</a></li>
         
         <li><a href="/2019/03/10/%E5%90%84%E7%A7%8D%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">各种编程工具遇到的问题</a></li>
-        
-        <li><a href="/archives/">Archives</a></li>
-        
-        <li><a href="/about/">about</a></li>
         
     </ul>
 </div>
@@ -254,6 +200,8 @@
                                 <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
                                 
                                 <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2">字符串</a></li>
                                 
                             </ul>
                             
