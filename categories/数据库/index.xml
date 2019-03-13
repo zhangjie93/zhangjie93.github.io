@@ -17,7 +17,7 @@
       <pubDate>Wed, 13 Mar 2019 20:50:07 +0800</pubDate>
       
       <guid>http://blog.njutzhangjie.cn/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/</guid>
-      <description>[TOC] SQL 题目来自https://sqlzoo.net Select basics world表 name continent area population gdp 国家名 所属大洲 面积 人口 gdp 查询德国Germany人口 SELECT population FROM world WHERE name = &#39;Germany&#39;</description>
+      <description>SQL 题目来自https://sqlzoo.net Select basics world表 name continent area population gdp 国家名 所属大洲 面积 人口 gdp 查询德国Germany人口 SELECT population FROM world WHERE name = &#39;Germany&#39; 查</description>
     </item>
     
   </channel>
