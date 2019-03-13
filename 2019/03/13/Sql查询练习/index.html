@@ -122,13 +122,11 @@
 </table>
 
 <ol>
-<li>查询德国Germany人口</li>
-</ol>
+<li><p>查询德国Germany人口</p>
 
-<pre><code class="language-sql">    SELECT population FROM world WHERE name = 'Germany'
-</code></pre>
+<pre><code class="language-sql">SELECT population FROM world WHERE name = 'Germany'
+</code></pre></li>
 
-<ol>
 <li><p>查询面积为 5,000,000 以上平方公里的国家,每个国家显示名字name和人均国内生产总值(gdp/population)</p>
 
 <pre><code class="language-sql">SELECT name, gdp / population
@@ -136,52 +134,42 @@ FROM world
 WHERE area &gt; 5000000;
 </code></pre></li>
 
-<li><p>显示“Ireland 爱尔兰”,“Iceland 冰岛”,“Denmark 丹麦”的国家名称和人口</p></li>
-</ol>
+<li><p>显示“Ireland 爱尔兰”,“Iceland 冰岛”,“Denmark 丹麦”的国家名称和人口</p>
 
-<pre><code class="language-sql">    SELECT name, population FROM world
-    WHERE name IN ('Ireland ', 'Iceland ', 'Denmark ');
-</code></pre>
+<pre><code class="language-sql">SELECT name, population FROM world
+WHERE name IN ('Ireland ', 'Iceland ', 'Denmark ');
+</code></pre></li>
 
-<ol>
-<li>显示面积为 200,000 及 250,000 之间的国家名称和该国面积</li>
-</ol>
+<li><p>显示面积为 200,000 及 250,000 之间的国家名称和该国面积</p>
 
-<pre><code class="language-sql">    SELECT name, area FROM world
-    WHERE area BETWEEN 200000 AND 250000
-</code></pre>
+<pre><code class="language-sql">SELECT name, area FROM world
+WHERE area BETWEEN 200000 AND 250000
+</code></pre></li>
 
-<ol>
-<li>找出名字以 Y 为开头的国家</li>
-</ol>
+<li><p>找出名字以 Y 为开头的国家</p>
 
-<pre><code class="language-sql">   SELECT name FROM world
-   WHERE name LIKE 'Y%'
-</code></pre>
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE 'Y%'
+</code></pre></li>
 
-<ol>
 <li><p>找出以 Y 为结尾的国家。</p>
 
 <pre><code class="language-sql">SELECT name FROM world
 WHERE name LIKE '%Y'
 </code></pre></li>
 
-<li><p>找出所有国家,其名字包括字母x</p></li>
-</ol>
+<li><p>找出所有国家,其名字包括字母x</p>
 
-<pre><code class="language-sql">    SELECT name FROM world
-    WHERE name LIKE '%X%'
-</code></pre>
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '%X%'
+</code></pre></li>
 
-<ol>
-<li>找出所有国家,其名字以 land 作结尾</li>
-</ol>
+<li><p>找出所有国家,其名字以 land 作结尾</p>
 
-<pre><code class="language-sql">    SELECT name FROM world
-    WHERE name LIKE '%land'
-</code></pre>
+<pre><code class="language-sql">SELECT name FROM world
+WHERE name LIKE '%land'
+</code></pre></li>
 
-<ol>
 <li><p>找出所有国家,其名字以 C 作开始,ia 作结尾p</p>
 
 <pre><code class="language-sql">SELECT name FROM world
