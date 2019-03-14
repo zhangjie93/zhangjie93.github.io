@@ -6,10 +6,19 @@
     <description>Recent content in 算法 on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 13 Mar 2019 10:47:28 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 14 Mar 2019 12:49:07 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第136题</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/</link>
+      <pubDate>Thu, 14 Mar 2019 12:49:07 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/</guid>
+      <description>第136题 Single Number 问题 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素 算法应该具有线性时间复</description>
+    </item>
     
     <item>
       <title>Leetcode 第3题 Longest Substring Without Repeating Characters</title>
