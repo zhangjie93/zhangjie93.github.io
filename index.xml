@@ -6,10 +6,19 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 14 Mar 2019 13:23:29 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 16 Mar 2019 22:15:32 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mybatis 出现错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/16/Mybatis-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AFCaused-by-java.lang.ClassNotFoundException-org.apache.log4j.Priority/</link>
+      <pubDate>Sat, 16 Mar 2019 22:15:32 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/16/Mybatis-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AFCaused-by-java.lang.ClassNotFoundException-org.apache.log4j.Priority/</guid>
+      <description>Mybatis配置错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority&amp;rdquo; 问题 在配置了Mybatis的日志后，运行后出现了如题的错误 配置如下 &amp;lt;settings&amp;gt; &amp;lt;!-- 配置日志使用log4j --&amp;gt; &amp;lt;setting name=&amp;quot;logImpl&amp;quot;</description>
+    </item>
     
     <item>
       <title>Leetcode 第240题</title>

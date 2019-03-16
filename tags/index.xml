@@ -11,11 +11,29 @@
     
     
     <item>
+      <title>bug</title>
+      <link>http://blog.njutzhangjie.cn/tags/bug/</link>
+      <pubDate>Sat, 16 Mar 2019 22:15:32 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/tags/bug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>leetcode</title>
       <link>http://blog.njutzhangjie.cn/tags/leetcode/</link>
       <pubDate>Thu, 14 Mar 2019 13:23:29 +0800</pubDate>
       
       <guid>http://blog.njutzhangjie.cn/tags/leetcode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mybatis</title>
+      <link>http://blog.njutzhangjie.cn/tags/mybatis/</link>
+      <pubDate>Sat, 16 Mar 2019 22:15:32 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/tags/mybatis/</guid>
       <description></description>
     </item>
     
