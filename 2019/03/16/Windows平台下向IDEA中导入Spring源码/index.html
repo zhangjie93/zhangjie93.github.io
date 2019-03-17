@@ -7,22 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>字符串 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="字符串 - zhangjie&#39;s blog">
+    <title>Windows平台下向IDEA中导入Spring源码 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Windows平台下向IDEA中导入Spring源码 - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content="2019-03-16T22:26:39&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-03-16T22:26:39&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="字符串">
+    <meta name="description" content="Spring">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
     
+        <link rel="stylesheet" href="/css/prism.css">
+    
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.xml" title="zhangjie's blog" />
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
     
@@ -31,7 +36,6 @@
     
     
 </head>
-
 
 <body>
 <header id="header" class="clearfix">
@@ -47,7 +51,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="http://blog.njutzhangjie.cn/">首页</a>
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
                     
                     <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
                     
@@ -68,47 +72,116 @@
 
             <div class="col-8" id="main">
                 <div class="res-cons">
-                    
-                    <h3 class="archive-title">
-                        包含标签
-                        <span class="keyword">字符串</span>
-                        的文章
-                    </h3>
-                    
-
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="http://blog.njutzhangjie.cn/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年3月13日
-                            </date>
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Windows平台下向IDEA中导入Spring源码</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年3月16日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
                             
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a>
-                                
-                            </div>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/spring">spring</a></span>
                             
-                            <div class="post-content">
-                                第3题 Longest Substring Without Repeating Characters 题目 给定一个字符串，从这个字符串找到一个最长的子串，要求这个子串不能有重复的字符。 注意是子串，不是子序列。子串要求在原字符串……
-                                <p class="readmore"><a href="http://blog.njutzhangjie.cn/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">阅读全文</a></p>
-                            </div>
-                        </article>
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h1 id="向idea中导入spring源码并编译">向IDEA中导入Spring源码并编译</h1>
+
+<p>由于需要学习Spring源码，所以需要向IDEA中导入源码。</p>
+
+<p>首先到Github中下载源码,地址：<a href="https://github.com/spring-projects/spring-framework">https://github.com/spring-projects/spring-framework</a>。也可以直接git clone</p>
+
+<p>Spring的源码采用的Gradle编译。所以需要下载Gradle。IDEA已经自带了IDEA，但自带的gradle无法在终端中执行命令，所以最好还是另外下载gradle。</p>
+
+<p>下载完成后，将Gradle加入到环境变量，便于使用Gradle的命令。使用<code>gradle  -v</code>验证是否成功</p>
+
+<p>更改Gradle的源为阿里的源，在用户文件夹下的<code>.gradle</code>文件夹下建立<code>init.gradle</code>文件，配置如下</p>
+
+<pre><code class="language-java">allprojects{
+    repositories {
+        def ALIYUN_REPOSITORY_URL = 'http://maven.aliyun.com/nexus/content/groups/public'
+        def ALIYUN_JCENTER_URL = 'http://maven.aliyun.com/nexus/content/repositories/jcenter'
+        all { ArtifactRepository repo -&gt;
+            if(repo instanceof MavenArtifactRepository){
+                def url = repo.url.toString()
+                if (url.startsWith('https://repo1.maven.org/maven2')) {
+                    project.logger.lifecycle &quot;Repository ${repo.url} replaced by $ALIYUN_REPOSITORY_URL.&quot;
+                    remove repo
+                }
+                if (url.startsWith('https://jcenter.bintray.com/')) {
+                    project.logger.lifecycle &quot;Repository ${repo.url} replaced by $ALIYUN_JCENTER_URL.&quot;
+                    remove repo
+                }
+            }
+        }
+        maven {
+                url ALIYUN_REPOSITORY_URL
+            url ALIYUN_JCENTER_URL
+        }
+    }
+}
+</code></pre>
+
+<p>根据Spring官方给出的导入步骤即可：</p>
+
+<ol>
+<li>使用<code>./gradlew :spring-oxm:compileTestJava</code>编译spring-oxm</li>
+<li>将代码导入IDEA，注意导入时选择自己的gradle。一般导入后IDEA会自己编译，由于会下载比较多的依赖，所以时间会比较长</li>
+<li><code>spring-aspects</code>会编译出错，所以将这个模块移除。在File-Project Structure-Modules中移除</li>
+</ol>
+
+<p>然后就可以运行其中单元测试了</p>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/03/16/Mybatis-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AFCaused-by-java.lang.ClassNotFoundException-org.apache.log4j.Priority/">Mybatis 出现错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98/">Leetcode 第240题</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">Leetcode 第136题</a></li>
+        
+        <li><a href="/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/">Sql查询练习</a></li>
+        
+        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/spring">spring</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E6%BA%90%E7%A0%81">源码</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
                     
+    
 
-                    
-
-
-
-
+    
+    
                 </div>
             </div>
-
             <div id="secondary">
     <section class="widget">
         <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
@@ -252,9 +325,24 @@
 </footer>
 
 
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
-
 
 
 

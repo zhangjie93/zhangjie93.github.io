@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>spring on zhangjie&#39;s blog</title>
+    <link>http://blog.njutzhangjie.cn/tags/spring/</link>
+    <description>Recent content in spring on zhangjie&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 16 Mar 2019 22:26:39 +0800</lastBuildDate>
+    
+	<atom:link href="http://blog.njutzhangjie.cn/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Windows平台下向IDEA中导入Spring源码</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Sat, 16 Mar 2019 22:26:39 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/</guid>
+      <description>向IDEA中导入Spring源码并编译 由于需要学习Spring源码，所以需要向IDEA中导入源码。 首先到Github中下载源码,地址：htt</description>
+    </item>
+    
+  </channel>
+</rss>
