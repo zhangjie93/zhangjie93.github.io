@@ -6,10 +6,19 @@
     <description>Recent content in 算法 on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 14 Mar 2019 13:23:29 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 18 Mar 2019 16:11:23 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第343题</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/</link>
+      <pubDate>Mon, 18 Mar 2019 16:11:23 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/</guid>
+      <description>第343题 Integer Break 问题 给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 如10可以分为3，3，4，乘积为36 $2\leq n \leq 58$ 解答</description>
+    </item>
     
     <item>
       <title>Leetcode 第240题</title>
