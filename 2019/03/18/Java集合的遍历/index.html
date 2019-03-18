@@ -7,22 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>数据库 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="数据库 - zhangjie&#39;s blog">
+    <title>Java集合的遍历 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Java集合的遍历 - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content="2019-03-18T11:25:22&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-03-18T11:25:22&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="数据库">
+    <meta name="description" content="Java中集合的遍历">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/18/Java%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
     
+        <link rel="stylesheet" href="/css/prism.css">
+    
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" title="zhangjie's blog" />
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
     
@@ -31,7 +36,6 @@
     
     
 </head>
-
 
 <body>
 <header id="header" class="clearfix">
@@ -47,7 +51,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="http://blog.njutzhangjie.cn/">首页</a>
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
                     
                     <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
                     
@@ -68,47 +72,186 @@
 
             <div class="col-8" id="main">
                 <div class="res-cons">
-                    
-                    <h3 class="archive-title">
-                        分类
-                        <span class="keyword">数据库</span>
-                        中的文章
-                    </h3>
-                    
-
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="http://blog.njutzhangjie.cn/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/">Sql查询练习</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年3月13日
-                            </date>
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Java集合的遍历</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年3月18日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
                             
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93">数据库</a>
-                                
-                            </div>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/Java">Java</a></span>
                             
-                            <div class="post-content">
-                                SQL 题目来自https://sqlzoo.net Select basics world表 name continent area population gdp 国家名 所属大洲 面积 人口 gdp 查询德国Germany人口 SELECT population FROM world WHERE name = 'Germany' 查……
-                                <p class="readmore"><a href="http://blog.njutzhangjie.cn/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/">阅读全文</a></p>
-                            </div>
-                        </article>
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h1 id="java集合的遍历">Java集合的遍历</h1>
+
+<p>Java中集合主要分为Collections和Map，接口分别是Collection和Map</p>
+
+<h2 id="collection的遍历">Collection的遍历</h2>
+
+<p>Collection的子类主要有List、Set和Queue。由于Collection继承了Iterable，所以可以用迭代器遍历。同时也可以用foreach遍历</p>
+
+<p>所以有三种遍历方式：</p>
+
+<ul>
+<li>迭代器</li>
+<li>foreach</li>
+<li>普通for循环</li>
+</ul>
+
+<p>Set遍历：</p>
+
+<pre><code class="language-java"> private static void setTest(){
+    Set&lt;String&gt; set = new HashSet&lt;String&gt;();
+    set.add(&quot;JAVA&quot;);
+    set.add(&quot;C&quot;);
+    set.add(&quot;C++&quot;);
+    // 重复数据添加失败
+    set.add(&quot;JAVA&quot;);
+    set.add(&quot;JAVASCRIPT&quot;);
+    // 使用iterator遍历set集合
+    Iterator&lt;String&gt; it = set.iterator();
+    while (it.hasNext()) {
+        String value = it.next();
+        System.out.println(value);
+    }
+    // foreach 遍历
+    for(String s: set){
+        System.out.println(s);
+    }
+}
+</code></pre>
+
+<p>List遍历</p>
+
+<pre><code class="language-java">// 遍历list集合
+private static void listTest() {
+    List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+    list.add(&quot;A&quot;);
+    list.add(&quot;B&quot;);
+    list.add(&quot;B&quot;);
+    list.add(&quot;C&quot;);
+    // 使用iterator遍历
+    Iterator&lt;String&gt; it = list.iterator();
+    while (it.hasNext()) {
+        String value = it.next();
+        System.out.println(value);
+    }
+    // 使用传统for循环进行遍历
+    for (int i = 0, size = list.size(); i &lt; size; i++) {
+        String value = list.get(i);
+        System.out.println(value);
+    }
+    // foreach
+    for (String value : list) {
+        System.out.println(value);
+    }
+}
+</code></pre>
+
+<h3 id="map的遍历">Map的遍历</h3>
+
+<p>Map的遍历主要有keySet和EntrySet两种</p>
+
+<pre><code class="language-java">private  static  void mapTest(){
+    Map&lt;String, String&gt; maps = new HashMap&lt;String, String&gt;();
+    maps.put(&quot;1&quot;, &quot;PHP&quot;);
+    maps.put(&quot;2&quot;, &quot;Java&quot;);
+    maps.put(&quot;3&quot;, &quot;C&quot;);
+    maps.put(&quot;4&quot;, &quot;C++&quot;);
+    maps.put(&quot;5&quot;, &quot;HTML&quot;);
+    //获取keySet,然后通过key来遍历
+    Set&lt;String&gt; set = maps.keySet();
+    for (String s : set) {
+        String key = s;
+        String value = maps.get(s);
+        System.out.println(key + &quot; : &quot; + value);
+    }
+    //因为keySet是一个Set，所以可以用Iterator来遍历keySet
+    Set&lt;String&gt; sets = maps.keySet();
+    // 取得迭代器遍历出对应的值
+    Iterator&lt;String&gt; it = sets.iterator();
+    while (it.hasNext()) {
+        String key = it.next();
+        String value = maps.get(key);
+        System.out.println(key + &quot; : &quot; + value);
+    }
+    //entrySet，存放的是key-vale
+    Set&lt;Map.Entry&lt;String, String&gt;&gt; setEntry =maps.entrySet();
+    for (Map.Entry&lt;String, String&gt; entry : setEntry) {
+        String key = entry.getKey();
+        String value = entry.getValue();
+        System.out.println(key + &quot; : &quot; + value);
+    }
+    // 对EntrySet用iterator遍历
+    Iterator&lt;Map.Entry&lt;String, String&gt;&gt; iterator =setEntry.iterator();
+    while (it.hasNext()) {
+        Map.Entry&lt;String, String&gt; entry =(Map.Entry&lt;String, String&gt;) iterator.next();
+        String key = entry.getKey();
+        String value = entry.getValue();
+        System.out.println(key + &quot; : &quot; + value);
+    }
+}
+</code></pre>
+
+<p>参考：</p>
+
+<ul>
+<li><a href="http://www.runoob.com/java/collection-iterator.html">http://www.runoob.com/java/collection-iterator.html</a></li>
+</ul>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/">Windows平台下向IDEA中导入Spring源码</a></li>
+        
+        <li><a href="/2019/03/16/Mybatis-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AFCaused-by-java.lang.ClassNotFoundException-org.apache.log4j.Priority/">Mybatis 出现错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98/">Leetcode 第240题</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">Leetcode 第136题</a></li>
+        
+        <li><a href="/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/">Sql查询练习</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/Java">Java</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E9%9B%86%E5%90%88">集合</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
                     
+    
 
-                    
-
-
-
-
+    
+    
                 </div>
             </div>
-
             <div id="secondary">
     <section class="widget">
         <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
@@ -260,9 +403,24 @@
 </footer>
 
 
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
-
 
 
 
