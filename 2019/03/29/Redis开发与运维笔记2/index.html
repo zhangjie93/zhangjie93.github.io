@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Leetcode 第3题 Longest Substring Without Repeating Characters | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Leetcode 第3题 Longest Substring Without Repeating Characters - zhangjie&#39;s blog">
+    <title>Redis开发与运维笔记2 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Redis开发与运维笔记2 - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-03-13T10:47:28&#43;08:00">
+    <meta property="article:published_time" content="2019-03-29T16:21:37&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-03-13T10:47:28&#43;08:00">
+    <meta property="article:modified_time" content="2019-03-29T16:21:37&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Leetcode 第3题 Longest Substring Without Repeating Characters">
+    <meta name="description" content="Redis开发与运维笔记2">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/29/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B02/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -74,16 +74,16 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Leetcode 第3题 Longest Substring Without Repeating Characters</h1>
+                            <h1 class="post-title">Redis开发与运维笔记2</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年3月13日
+                            2019年3月29日
                         </date>
                         
                         <div class="post-meta">
                             <span>|</span>
                             
-                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/Redis">Redis</a></span>
                             
                         </div>
                         
@@ -91,82 +91,153 @@
                         <div class="post-content">
                             
 
-<h1 id="第3题-longest-substring-without-repeating-characters-https-leetcode-com-problems-longest-substring-without-repeating-characters">第3题 <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">Longest Substring Without Repeating Characters</a></h1>
+<h1 id="redis功能">Redis功能</h1>
 
-<h2 id="题目">题目</h2>
+<h2 id="慢查询分析">慢查询分析</h2>
 
-<p>给定一个字符串，从这个字符串找到一个最长的子串，要求这个子串不能有重复的字符。</p>
+<p>一个命令的执行过程：</p>
 
-<p>注意是子串，不是子序列。子串要求在原字符串是连续的，而子序列不一定。如<code>&quot;pwwkew&quot;</code>的最长不重复子串是<code>wke</code>或者<code>kew</code>，而<code>pwke</code>是最长不重复子序列</p>
-
-<p>题目最后要求返回最长不重复子串的长度</p>
-
-<h2 id="解答">解答</h2>
-
-<p>首先考虑如果手工来做会如何做。以<code>abcabcbb</code>为例，从头开始遍历，首先a加入子串，然后b加入，c加入，当到a时，由于前面的字符串已经有a，所以子串变为bca，之前符合条件的子串长度为3。依次遍历下去，最后得到最长的不重复子串的长度为3</p>
-
-<p>这个过程就像一个滑动窗口，初始时滑动窗口为空，然后遍历字符串，第一个字符a加入滑动窗口，然后b加入，c加入，当到a时，由于滑动窗口中已有a，所以滑动窗口的左边界需要指向前面重复元素的下一个元素，也就是前一个a的下个元素b，然后右边界需要指向当前的a。</p>
-
-<p>所以当字符在窗口中不存在时加入到滑动窗口，如果已有，则将左边界移到前面重复元素的下一个元素，右边界指向当前的元素</p>
-
-<pre><code class="language-java">public int lengthLongestSubStr(String s){
-    int left=0,right=0;
-    if(s.length()==0||s==null){
-        return 0;
-    }
-    int max=0;
-    HashMap&lt;Character,Integer&gt; slideWindow=new HashMap&lt;&gt;();
-    while (right&lt;s.length()){
-        //right指向当前窗口的下一个元素
-        char c=s.charAt(right);
-        //如果right指向的元素不在窗口内，则加入，且right右移
-        if(!slideWindow.containsKey(c)){
-            slideWindow.put(c,right);
-            right++;
-        }else{
-            //在窗口内则需要将前面重复的元素
-            max=slideWindow.size()&gt;max?slideWindow.size():max;
-            int tempLeft=slideWindow.get(c)+1;
-            //这里left记录的是窗口的边界，所以需要从左边界删除到重复元素
-            while (left&lt;tempLeft){
-                slideWindow.remove(s.charAt(left++));
-            }
-            //right指向的元素要加入到滑动窗口内
-            slideWindow.put(c,right);
-            right++;
-        }
-    }
-    //最后返回最大值，这里不能直接返回max
-    return slideWindow.size()&gt;max?slideWindow.size():max;
-}
+<pre><code class="language-mermaid">graph LR
+发送命令--&gt;命令排队
+命令排队--&gt;命令执行
+命令执行--&gt;返回结果
 </code></pre>
 
-<p>下面使用了HashSet，思想是一样的，出现的字符放入Set中，left指向左边界。right指向窗口的下一个字符，如果没有重复的，right指向的字符会加入，否则从left开始删除，直到删除到重复字符</p>
+<p>慢查询只统计命令执行时间</p>
 
-<pre><code class="language-java">public int lengthOfLongestSubstring(String s) {
-    int res = 0, left = 0, right = 0;
-    HashSet&lt;Character&gt; t = new HashSet&lt;Character&gt;();
-    while (right &lt; s.length()) {
-        //不含字符，加入
-        if (!t.contains(s.charAt(right))) {
-            t.add(s.charAt(right++));
-            res = Math.max(res, t.size());
-        } else {
-            //从左边界开始删除，因为删除一个后，如果还没有删除重复字符后，在下一个循环会继续删除，直到删掉重复字符
-            //由于这里采用了Set，无法直接取到重复字符的索引，所以无法像上面的代码一样用另一个循环删除
-            t.remove(s.charAt(left++));
-        }
-    }
-    return res;
-}
-</code></pre>
+<p><code>slowlog-log-slower-than</code>:指定预设阀值，单位微秒。超过这个值记录到慢查询日志。为0时表示记录所有，小于0表示不记录
+<code>slowlog-max-len</code>：了慢查询日志最多存储多少条。Redis使用列表来存储慢查询日志，slowlog-max-len就是列表的最大长度</p>
 
-<p>参考：</p>
+<p>获取慢查询日志：<code>slowlog get [n]</code>,n指定条数</p>
+
+<p>日志包括：慢查询日志的标识id、发生时间戳、命令耗时、执行命令和参数，</p>
+
+<p><code>slowlog len</code>：获取慢查询日志列表当前的长度
+<code>slowlog reset</code>:慢查询日志重置</p>
+
+<p>实践：</p>
 
 <ul>
-<li><a href="https://blog.csdn.net/gatieme/article/details/50809552">https://blog.csdn.net/gatieme/article/details/50809552</a></li>
-<li><a href="http://www.cnblogs.com/grandyang/p/4480780.html">http://www.cnblogs.com/grandyang/p/4480780.html</a></li>
+<li><code>slowlog-max-len</code>：建议调大慢查询列表，减缓慢查询被剔除的可能</li>
+<li><code>slowlog-log-slower-than</code>:默认值超过10毫秒判定为慢查询。当执行时间为1ms以上时，Redis支撑OPS不到1000</li>
 </ul>
+
+<p>慢查询只记录命令执行时间，并不包括命令排队和网络传输时间</p>
+
+<p>慢查询日志是一个先进先出的队列，如果慢查询比较多的情况下，可能会丢失部分慢查询命令。</p>
+
+<p>`<code>slow get</code>可以将慢查询日志持久化到其他存储中</p>
+
+<h2 id="redis-shell">Redis Shell</h2>
+
+<p>redis-cli、redis-server、redis-benchmark</p>
+
+<p>redis-cli：</p>
+
+<ul>
+<li><code>-r [count]</code>重复多次，如<code>redis-cli -r 3 ping</code>执行3次ping</li>
+<li><code>-i （interval）</code>每隔几秒执行一次命令,必须和<code>-r</code>一起使用。<code>redis-cli -r 5 -i 1 ping</code>每隔1秒执行一次ping命令，一共执行5次</li>
+<li><code>-x</code>:从标准输入（stdin）读取数据作为redis-cli的最后一个参数.<code>echo &quot;world&quot; | redis-cli -x set hello</code>将字符串world作为set hello的值</li>
+<li><code>-c</code>连接Redis Cluster节点</li>
+<li><code>-a</code>密码</li>
+<li><code>--scan</code>和<code>--pattern</code>:于扫描指定模式的键，相当于scan</li>
+<li><code>--slave</code>:把当前客户端模拟成当前Redis节点的从节点</li>
+</ul>
+
+<p>redis-server</p>
+
+<p>redis-benchmark:为Redis做基准性能测试</p>
+
+<h2 id="redis-pipeline">Redis Pipeline</h2>
+
+<p>在批量操作命令时，客户端是分n次将命令传给服务端的，这样会耗费时间</p>
+
+<p>Pipeline能将一组Redis命令进行组装，通过一次RTT传输给Redis</p>
+
+<p>redis-cli的&ndash;pipe选项就是Pipeline机制</p>
+
+<h2 id="事务与lua">事务与Lua</h2>
+
+<p>放到multi和exec两个命令之间表示事务</p>
+
+<pre><code class="language-java">//事务开始
+multi
+
+//事务结束
+exec
+</code></pre>
+
+<p>discardsk 可以放弃事务。在exec之前执行</p>
+
+<p>不支持事务中的回滚特性，同时无法实现命令之间的逻辑关系计算</p>
+
+<p>lua脚本好处：</p>
+
+<ul>
+<li>Lua脚本在Redis中是原子执行的，执行过程中间不会插入其他命令。</li>
+<li>Lua脚本可以定制命令，并可以将这些命令常驻在Redis内存中，实现复用的效果。</li>
+
+<li><p>Lua脚本可以将多条命令一次性打包，有效地减少网络开销</p></li>
+
+<li><p><code>script load</code>加载Lua脚本</p></li>
+
+<li><p><code>script exists sha1 [sha1 …]</code>用于判断sha1是否已经加载到Redis内存</p></li>
+
+<li><p><code>script flush</code>于清除Redis内存已经加载的所有Lua脚本</p></li>
+
+<li><p><code>script kill</code>杀掉正在执行的Lua脚本。</p></li>
+</ul>
+
+<h2 id="bitmaps">Bitmaps</h2>
+
+<p>Bitmaps本身不是一种数据结构，实际上就是字符.但是可以对字符串的位进行操作</p>
+
+<h2 id="hyperloglog">HyperLogLog</h2>
+
+<h2 id="发布订阅">发布订阅</h2>
+
+<p>发布者客户端向指定的频道（channel）发布消息，订阅该频道的每个客户端都可以收到该消息</p>
+
+<p><code>publish channel_name message</code>向channel_name发布message</p>
+
+<p><code>subscribe channel [channel ...]</code></p>
+
+<p>客户端在执行订阅命令之后进入了订阅状态，只能接收subscribe、
+psubscribe、unsubscribe、punsubscribe的四个命令。</p>
+
+<p>新开启的订阅客户端，无法收到该频道之前的消息，因为Redis不会对
+发布的消息进行持久化。</p>
+
+<p><code>unsubscribe [channel [channel ...]]</code>:取消订阅</p>
+
+<p>按照模式订阅和取消订阅:<code>psubscribe pattern [pattern...]</code>和<code>punsubscribe [pattern [pattern ...]]</code></p>
+
+<p><code>pubsub channels [pattern]</code>:查看活跃的频道(指当前频道至少有一个订阅者),<code>[pattern]</code>是可以指定具体的模式</p>
+
+<p><code>pubsub numsub [channel ...]</code>查看频道订阅数</p>
+
+<p><code>pubsub numpat</code>查看模式订阅数</p>
+
+<h2 id="geo">GEO</h2>
+
+<p>GEO（地理信息定位）</p>
+
+<ul>
+<li>增加地理位置信息 <code>geoadd key longitude latitude member [longitude latitude member ...]</code> longitude、latitude、member分别是该地理位置的经度、纬度、成员。如<code>geoadd cities:locations 116.28 39.55 beijing</code>返回结果代表添加成功的个数，如果cities：locations已经包含beijing则返回0，否则1。如果添加时已经包括，则会<strong>更新已有数据</strong></li>
+<li>获取<code>geopos key member [member ...]</code>，如<code>geopos cities:locations tianjin</code></li>
+<li><code>geodist key member1 member2 [unit]</code>获取两个地理位置的距离。unit代表返回结果的单位,如m/km</li>
+<li>获取指定位置范围内的地理信息位置集合。是以一个地理位置为中心算出指定半径内的其他地理信息位置。georadius给出中心位置的经纬度，而georadiusbymember给出成员
+
+<ul>
+<li><code>georadius key longitude latitude radiusm|km|ft|m[withcoord] [withdist] [withhash] [COUNT count] [asc|desc] [store key] [storedist key]</code></li>
+<li><code>georadiusbymember key member radiusm|km|ft|m[withcoord] [withdist] [withhash] [COUNT count] [asc|desc] [store key] [storedist key]</code></li>
+</ul></li>
+<li><code>geohash key member [member ...]</code>:获取geohash,将二维经纬度转换为一维字符串</li>
+</ul>
+
+<p>GEO的数据类型为zset</p>
+
+<p>删除地理位置信息:由于GEO的底层实现是zset，所以可以借用zrem命令实现对地理位置信息的删除</p>
 
                         </div>
 
@@ -179,15 +250,15 @@
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC2%E9%A2%98-Add-Tow-Numbers/">Leetcode 第2题 Add Tow Numbers</a></li>
+        <li><a href="/2019/03/19/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B01/">Redis开发与运维笔记1</a></li>
         
-        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/">Leetcode 第1题 Two Sum</a></li>
+        <li><a href="/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/">Leetcode 第229题 Majority Element II</a></li>
         
-        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/">Leetcode 第169题 Majority Element</a></li>
+        <li><a href="/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/">Leetcode 第343题</a></li>
         
-        <li><a href="/2019/03/09/leetcode-%E7%AC%AC179%E9%A2%98-Largest-Number/">leetcode 第179题 Largest Number</a></li>
+        <li><a href="/2019/03/18/Java%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86/">Java集合的遍历</a></li>
         
-        <li><a href="/2019/03/10/%E5%90%84%E7%A7%8D%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/">各种编程工具遇到的问题</a></li>
+        <li><a href="/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/">Windows平台下向IDEA中导入Spring源码</a></li>
         
     </ul>
 </div>
@@ -197,11 +268,9 @@
                             
                             <ul class="clearfix">
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/Redis">Redis</a></li>
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
-                                
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2">字符串</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0">读书笔记</a></li>
                                 
                             </ul>
                             

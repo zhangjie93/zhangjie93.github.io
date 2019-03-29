@@ -6,10 +6,19 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 22 Mar 2019 09:29:13 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 29 Mar 2019 16:21:37 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Redis开发与运维笔记2</title>
+      <link>http://blog.njutzhangjie.cn/2019/03/29/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B02/</link>
+      <pubDate>Fri, 29 Mar 2019 16:21:37 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/03/29/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B02/</guid>
+      <description>Redis功能 慢查询分析 一个命令的执行过程： graph LR 发送命令--&amp;gt;命令排队 命令排队--&amp;gt;命令执行 命令执行--&amp;gt;返回结果 慢查询只</description>
+    </item>
     
     <item>
       <title>Leetcode 第229题 Majority Element II</title>
