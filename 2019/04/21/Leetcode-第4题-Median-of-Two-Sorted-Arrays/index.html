@@ -7,22 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Java | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Java - zhangjie&#39;s blog">
+    <title>Leetcode 第4题 Median of Two Sorted Arrays | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第4题 Median of Two Sorted Arrays - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content="2019-04-21T14:50:28&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-04-21T14:50:28&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Java">
+    <meta name="description" content="leetcode">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/categories/Java/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
     
+        <link rel="stylesheet" href="/css/prism.css">
+    
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.njutzhangjie.cn/categories/Java/index.xml" title="zhangjie's blog" />
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
     
@@ -31,7 +36,6 @@
     
     
 </head>
-
 
 <body>
 <header id="header" class="clearfix">
@@ -47,7 +51,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="http://blog.njutzhangjie.cn/">首页</a>
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
                     
                     <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
                     
@@ -68,47 +72,170 @@
 
             <div class="col-8" id="main">
                 <div class="res-cons">
-                    
-                    <h3 class="archive-title">
-                        分类
-                        <span class="keyword">Java</span>
-                        中的文章
-                    </h3>
-                    
-
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="http://blog.njutzhangjie.cn/2019/03/18/Java%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86/">Java集合的遍历</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年3月18日
-                            </date>
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Leetcode 第4题 Median of Two Sorted Arrays</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年4月21日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
                             
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="http://blog.njutzhangjie.cn/categories/Java">Java</a>
-                                
-                            </div>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
                             
-                            <div class="post-content">
-                                Java集合的遍历 Java中集合主要分为Collections和Map，接口分别是Collection和Map Collection的遍历 Co……
-                                <p class="readmore"><a href="http://blog.njutzhangjie.cn/2019/03/18/Java%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86/">阅读全文</a></p>
-                            </div>
-                        </article>
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h1 id="第4题-median-of-two-sorted-arrays-https-leetcode-com-problems-median-of-two-sorted-arrays">第4题 <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/">Median of Two Sorted Arrays</a></h1>
+
+<h2 id="问题">问题</h2>
+
+<p>有两个已排序的数组num1和num2，数组大小分别是m和n。找到这两个数组的中位数。时间复杂度应该是$O(log(m+n))$</p>
+
+<h2 id="解答">解答</h2>
+
+<p>中位数可能是一个数，也可能是两个数的平均数。如[1,3]和[2]，中位数为2，而[1,2]和[3,4]中位数就是(2+3)/2=2.5；在中位数是两个数得到时，这两个数可能在一个数组，也可能在两个数组。当两个数组的总长度为奇数时，中位数是一个数，为偶数时中数是两个数得到的。</p>
+
+<h3 id="解法1-合并排序">解法1:合并排序</h3>
+
+<p>最简单的方法就是将两个数组合并排序，这种方法的复杂度是O((m+n)log(m+n))</p>
+
+<h3 id="解法2-归并排序的合并">解法2:归并排序的合并</h3>
+
+<p>在归并中就是合并两个有序数组使之有序，所以不需要在合并后再排序，可以合并过程中就能使之有序,这种复杂度是$O(m+n)$</p>
+
+<pre><code class="language-java">int [] merge(int[] num1,int []num2){
+    int i=0,j=0;
+    int len1=num1.length;
+    int len2=num2.length;
+    int temp[]=new int[len1+len2];
+
+    int mid=(len1+len2)/2;
+
+    int k=0;
+    while (i&lt;len1 &amp;&amp; j&lt;len2){
+        temp[k++]=num1[i]&lt;num2[j]?num1[i++]:num2[j++];
+        //合并的过程并不需要全部完成，只需要将数字合并到中间数即可
+        //因为存在奇、偶的情况下，所以需要合并到(len1+len)/2这个位置，也就是偶数情况下右边的数，而奇数情况下仍是中间的数
+        if(k&gt;mid){ 
+            break;
+        }
+    }
+    while (i&lt;len1){
+        temp[k++]=num1[i++];
+        if(k&gt;mid){
+            break;
+        }
+    }
+    while (j&lt;len2){
+        temp[k++]=num2[j++];
+        if(k&gt;mid){ 
+            break;
+        }
+    }
+    return  temp;
+}
+public double findMedianSortedArrays(int[] nums1, int[] nums2){
+    int temp[]=merge(nums1,nums2);
+    //奇数个
+    if (temp.length%2!=0){
+        return temp[(0+temp.length-1)/2];
+    }else{
+        //偶数个
+        //mid对应于中间两个数靠左边的数
+        int mid=(0+temp.length-1)/2;
+        return (temp[mid]+temp[mid+1])/2.0;
+    }
+}
+</code></pre>
+
+<p>对于中间数，可以用例子看出，如数组[1,2]和[3,4]，中间数字就是[2,3]，右边的数的索引就是(0+4)/2=2，对于[1,2]和[3]，中间数的索引就是(0+3)/2=1，所以上面合并中止的位置就是(0+length)/2</p>
+
+<h3 id="双指针">双指针</h3>
+
+<h2 id="解法3">解法3</h2>
+
+<p>这种方法就是给定两个指针，分别指向两个数组，然后向前遍历，指向较小数的指针向前移，直到遍历的元素达到中位数则停止。这种复杂度是$O(m+n)$。这种做法其实就是归并中的合并，和解法2是一样的</p>
+
+<pre><code class="language-java">public double findMedianSortedArrays(int[] A, int[] B) {
+     int size=A.length+B.length;
+    int i=0,j=0;
+    int num=0;
+    List&lt;Integer&gt; t=new ArrayList&lt;&gt;(size);
+    while (num&lt;size){
+        int a,b;
+        a=i&lt;A.length?A[i]:Integer.MAX_VALUE;
+        b=j&lt;B.length?B[j]:Integer.MAX_VALUE;
+        if(a&lt;b){
+            t.add(A[i]);
+            i++;
+        }else{
+            t.add(B[j]);
+            j++;
+        }
+        num++;
+        if(num==size/2+1) {
+            break;
+        }
+    }
+    if(size%2!=0){
+        //如果是奇数，中位数是num[mid]
+         return t.get(num-1);
+    }else{
+        return (t.get(num-1)+t.get(num-2))/2.0;
+    }
+}
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/">Leetcode 第229题 Majority Element II</a></li>
+        
+        <li><a href="/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/">Leetcode 第343题</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98/">Leetcode 第240题</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">Leetcode 第136题</a></li>
+        
+        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
                     
+    
 
-                    
-
-
-
-
+    
+    
                 </div>
             </div>
-
             <div id="secondary">
     <section class="widget">
         <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
@@ -270,9 +397,24 @@
 </footer>
 
 
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
-
 
 
 

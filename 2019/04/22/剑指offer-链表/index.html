@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>剑指offer-链表 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="剑指offer-链表 - zhangjie&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-04-22T08:35:54&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-04-22T08:35:54&#43;08:00">
+        
+    <meta name="Keywords" content="Java,算法,leetcode,spring">
+    <meta name="description" content="剑指offer">
+        
+    <meta name="author" content="zhangjie">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/22/%E5%89%91%E6%8C%87offer-%E9%93%BE%E8%A1%A8/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.njutzhangjie.cn/">
+                        zhangjie&#39;s blog
+                    </a>
+                
+                <p class="description">Loading...</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">剑指offer-链表</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年4月22日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h1 id="剑指offer">剑指offer</h1>
+
+<h2 id="链表">链表</h2>
+
+<h3 id="两个链表的第一个公共结点">两个链表的第一个公共结点</h3>
+
+<p>输入两个链表，找出它们的第一个公共结点。</p>
+
+<p>这题最简单的就是先遍历一个链表，每到一个元素再遍历另一个链表，这种复杂度是O(mn),m和n表示两个链表的长度。这种解法是最差的</p>
+
+<p>两个链表的如果有公共结点，由于链表是单链表，所以从某一个结点开始由于next都指向同一个结点，那从第一个公共结点开始，每个结点都是公共的。</p>
+
+<p>所以有公共结点意味着是两个链表是Y型，不可能是相交的X型</p>
+
+<p><img src="https://gitee.com/CyC2018/CS-Notes/raw/master/docs/pics/8f6f9dc9-9ecd-47c8-b50e-2814f0219056.png" alt="Y型" /></p>
+
+<p>所以最好的方式就是从尾部遍历，但是这是单链表，遍历只能从头部开始遍历，所以可以用栈辅助。</p>
+
+<p>将两个链表的结点放入两个栈中，这样栈顶就是链表的尾部结点，然后比较栈顶元素，如果相同，则将两个栈顶点结点出栈</p>
+
+<pre><code class="language-java"> public ListNode findFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+    ListNode p1=pHead1,p2=pHead2;
+    if(p1==null||p2==null){
+        return null;
+    }
+    Stack&lt;ListNode&gt; pStack1=new Stack&lt;&gt;();
+    Stack&lt;ListNode&gt; pStack2=new Stack&lt;&gt;();
+    //p1,p2入栈
+    while (p1!=null){
+        pStack1.push(p1);
+        p1=p1.next;
+    }
+    while (p2!=null){
+        pStack2.push(p2);
+        p2=p2.next;
+    }
+    //注意栈不为空再比较栈顶
+    //只有栈顶相同才会出栈
+    while (!pStack1.isEmpty()&amp;&amp;!pStack2.isEmpty()&amp;&amp;pStack1.peek()==pStack2.peek()){
+            //这里是先用peek函数比较的，peek函数不会使栈顶出栈，若直接用pop，会使得p1,p2是两个不相同的结点
+            p1=pStack1.pop();
+            p2=pStack2.pop();
+        
+    }
+    /**
+    while(!stack1.isEmpty()&amp;&amp;!stack2.isEmpty()){
+		if(stack1.peek()==stack2.peek()){
+			pHead1=stack1.pop();
+			pHead2=stack2.pop();
+		}else{ //break必须有，否则不会跳出循环，栈顶不同不应出栈
+            break;
+        }
+	}
+    */
+    return p1;
+}
+</code></pre>
+
+<p>这样时间、空间复杂度为O(m+n)</p>
+
+<p>如果不借助栈，则先遍历出链表的长度（复杂度O(m+n)），然后对较长的链表先走，使得较长的链表剩余的长度和较短的一样，然后同时遍历。</p>
+
+<pre><code class="language-java">public ListNode findFirstCommonNodeNoStack(ListNode pHead1, ListNode pHead2) {
+    if (pHead1 == null || pHead2 == null) {
+        return null;
+    }
+    ListNode p1 = pHead1;
+    ListNode p2 = pHead2;
+    int len1 = 0, len2 = 0;
+    //遍历出长度
+    while (p1 != null) {
+        p1 = p1.next;
+        len1++;
+    }
+    while (p2 != null) {
+        p2 = p2.next;
+        len2++;
+    }
+    //p1较长,p2较短
+    if (len1 &gt; len2) {
+        p1 = pHead1;
+        p2 = pHead2;
+    } else {
+        p1 = pHead2;
+        p2 = pHead1;
+    }
+    //长度差
+    int t = Math.abs(len1 - len2);
+    //p1移到和p2同样的位置
+    //注意移动的个数，若长度差是1，则只需要走1个就能到达相同的位置，所以这里终止条件是t达到0
+    while (t &gt; 0) {
+        p1 = p1.next;
+        t--;
+    }
+    //同时遍历
+    while (p1 != null &amp;&amp; p2 != null) {
+        if (p1 == p2) {
+            //找到相同的
+            return p1;
+        } else {
+            //进入下一个结点
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+    }
+    return p1;
+}
+</code></pre>
+
+<h3 id="在o-1-时间内删除链表节点">在O(1)时间内删除链表节点</h3>
+
+<p>在删除节点时，通常是找到要删除节点的前一个节点。这样才能让前一个节点的next指针指向要删除节点的下一个节点</p>
+
+<p>如果该节点不是尾节点，那么可以直接将下一个节点的值赋给要删除的节点，然后令该节点指向下个节点的后一个结点，再删除下一个节点，时间复杂度为 O(1)。</p>
+
+<p>如果链表只有一个节点，那么直接删除</p>
+
+<p>若要删除的节点是最后一个节点且链表中不只一个节点，就需要先遍历链表，找到节点的前一个节点，然后让前一个节点指向 null，时间复杂度为 O(N)。因为最后一个结点赋值为null是没有用的，前一个结点的next仍指向原来的引用位置</p>
+
+<pre><code class="language-java">public void deleteNode(ListNode head, ListNode tobeDelete) {
+    if(head==null||tobeDelete==null){
+        return;
+    }
+    //如果要删除的结点不是最后一个结点，只需要将要删除结点的值用下一个结点替代，然后将next指向下一个结点的后一个结点
+    if(tobeDelete.next!=null){
+        tobeDelete.val=tobeDelete.next.val;
+        tobeDelete.next=tobeDelete.next.next;
+    }else{
+        //只有一个结点
+        if(head.next==tobeDelete){
+            head=null;
+        }else{
+            //要删除的结点在尾部
+            while (head.next!=tobeDelete){
+                head=head.next;
+            }
+            head.next=null;
+        }
+    }
+}
+</code></pre>
+
+<h3 id="删除链表中重复的结点">删除链表中重复的结点</h3>
+
+<p>在一个排序(重要)的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针</p>
+
+<p>如<code>1-&gt;2-&gt;2-&gt;3-&gt;4-&gt;4</code>变为<code>1-&gt;3</code>，也就是有重复的结点全部删除，并不保留一个</p>
+
+<p>用三个指针遍历。first记住重复结点的前一个结点，pre是重复结点的第一个结点，after从pre下一个结点出发，直到到达和pre不同的结点。</p>
+
+<p>这里添加了一个哑结点方便遍历</p>
+
+<pre><code class="language-java">public ListNode deleteDuplication(ListNode pHead) {
+    if(pHead==null||pHead.next==null){
+        return pHead;
+    }
+    //在链表前面加了一个dummy，便于first指向，不然若需要从每一个节点开始删除比较麻烦
+    ListNode dummy=new ListNode(-1);
+    dummy.next=pHead;
+    //指向重复结点的前一个结点
+    ListNode first=dummy;
+    //pre第一个重复结点
+    ListNode pre=pHead,after=pHead.next;
+    while (pre!=null&amp;&amp;after!=null){
+        //如果pre和after等，则将after移到和pre不等的结点
+        //是值等，不是结点等
+        if(pre.val==after.val){
+            //注意after可能移到尾部
+            while (after!=null&amp;&amp;pre.val==after.val){
+                after=after.next;
+            }
+            //将中间重复的结点抛弃
+            first.next=after;
+            //after不是最后一个结点，则将pre移到下一个重复结点，然后after移到pre的后面
+            if(after!=null){
+                pre=after;
+                after=pre.next;
+            }
+        }else {
+            //pre和after不等，三个指针移动
+            first=pre;
+            pre=after;
+            after=after.next;
+        }
+    }
+    return dummy.next;
+}
+</code></pre>
+
+<p>以<code>1-&gt;2-&gt;2-&gt;2-&gt;3-&gt;4-&gt;4</code>为例</p>
+
+<ol>
+<li>初始first指向dummy,pre指向1，after指向2</li>
+<li>pre.val!=after.val,表示没有重复的1，所以pre指向2，after指向pre后面的结点也是2，first需要指向1</li>
+<li>此时pre.val==after.val，所以after后移，直到after.val=3，然后first的next指向after的位置，相当于抛弃中间所有的2。移动pre和after，pre指向3，after指向4</li>
+<li>pre.val!=after.val，三个指针一起移动，first指3，pre指向4，after也指向4（第2个4）</li>
+<li>pre.val==after.val，移动after，after到达null，所以将first的next指向after（null），此时终止</li>
+<li>最终变成<code>1-&gt;3-&gt;4</code></li>
+</ol>
+
+<p>上面写的有点复杂</p>
+
+<pre><code class="language-java">ListNode delete(ListNode pHead){
+    if (pHead==null || pHead.next==null){return pHead;}
+    ListNode dummy = new ListNode(-1);
+    dummy.next = pHead;
+    //初始指向
+    ListNode pre  = dummy;
+    ListNode last = dummy.next;
+    while (last!=null){
+        //有重复结点
+        if(last.next!=null &amp;&amp; last.val == last.next.val){
+            // 找到最后的一个相同节点,last最终指向重复结点的最后一个
+            while (last.next!=null &amp;&amp; last.val ==last.next.val){
+                last = last.next;
+            }
+            pre.next = last.next;
+            last = last.next;
+        }else{
+            //last指向的数只有一个，则pre移动，指向last
+            pre = pre.next;//pre=last也是正确的
+            last = last.next;
+        }
+    }
+    return dummy.next;
+}
+</code></pre>
+
+<p>以<code>1-&gt;2-&gt;2-&gt;2-&gt;3-&gt;4-&gt;4</code>为例</p>
+
+<ol>
+<li>初始pre指向dummy结点,last指向第一个结点</li>
+<li>1和2不等，所以pre指向1，last指向2</li>
+<li>last和last.next的val是相等的，都为2，所以last移动，直到最后一个2，此时将pre.next指向3，last移到3</li>
+<li>3和4不等，所以pre指向3，last指向4</li>
+<li>last和last.next的val都为4，移动last，此时last指向最后一个4，pre.next指向null，last移到null，终止</li>
+</ol>
+
+<p>相比于前面的代码更加简洁，且少了一个指针</p>
+
+<p>递归实现：</p>
+
+<pre><code class="language-java">ListNode deleteRecursive(ListNode head){
+    //若链表只有一个结点或者没有结点则返回
+    if(head==null||head.next==null){
+        return head;
+    }
+    //若前面结点值相同，
+    if(head.val==head.next.val){
+        ListNode cur=head.next.next;
+        //遍历到和头结点不等的结点
+        while (cur!=null&amp;&amp;cur.val==head.val){
+            cur=cur.next;
+        }
+        //前面重复的结点抛弃，删除后面结点中重复的结点
+        return deleteRecursive(cur);
+    }else{
+        head.next=deleteRecursive(head.next);
+        return head;
+    }
+}
+</code></pre>
+
+<p>参考：<a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/discuss/269412/Java-recursive-0ms-beats-100">https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/discuss/269412/Java-recursive-0ms-beats-100</a></p>
+
+<p>这题也是leetcode 82题<a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii">Remove Duplicates from Sorted List II</a></p>
+
+<p>若重复结点保留一个，如何解答，也就是leetcode 第83题<a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/">Remove Duplicates from Sorted List</a></p>
+
+<p>相比于所有重复结结点都删除，这题更简单</p>
+
+<p>双指针，pre指向重复结点的第一个，after找到下一个和pre.val不等的结点，然后将pre.next指向即可</p>
+
+<pre><code class="language-java">public ListNode deleteDuplicates(ListNode head) {
+    ListNode pre = head, after = head;
+    while (pre != null &amp;&amp; pre.next != null) {
+        after = pre.next;
+        //若两个结点不等，则后移
+        if (pre.val != after.val) {
+            pre = pre.next;
+            after = after.next;
+        } else {
+            //相等时，after移到下一个不等的结点
+            while (after != null &amp;&amp; after.val == pre.val) {
+                after = after.next;
+            }
+            //pre指向下一个不等的结点，中间相等的抛弃
+            pre.next=after;
+            pre=after;
+            //注意判断null，否则在after移到null时会出错
+            if(after!=null){
+                after=after.next;
+            }
+        }
+    }
+    return head;
+}
+</code></pre>
+
+<p>递归版</p>
+
+<pre><code class="language-java">public ListNode deleteDuplicatesRecursive(ListNode head) {
+    if(head==null||head.next==null){
+        return head;
+    }
+    if(head.val==head.next.val){
+        ListNode cur=head.next.next;
+        //找到和head.val不等的点
+        while (cur!=null&amp;&amp;cur.val==head.val){
+            cur=cur.next;
+        }
+        head.next=deleteDuplicatesRecursive(cur);
+        return head;
+    }else{
+        head.next=deleteDuplicates(head.next);
+        return head;
+    }
+}
+</code></pre>
+
+<h3 id="链表中倒数第-k-个结点-链表的中间结点">链表中倒数第 K 个结点、链表的中间结点</h3>
+
+<p>输入一个链表，输出该链表中倒数第k个结点。</p>
+
+<p>解答：</p>
+
+<p>设链表的长度为 N。设两个指针 P1 和 P2，先让 P1 移动 K 个节点，则还有 N - K 个节点可以移动。此时让 P1 和 P2 同时移动，可以知道当 P1 移动到链表结尾时(null结点，如果移到最后一个结点，则刚开始是移动K-1个)，P2 移动到 N - K 个节点处，该位置就是倒数第 K 个节点</p>
+
+<p><img src="https://gitee.com/CyC2018/CS-Notes/raw/master/docs/pics/ea2304ce-268b-4238-9486-4d8f8aea8ca4.png" alt="TailK" /></p>
+
+<p>这题和找到链表中的中间结点和三等分点是一样的。如果是中间结点也是两个指针。一个指针前进一步，另一个前进两步，最后前进一步的指针就在中间结点。如果是三等分点则用三个指针，分别前进3、2、1</p>
+
+<pre><code class="language-java">public ListNode FindKthToTail(ListNode head, int k) {
+    if(head==null){
+        return null;
+    }
+    ListNode p1=head,p2=head;
+    while (k&gt;0){
+        if(p2==null){
+            return null;
+        }
+        p2=p2.next;
+        k--;
+    }
+    while (p2!=null){
+        p1=p1.next;
+        p2=p2.next;
+    }
+    return p1;
+}
+</code></pre>
+
+<p>这题和leetcode 19题是一样的<a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/">删除倒数第k个结点</a></p>
+
+<h3 id="链表中环的入口结点">链表中环的入口结点</h3>
+
+<p>一个链表中包含环，请找出该链表的环的入口结点。要求不能使用额外的空间</p>
+
+<p>解答：</p>
+
+<p>注意环形成的位置不一定在头部，可能在中间形成环</p>
+
+<p>可以遍历链表，将链表的结点存储下来，如果结点出现了重复，则该结点就是入口结点</p>
+
+<p>使用双指针，一个指针 fast 每次移动两个节点，一个指针 slow 每次移动一个节点。</p>
+
+<p>由于存在环，所以两个指针必定相遇在环中的某个节点上。因为fast步长为2，slow步长为1，所以每次两个指针的距离缩小1，所以必定相遇。（假设不相遇，两个指针的距离至少也能够达到相距1，那下一步两个指针就会相遇，所以两个指针必相遇）</p>
+
+<p>在相遇后可以让一个指针继续走，然后再次相遇这样就可以得到环中结点数，然后再从链表的头结点出发，就可以得到入口结点，这就相当于找倒数k个结点。</p>
+
+<p>假设x为环前面的路程（黑色路程），a为环入口到相遇点的路程（蓝色路程，假设顺时针走）， c为环的长度（蓝色+橙色路程）</p>
+
+<p><img src="https://uploadfiles.nowcoder.com/images/20170311/646147_1489199577531_5B1EFEB8A03B04A4781BC78AC00B89CE" alt="环" /></p>
+
+<p>此时慢指针走的路程为$Sslow = x + m * c + a$
+快指针走的路程为$Sfast = x + n * c + a$</p>
+
+<p>$$
+2 Sslow = Sfast <br />
+2 * ( x + m*c + a ) = (x + n *c + a)<br />
+x = (n - 2 * m )*c - a
+= (n - 2 *m -1 )*c + c - a<br />
+$$
+即环前面的路程 = 数个环的长度（为可能为0） + c - a
+c - a就是相遇点后，环后面部分的路程。（橙色路程）</p>
+
+<p>让一个指针指向环上的相遇点，一个指针指向头结点，同时以步长为1往后走，其碰头的那个结点，就是入口结点</p>
+
+<pre><code class="language-java">public ListNode EntryNodeOfLoop(ListNode pHead){
+    if(pHead == null ||pHead.next==null){
+        return null;
+    }
+    ListNode fast=pHead;
+    ListNode slow=pHead;
+    do{
+        fast=fast.next.next;
+        slow=slow.next;
+    }while (fast!=slow);
+    fast=pHead;
+    while (slow!=fast){
+        slow=slow.next;
+        fast=fast.next;
+    }
+    return slow;
+}
+</code></pre>
+
+<p>仅判断是否有环</p>
+
+<pre><code class="language-java">public boolean hasCycle(ListNode head) {
+    if(head==null){
+         return false;
+     }
+     ListNode slow=head,fast=head;
+     while (fast!=null&amp;&amp;fast.next!=null){
+         slow=slow.next;
+         fast=fast.next.next;
+         if(fast==slow){
+             return true;
+         }
+     }
+     return false;
+ }
+</code></pre>
+
+<h3 id="从尾到头打印链表">从尾到头打印链表</h3>
+
+<p>输入链表的第一个节点，从尾到头反过来打印出每个结点的值。</p>
+
+<p>栈</p>
+
+<pre><code class="language-java">public ArrayList&lt;Integer&gt; printListFromTailToHead(ListNode listNode){
+    Stack&lt;Integer&gt; stack=new Stack&lt;&gt;();
+    while (listNode!=null){
+        stack.add(listNode.val);
+        listNode=listNode.next;
+    }
+    ArrayList&lt;Integer&gt; res=new ArrayList&lt;&gt;(stack.size());
+    while (!stack.isEmpty()){
+        res.add(stack.pop());
+    }
+    return res;
+}
+</code></pre>
+
+<p>递归</p>
+
+<pre><code class="language-java">public ArrayList&lt;Integer&gt; printListFromTailToHead(ListNode listNode) {
+    ArrayList&lt;Integer&gt; ret = new ArrayList&lt;&gt;();
+    if (listNode != null) {
+        //将listNode结点后面的所有结点加入
+        ret.addAll(printListFromTailToHead(listNode.next));
+        //加入当前结点
+        ret.add(listNode.val);
+    }
+    return ret;
+}
+</code></pre>
+
+<p>头插法：反转链表。其实就是用头插法将链表反转，然后输出.这样写改变了链表</p>
+
+<pre><code class="language-java">public ArrayList&lt;Integer&gt; printListFromTailToHead2(ListNode listNode){
+    ListNode head=new ListNode(-1);
+    while (listNode!=null){
+        ListNode temp=listNode.next;
+        listNode.next=head.next;
+        head.next=listNode;
+        listNode=temp;
+    }
+    ArrayList&lt;Integer&gt; res=new ArrayList&lt;&gt;();
+    head=head.next;
+    while (head!=null){
+        res.add(head.val);
+        head=head.next;
+    }
+    return res;
+}
+</code></pre>
+
+<h3 id="反转链表">反转链表</h3>
+
+<p>输入一个链表，反转链表后，输出新链表的表头。</p>
+
+<p>头插法：添加一个dummy结点，然后将链表中的结点不断的向dummy的下一个结点添加</p>
+
+<pre><code class="language-java">public ListNode RreverseList(ListNode cur) {
+    ListNode dummy=new ListNode(-1);
+    //这里加的结点不能指向头结点，否则会造成环
+    //dummy.next=cur;
+    ListNode temp;
+    while (cur!=null){
+        //记录cur的下一个结点
+        //cur是要插入到dummy的后面的，不记录会丢失后继结点
+        temp=cur.next;
+        //插入到dummy的后面
+        cur.next=dummy.next;
+        dummy.next=cur;
+        //移动
+        cur=temp;
+    }
+    return dummy.next;
+}
+````
+
+也可以不添加dummy直接往头部插
+
+```java
+public ListNode reverseSingleList(ListNode cur){
+    ListNode pre = null;
+    ListNode next = null;
+    while (cur != null){
+        next = cur.next;
+        //pre记录的是反转时的头结点，cur不停的放在pre的前面
+        cur.next = pre;
+        //pre需要更新
+        pre = cur;
+        //移动cur结点
+        cur = next;
+    }
+    return pre;
+}
+</code></pre>
+
+<p>递归</p>
+
+<pre><code class="language-java">public ListNode ReverseList(ListNode head) {
+    //链表为空，或者只有一个结点的时候，递归终止
+    //head为null只在输入的链表就为空的情况下出现
+    if (head == null || head.next == null)
+        return head;
+    //对以next为头结点反转为，next就是最后一个结点
+    ListNode next = head.next;
+    //要把当前结点指向null，否则会和next形成环
+    head.next = null;
+    ListNode newHead = ReverseList(next);
+    //将head放到最后
+    next.next = head;
+    return newHead;
+}
+</code></pre>
+
+<h3 id="合并两个排序的链表">合并两个排序的链表</h3>
+
+<p>递归</p>
+
+<pre><code class="language-java">public ListNode Merge(ListNode list1, ListNode list2) {
+    if (list1 == null)
+        return list2;
+    if (list2 == null)
+        return list1;
+    if (list1.val &lt;= list2.val) {
+        list1.next = Merge(list1.next, list2);
+        return list1;
+    } else {
+        list2.next = Merge(list1, list2.next);
+        return list2;
+    }
+}
+</code></pre>
+
+<p>迭代，类似于归并排序中的合并</p>
+
+<pre><code class="language-java">public ListNode merge(ListNode list1, ListNode list2) {
+    ListNode p1=list1;
+    ListNode p2=list2;
+    ListNode head=new ListNode(-1);
+    ListNode cur=head;
+    while (p1!=null&amp;&amp;p2!=null){
+        if(p1.val&lt;p2.val){
+            cur.next=p1;
+            cur=p1;
+            p1=p1.next;
+        }else{
+            cur.next=p2;
+            cur=p2;
+            p2=p2.next;
+        }
+    }
+    while (p1!=null){
+        cur.next=p1;
+        cur=p1;
+        p1=p1.next;
+    }
+    while (p2!=null){
+        cur.next=p2;
+        cur=p2;
+        p2=p2.next;
+    }
+    //对于最后一个结点为什么指向了null。因最后一个结点也是原链表中的最后一个结点所以必指向null
+    return head.next;
+}
+</code></pre>
+
+<h3 id="复杂链表的复制">复杂链表的复制</h3>
+
+<p>输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。</p>
+
+<pre><code class="language-java">public class RandomListNode {
+    int label;
+    RandomListNode next = null;
+    RandomListNode random = null;
+
+    RandomListNode(int label) {
+        this.label = label;
+    }
+}
+</code></pre>
+
+<p>解答：</p>
+
+<p>先在每个结点后面复制一个结点，如原链表<code>1-&gt;2-&gt;3-&gt;4</code>，变成<code>1-&gt;1-&gt;2-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4</code>.</p>
+
+<p>然后对复制的结点的random链进行赋值。然后拆分</p>
+
+<pre><code class="language-java">public class RandomListNode {
+    int label;
+    RandomListNode next = null;
+    RandomListNode random = null;
+
+    RandomListNode(int label) {
+        this.label = label;
+    }
+}
+
+class RandomListNodeClone {
+    public RandomListNode Clone(RandomListNode pHead) {
+        if (pHead == null) {
+            return null;
+        }
+        RandomListNode cur = pHead;
+        //复制一个结点出来，并且相连
+        //cur-&gt;clone-&gt;cur-&gt;clone
+        while (cur != null) {
+            RandomListNode clone = new RandomListNode(cur.label);
+            clone.next = cur.next;
+            cur.next = clone;
+            cur = clone.next;
+        }
+        cur = pHead;
+        //设置clone结点的random指针
+        while (cur != null) {
+            RandomListNode clone = cur.next;
+            //有random指针，cur是原来的结点
+            //clone指向复制的结点
+            if (cur.random != null) {
+                clone.random = cur.random.next;
+            }
+            //cur指向下一个原来的结点
+            //原链表中可能存在random指向null，所以需要将此代码放在判断的外面，放在if时面可能出现死循环
+            cur = clone.next;
+        }
+        cur = pHead;
+        //复制的链表的头结点
+        RandomListNode cloneHead = pHead.next;
+        while (cur.next != null) {
+            //cur初始指向的是原来的结占，然后让cur的next指针指向原来的下一个结点
+            //然后cur又指向原来cur的复制结点
+            //也就是说每次操作都将结点的next 指针指向下一个结点的下一个结点
+            RandomListNode next = cur.next;
+            cur.next = next.next;
+            cur = next;
+        }
+        return cloneHead;
+    }
+}
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/">Leetcode 第4题 Median of Two Sorted Arrays</a></li>
+        
+        <li><a href="/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/">Leetcode 第229题 Majority Element II</a></li>
+        
+        <li><a href="/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/">Leetcode 第343题</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98/">Leetcode 第240题</a></li>
+        
+        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">Leetcode 第136题</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer">剑指offer</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.njutzhangjie.cn/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/22/%E5%89%91%E6%8C%87offer-%E9%93%BE%E8%A1%A8/" title="剑指offer-链表">剑指offer-链表</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/" title="Leetcode 第4题 Median of Two Sorted Arrays">Leetcode 第4题 Median of Two Sorted Arrays</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/29/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B02/" title="Redis开发与运维笔记2">Redis开发与运维笔记2</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/" title="Leetcode 第229题 Majority Element II">Leetcode 第229题 Majority Element II</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/19/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B01/" title="Redis开发与运维笔记1">Redis开发与运维笔记1</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/" title="Leetcode 第343题">Leetcode 第343题</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/18/Java%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86/" title="Java集合的遍历">Java集合的遍历</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/" title="Windows平台下向IDEA中导入Spring源码">Windows平台下向IDEA中导入Spring源码</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/16/Mybatis-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AFCaused-by-java.lang.ClassNotFoundException-org.apache.log4j.Priority/" title="Mybatis 出现错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority">Mybatis 出现错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98/" title="Leetcode 第240题">Leetcode 第240题</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Java/">Java(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Redis/">Redis(2)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/mybatis/">mybatis(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/spring/">spring(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%8E%92%E9%94%99%E4%B9%8B%E8%B7%AF/">排错之路(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(11)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Java/">Java</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Redis/">Redis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/bug/">bug</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/leetcode/">leetcode</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mybatis/">mybatis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mysql/">mysql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/spring/">spring</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/sql/">sql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer/">剑指offer</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%BA%90%E7%A0%81/">源码</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%9B%86%E5%90%88/">集合</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.njutzhangjie.cn/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="http://blog.njutzhangjie.cn/">zhangjie&#39;s blog By zhangjie</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

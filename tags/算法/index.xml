@@ -6,10 +6,28 @@
     <description>Recent content in 算法 on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 22 Mar 2019 09:29:13 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 22 Apr 2019 08:35:54 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指offer-链表</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/22/%E5%89%91%E6%8C%87offer-%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Mon, 22 Apr 2019 08:35:54 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/22/%E5%89%91%E6%8C%87offer-%E9%93%BE%E8%A1%A8/</guid>
+      <description>剑指offer 链表 两个链表的第一个公共结点 输入两个链表，找出它们的第一个公共结点。 这题最简单的就是先遍历一个链表，每到一个元素再遍历另一个链</description>
+    </item>
+    
+    <item>
+      <title>Leetcode 第4题 Median of Two Sorted Arrays</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/</link>
+      <pubDate>Sun, 21 Apr 2019 14:50:28 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/</guid>
+      <description>第4题 Median of Two Sorted Arrays 问题 有两个已排序的数组num1和num2，数组大小分别是m和n。找到这两个数组的中位数。时间复杂度应该是$O(log(m+n</description>
+    </item>
     
     <item>
       <title>Leetcode 第229题 Majority Element II</title>
