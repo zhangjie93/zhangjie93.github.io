@@ -7,27 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Leetcode 第344题 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Leetcode 第344题 - zhangjie&#39;s blog">
+    <title>排序 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="排序 - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-04-27T10:03:09&#43;08:00">
-        
-        
-    <meta property="article:modified_time" content="2019-04-27T10:03:09&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Leetcode 第344题 Reverse String">
+    <meta name="description" content="排序">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/27/Leetcode-%E7%AC%AC344%E9%A2%98/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/tags/%E6%8E%92%E5%BA%8F/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
     
-        <link rel="stylesheet" href="/css/prism.css">
-    
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.njutzhangjie.cn/tags/%E6%8E%92%E5%BA%8F/index.xml" title="zhangjie's blog" />
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
     
@@ -36,6 +31,7 @@
     
     
 </head>
+
 
 <body>
 <header id="header" class="clearfix">
@@ -51,7 +47,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
+                    <a class="" href="http://blog.njutzhangjie.cn/">首页</a>
                     
                     <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
                     
@@ -72,101 +68,47 @@
 
             <div class="col-8" id="main">
                 <div class="res-cons">
-                    <article class="post">
-                        <header>
-                            <h1 class="post-title">Leetcode 第344题</h1>
-                        </header>
-                        <date class="post-meta meta-date">
-                            2019年4月27日
-                        </date>
-                        
-                        <div class="post-meta">
-                            <span>|</span>
-                            
-                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
-                            
-                        </div>
-                        
-                        
-                        <div class="post-content">
-                            
-
-<h1 id="第344题-reverse-string-https-leetcode-com-problems-reverse-string">第344题 <a href="https://leetcode.com/problems/reverse-string/">Reverse String</a></h1>
-
-<h2 id="题目">题目</h2>
-
-<p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 char[] 的形式给出。</p>
-
-<p>不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。</p>
-
-<p>你可以假设数组中的所有字符都是 ASCII 码表中的可打印字符。</p>
-
-<h2 id="解答">解答</h2>
-
-<p>简单题，遍历交换，注意在中间数字的左边中止即可</p>
-
-<pre><code class="language-java">public class ReverseString {
-    public void reverseString(char[] s) {
-        if(s==null||s.length&lt;=1){
-            return;
-        }
-        int len=s.length;
-        //i遍历到中间数的左边
-        for (int i = 0; i &lt;=(len-1)/2 ; i++) {
-            char temp=s[i];
-            s[i]=s[len-1-i];
-            s[len-1-i]=temp;
-        }
-    }
-}
-</code></pre>
-
-                        </div>
-
-                        
-
-
-                        
-
-<div class="post-archive">
-    <h2>See Also</h2>
-    <ul class="listing">
-        
-        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
-        
-        <li><a href="/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/">Leetcode 第4题 Median of Two Sorted Arrays</a></li>
-        
-        <li><a href="/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/">Leetcode 第229题 Majority Element II</a></li>
-        
-        <li><a href="/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/">Leetcode 第343题</a></li>
-        
-        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98/">Leetcode 第240题</a></li>
-        
-    </ul>
-</div>
-
-
-                        <div class="post-meta meta-tags">
-                            
-                            <ul class="clearfix">
-                                
-                                <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
-                                
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
-                                
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2">字符串</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    </article>
                     
-    
+                    <h3 class="archive-title">
+                        包含标签
+                        <span class="keyword">排序</span>
+                        的文章
+                    </h3>
+                    
 
-    
-    
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="http://blog.njutzhangjie.cn/2019/04/27/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">常见排序算法</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月27日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                常见排序算法 补充：算法的稳定性定义为对于待排序列中相同项的原来次序不能被算法改变则称该算法稳定。 对于稳定性： 冒泡排序：冒泡是将小的元素或大的……
+                                <p class="readmore"><a href="http://blog.njutzhangjie.cn/2019/04/27/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+
+
                 </div>
             </div>
+
             <div id="secondary">
     <section class="widget">
         <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
@@ -330,24 +272,9 @@
 </footer>
 
 
-    <script type="text/javascript">
-    
-    (function(){
-        $("pre code").parent().addClass("line-numbers")
-    }())
-
-    window.MathJax = {
-        tex2jax: {
-            inlineMath: [ ['$','$'] ],
-            processEscapes: true
-        }
-    };
-    </script>
-    <script type="text/javascript" src="/js/prism.js" async="true"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
 
 
 
