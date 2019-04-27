@@ -6,10 +6,19 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 27 Apr 2019 10:03:09 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 27 Apr 2019 10:10:18 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第387题</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/27/Leetcode-%E7%AC%AC387%E9%A2%98/</link>
+      <pubDate>Sat, 27 Apr 2019 10:10:18 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/27/Leetcode-%E7%AC%AC387%E9%A2%98/</guid>
+      <description>第387题 First Unique Character in a String 问题 给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。 案例: s = &amp;ldquo;leetcode&amp;rdquo; 返回 0. s = &amp;ldquo;loveleetcode&amp;rdquo;, 返回 2.</description>
+    </item>
     
     <item>
       <title>Leetcode 第344题</title>

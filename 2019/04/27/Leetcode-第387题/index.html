@@ -7,22 +7,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Redis | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Redis - zhangjie&#39;s blog">
+    <title>Leetcode 第387题 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第387题 - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content="2019-04-27T10:10:18&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-04-27T10:10:18&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Redis">
+    <meta name="description" content="Leetcode 第387题 First Unique Character in a String">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/tags/Redis/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/27/Leetcode-%E7%AC%AC387%E9%A2%98/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
     
+        <link rel="stylesheet" href="/css/prism.css">
+    
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="alternate" type="application/rss+xml+xml" href="http://blog.njutzhangjie.cn/tags/Redis/index.xml" title="zhangjie's blog" />
     <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
     
@@ -31,7 +36,6 @@
     
     
 </head>
-
 
 <body>
 <header id="header" class="clearfix">
@@ -47,7 +51,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="http://blog.njutzhangjie.cn/">首页</a>
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
                     
                     <a  href="http://blog.njutzhangjie.cn/algorithms/" title="算法">算法</a>
                     
@@ -68,70 +72,107 @@
 
             <div class="col-8" id="main">
                 <div class="res-cons">
-                    
-                    <h3 class="archive-title">
-                        包含标签
-                        <span class="keyword">Redis</span>
-                        的文章
-                    </h3>
-                    
-
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="http://blog.njutzhangjie.cn/2019/03/29/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B02/">Redis开发与运维笔记2</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年3月29日
-                            </date>
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Leetcode 第387题</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年4月27日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
                             
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="http://blog.njutzhangjie.cn/categories/Redis">Redis</a>
-                                
-                            </div>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
                             
-                            <div class="post-content">
-                                Redis功能 慢查询分析 一个命令的执行过程： graph LR 发送命令--&gt;命令排队 命令排队--&gt;命令执行 命令执行--&gt;返回结果 慢查询只……
-                                <p class="readmore"><a href="http://blog.njutzhangjie.cn/2019/03/29/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B02/">阅读全文</a></p>
-                            </div>
-                        </article>
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="http://blog.njutzhangjie.cn/2019/03/19/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B01/">Redis开发与运维笔记1</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年3月19日
-                            </date>
+                        </div>
+                        
+                        
+                        <div class="post-content">
                             
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="http://blog.njutzhangjie.cn/categories/Redis">Redis</a>
-                                
-                            </div>
+
+<h1 id="第387题-first-unique-character-in-a-string-https-leetcode-com-problems-first-unique-character-in-a-string">第387题 <a href="https://leetcode.com/problems/first-unique-character-in-a-string/">First Unique Character in a String</a></h1>
+
+<h2 id="问题">问题</h2>
+
+<p>给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。</p>
+
+<p>案例:</p>
+
+<p>s = &ldquo;leetcode&rdquo;
+返回 0.</p>
+
+<p>s = &ldquo;loveleetcode&rdquo;,
+返回 2.</p>
+
+<h2 id="解答">解答</h2>
+
+<p>先统计，然后再次遍历即可</p>
+
+<pre><code class="language-java">public class FirstUniqueCharacterString {
+    public int firstUniqChar(String s) {
+        int[] count=new int[256];
+        for (int i = 0; i &lt; s.length(); i++) {
+            char c=s.charAt(i);
+            count[c-'0']++;
+        }
+        for (int i = 0; i &lt; s.length(); i++) {
+            char c=s.charAt(i);
+            if(count[c-'0']==1){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/04/27/Leetcode-%E7%AC%AC344%E9%A2%98/">Leetcode 第344题</a></li>
+        
+        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        
+        <li><a href="/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/">Leetcode 第4题 Median of Two Sorted Arrays</a></li>
+        
+        <li><a href="/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/">Leetcode 第229题 Majority Element II</a></li>
+        
+        <li><a href="/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/">Leetcode 第343题</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
                             
-                            <div class="post-content">
-                                Redis Redis初识 Redis是一种基于键值对（key-value）的NoSQL数据库。 Redis中的值可以是由string（字符串）、hash……
-                                <p class="readmore"><a href="http://blog.njutzhangjie.cn/2019/03/19/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B01/">阅读全文</a></p>
-                            </div>
-                        </article>
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2">字符串</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
                     
+    
 
-                    
-
-
-
-
+    
+    
                 </div>
             </div>
-
             <div id="secondary">
     <section class="widget">
         <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
@@ -293,9 +334,24 @@
 </footer>
 
 
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
-
 
 
 
