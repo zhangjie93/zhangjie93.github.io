@@ -6,10 +6,19 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 27 Apr 2019 10:17:31 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 14:42:40 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第5题 Longest Palindromic Substring</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/28/Leetcode-%E7%AC%AC5%E9%A2%98-Longest-Palindromic-Substring/</link>
+      <pubDate>Sun, 28 Apr 2019 14:42:40 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/28/Leetcode-%E7%AC%AC5%E9%A2%98-Longest-Palindromic-Substring/</guid>
+      <description>第5题 Longest Palindromic Substring 问题 给定字符串s，在s中找到最长回文子串。s的最长长度是1000. s=&amp;quot;babad&amp;quot; substring=&amp;quot;bab&amp;quot;； //最长</description>
+    </item>
     
     <item>
       <title>常见排序算法</title>
