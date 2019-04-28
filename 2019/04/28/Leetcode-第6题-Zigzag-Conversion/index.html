@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Leetcode 第136题 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Leetcode 第136题 - zhangjie&#39;s blog">
+    <title>Leetcode 第6题 Zigzag Conversion | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第6题 Zigzag Conversion - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-03-14T12:49:07&#43;08:00">
+    <meta property="article:published_time" content="2019-04-28T15:01:57&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-03-14T12:49:07&#43;08:00">
+    <meta property="article:modified_time" content="2019-04-28T15:01:57&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Leetcode 第3题 Single Number">
+    <meta name="description" content="leetcode">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/28/Leetcode-%E7%AC%AC6%E9%A2%98-Zigzag-Conversion/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -74,10 +74,10 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Leetcode 第136题</h1>
+                            <h1 class="post-title">Leetcode 第6题 Zigzag Conversion</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年3月14日
+                            2019年4月28日
                         </date>
                         
                         <div class="post-meta">
@@ -91,66 +91,62 @@
                         <div class="post-content">
                             
 
-<h1 id="第136题-single-number-https-leetcode-com-problems-single-number">第136题 <a href="https://leetcode.com/problems/single-number/">Single Number</a></h1>
+<h1 id="第6题-zigzag-conversion-https-leetcode-com-problems-zigzag-conversion">第6题 <a href="https://leetcode.com/problems/zigzag-conversion/">Zigzag Conversion</a></h1>
 
 <h2 id="问题">问题</h2>
 
-<p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素</p>
+<p>给定一个字符串s和一个正整数numRows。将字符串按照“之”字形重写，行数是numRows</p>
 
-<p>算法应该具有线性时间复杂度。</p>
+<p>如<code>s=&quot;PAYPALISHIRING&quot;</code>,<code>numRows=3</code>，重写成如下字符串</p>
 
-<p>如果不使用额外空间该如何实现</p>
+<pre><code class="language-java">P   A   H   N
+A P L S I I G
+Y   I   R
+</code></pre>
 
 <h2 id="解答">解答</h2>
 
-<p>最简单的方法就是记录每个数字的出现次数</p>
+<p>这题就是找规律</p>
 
-<pre><code class="language-java">public int singleNumber(int[] nums) {
-    HashMap&lt;Integer,Integer&gt; map=new HashMap&lt;&gt;();
-    for (int num :
-            nums) {
-        if(!map.containsKey(num)){
-            map.put(num,1);
-        }else{
-            map.put(num,map.get(num)+1);
-        }
-    }
-    for(Map.Entry&lt;Integer,Integer&gt; entry:map.entrySet(){
-        if(entry.getValue()==1){
-            return entry.getKey();
-        }
-    }
-    return 0;
-}
+<p>把字符串全换成索引，设numRows=5</p>
+
+<pre><code class="language-java">0           8             16  //第一行数的间隔是numRow2*2-2
+1        7  9          15
+2     6     10      14
+3  5        11  13
+4           12  
 </code></pre>
 
-<p>这题强调了除了有一个元素出现一次之外，其它元素都是两次。两个相同的数异或的结果为0</p>
-
-<ol>
-<li>满足交换律：A^B = B^A</li>
-<li>满足结合律：(A\^B)^C = A\^(B^C)</li>
-<li>0^A = A</li>
-<li>A^A = 0</li>
-</ol>
-
-<p>设给定的nums数组元素有n个(n为奇数，即n = 2k+1)，记为$a_q,a<em>2,&hellip;,a</em>{n=2k+1}$</p>
-
-<p>则</p>
-
-<p>$$
-0\wedge a_1\wedge a<em>2 \wedge &hellip; \wedge a</em>{n=2k+1} <br />
-= 0^(b<em>1 \wedge b</em>{k+1})\wedge (b<em>2 \wedge b</em>{k+2})\wedge &hellip;\wedge (b<em>k\wedge b</em>{2k}) \wedge b_{2k+1}
-$$</p>
-
-<p>其中,$b<em>i$和$b</em>{k+i}$(i=1,2,&hellip;,k)是出现两次的同一个数字，$b_{2k+1}$是仅出现一次的数字</p>
-
-<pre><code class="language-java">public int singleNumber(int[] nums) {  
-    int res=0;
-    for (int num :
-            nums) {
-        res=res^num;
+<pre><code class="language-java"> public  String fill(int start,int initDistance,int magic,String s){
+    StringBuilder sb=new StringBuilder();
+    while ((start&lt;s.length())){
+        //最后一行和第一行的initial distance应该是magic
+        if(initDistance==0) {
+            initDistance=magic;
+        }
+        sb.append(s.charAt(start));
+        //加上距离
+        start+=initDistance;
+        //下一个距离和本次距离之和为magic
+        initDistance=magic-initDistance;
     }
-    return res;
+    return sb.toString();
+}
+public String convert(String s, int numRows) {
+    int length=s.length();
+    if(length==0||numRows==1||s==null){
+        return s;
+    }
+    StringBuilder res=new StringBuilder(s.length());
+    //magic表示转换之后第一行字符之间的距离，后面递减2
+    int magic=numRows+numRows-2;
+    int distance=magic;
+    //每一行的初始
+    for (int i = 0; i &lt; numRows; i++) {
+        res.append(fill(i,distance,magic,s));
+        distance-=2;
+    }
+    return res.toString();
 }
 </code></pre>
 
@@ -165,15 +161,15 @@ $$</p>
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        <li><a href="/2019/04/28/Leetcode-%E7%AC%AC5%E9%A2%98-Longest-Palindromic-Substring/">Leetcode 第5题 Longest Palindromic Substring</a></li>
         
-        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC2%E9%A2%98-Add-Tow-Numbers/">Leetcode 第2题 Add Tow Numbers</a></li>
+        <li><a href="/2019/04/27/Leetcode-%E7%AC%AC387%E9%A2%98/">Leetcode 第387题</a></li>
         
-        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/">Leetcode 第1题 Two Sum</a></li>
+        <li><a href="/2019/04/27/Leetcode-%E7%AC%AC344%E9%A2%98/">Leetcode 第344题</a></li>
         
-        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/">Leetcode 第169题 Majority Element</a></li>
+        <li><a href="/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/">Leetcode 第4题 Median of Two Sorted Arrays</a></li>
         
-        <li><a href="/2019/03/09/leetcode-%E7%AC%AC179%E9%A2%98-Largest-Number/">leetcode 第179题 Largest Number</a></li>
+        <li><a href="/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/">Leetcode 第229题 Majority Element II</a></li>
         
     </ul>
 </div>
