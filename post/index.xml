@@ -21,11 +21,11 @@
     </item>
     
     <item>
-      <title>Leetcode 第10题</title>
-      <link>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98/</link>
+      <title>Leetcode 第10题 Regular Expression Matching</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/</link>
       <pubDate>Mon, 29 Apr 2019 09:41:35 +0800</pubDate>
       
-      <guid>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98/</guid>
+      <guid>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/</guid>
       <description>第10题 Regular Expression Matching 问题 实现正则匹配。给定字符串s和匹配规则p。判断p是否能够匹配字符串s。在规则中,&amp;quot;.&amp;quot;表示任何一个字符，</description>
     </item>
     
