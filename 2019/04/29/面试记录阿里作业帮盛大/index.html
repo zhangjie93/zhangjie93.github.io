@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Leetcode 第7题  Reverse Integer | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Leetcode 第7题  Reverse Integer - zhangjie&#39;s blog">
+    <title>面试记录（阿里、作业帮、盛大） | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="面试记录（阿里、作业帮、盛大） - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-04-29T09:26:09&#43;08:00">
+    <meta property="article:published_time" content="2019-04-29T09:49:57&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-04-29T09:26:09&#43;08:00">
+    <meta property="article:modified_time" content="2019-04-29T09:49:57&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="leetcode 第7题 将整数反转">
+    <meta name="description" content="面试题记录">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC7%E9%A2%98-Reverse-Integer/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/29/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E9%98%BF%E9%87%8C%E4%BD%9C%E4%B8%9A%E5%B8%AE%E7%9B%9B%E5%A4%A7/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -74,7 +74,7 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Leetcode 第7题  Reverse Integer</h1>
+                            <h1 class="post-title">面试记录（阿里、作业帮、盛大）</h1>
                         </header>
                         <date class="post-meta meta-date">
                             2019年4月29日
@@ -83,7 +83,7 @@
                         <div class="post-meta">
                             <span>|</span>
                             
-                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E9%9D%A2%E8%AF%95">面试</a></span>
                             
                         </div>
                         
@@ -91,30 +91,103 @@
                         <div class="post-content">
                             
 
-<h1 id="第7题-reverse-integer-https-leetcode-com-problems-reverse-integer">第7题 <a href="https://leetcode.com/problems/reverse-integer/">Reverse Integer</a></h1>
+<h1 id="面试总结">面试总结</h1>
 
-<h2 id="问题">问题</h2>
+<h2 id="阿里">阿里</h2>
 
-<p>给定一个整数，将整数反转，如123变为321，120变为21(前导0要去除),-123变为(-321)</p>
+<h3 id="一面">一面</h3>
 
-<h2 id="解答">解答</h2>
+<p>序列化：如何实现序列化，有哪些方式，JDK原生的序列化和Protocal Buf有什么不同</p>
 
-<p>这题很简单，从个位开始将每一位数提出，然后对之前的数乘以10再加上当前位。如123，第一位（从个位开始）是3，则sum=0*10+3=3;第2位是2，则3*10+2=32;第3位是1，则32*10+1=321。乘10的原因就是左移1位（注意不是java中的左移<code>&lt;&lt;</code>，java中<code>&lt;&lt;</code>相当于乘2）相当于乘10</p>
+<p>如何不序列化某个变量，station变量为什么不能序列化，private能被序列化，final能被序列化</p>
 
-<pre><code class="language-java">public int reverse(int x) {
-     int sum=0;
-    while (x != 0) {
-        if(Math.abs(sum)&gt;Integer.MAX_VALUE/10){
-            return 0;
-        }
-        //不需要提前判断x的位数，只需要在对每位数相加时，对之前的数乘以10
-        //x%10求出每一位
-        sum=sum*10+x%10;
-        x/=10;
-    }
-    return sum;
-}
-</code></pre>
+<p>SerialVersionID是privat static的</p>
+
+<p>分布式ID的生成</p>
+
+<h3 id="二面">二面</h3>
+
+<p>索引的优化</p>
+
+<p>A继承B，A、B都有SerialVersionID，序列化A则会使用哪个ID，若类没有实现ID，则会如何</p>
+
+<p>enum的序列化</p>
+
+<p>JDK新特性</p>
+
+<p>数据库三范式</p>
+
+<h3 id="一面-1">一面</h3>
+
+<p>最左前缀原则</p>
+
+<p>ConcurrentHashMpa的实现， 和HashTable的不同</p>
+
+<p>数组的元素组成最大的数，不用s1+s2和s2+s1这种方式进行比较，补长</p>
+
+<p>索引为什么用B+树，为什么不用AVL</p>
+
+<p>常见的设计模式</p>
+
+<p>有哪些了解的架构模式（SOA、微服务等）</p>
+
+<h3 id="二面-1">二面</h3>
+
+<p>转账这个过程是如何反应事务的ACID</p>
+
+<p>如何优化IO</p>
+
+<p>MySQL锁的实现：乐观锁实现、悲观锁的实现</p>
+
+<p>CAS实现锁：ReentrantLock的实现</p>
+
+<p>输入一个域名到服务器的过程</p>
+
+<p>SpringMVC的处理过程</p>
+
+<p>Paxos协议，选举算法</p>
+
+<p>Tomcat的实现</p>
+
+<p>Redis集群的原理，Redis集群之间的通信</p>
+
+<p>分布式事务如何实现</p>
+
+<p>如何在一本书中快速的找到单词个数前十的单词</p>
+
+<h2 id="作业帮">作业帮</h2>
+
+<p>最小生成树算法</p>
+
+<p>AVL</p>
+
+<h2 id="其它">其它</h2>
+
+<p>Redis实现分式锁：ping-pong心跳</p>
+
+<p>分布式事务</p>
+
+<p>负载均衡：域名负载均衡</p>
+
+<p>后端语言：JVM支持的语言：Groovy，JRuby,Scala, Fantom,Jython</p>
+
+<p>Redis键的遍历，如何解决遍历的耗时问题</p>
+
+<p>dubbo:</p>
+
+<p>NIO为什么应用不广泛</p>
+
+<p>Netty</p>
+
+<p>布隆过滤器</p>
+
+<p>SOA和微服务</p>
+
+<p>主从同步的一致性</p>
+
+<p>NewSQL</p>
+
+<p>中间件缺点</p>
 
                         </div>
 
@@ -127,15 +200,15 @@
     <h2>See Also</h2>
     <ul class="listing">
         
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98/">Leetcode 第10题</a></li>
+        
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/">Leetcode 第9题 Palindrome Number</a></li>
+        
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/">Leetcode 第8题 String to Integer</a></li>
+        
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC7%E9%A2%98-Reverse-Integer/">Leetcode 第7题  Reverse Integer</a></li>
+        
         <li><a href="/2019/04/28/Leetcode-%E7%AC%AC6%E9%A2%98-Zigzag-Conversion/">Leetcode 第6题 Zigzag Conversion</a></li>
-        
-        <li><a href="/2019/04/28/Leetcode-%E7%AC%AC5%E9%A2%98-Longest-Palindromic-Substring/">Leetcode 第5题 Longest Palindromic Substring</a></li>
-        
-        <li><a href="/2019/04/27/Leetcode-%E7%AC%AC387%E9%A2%98/">Leetcode 第387题</a></li>
-        
-        <li><a href="/2019/04/27/Leetcode-%E7%AC%AC344%E9%A2%98/">Leetcode 第344题</a></li>
-        
-        <li><a href="/2019/04/21/Leetcode-%E7%AC%AC4%E9%A2%98-Median-of-Two-Sorted-Arrays/">Leetcode 第4题 Median of Two Sorted Arrays</a></li>
         
     </ul>
 </div>
@@ -145,9 +218,7 @@
                             
                             <ul class="clearfix">
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
-                                
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E9%9D%A2%E8%AF%95">面试</a></li>
                                 
                             </ul>
                             

@@ -6,10 +6,19 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 29 Apr 2019 09:41:35 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 09:49:57 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>面试记录（阿里、作业帮、盛大）</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/29/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E9%98%BF%E9%87%8C%E4%BD%9C%E4%B8%9A%E5%B8%AE%E7%9B%9B%E5%A4%A7/</link>
+      <pubDate>Mon, 29 Apr 2019 09:49:57 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/29/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E9%98%BF%E9%87%8C%E4%BD%9C%E4%B8%9A%E5%B8%AE%E7%9B%9B%E5%A4%A7/</guid>
+      <description>面试总结 阿里 一面 序列化：如何实现序列化，有哪些方式，JDK原生的序列化和Protocal Buf有什么不同 如何不序列化某个变量，station</description>
+    </item>
     
     <item>
       <title>Leetcode 第10题</title>
