@@ -6,10 +6,28 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 29 Apr 2019 09:26:09 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 09:40:00 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第9题 Palindrome Number</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/</link>
+      <pubDate>Mon, 29 Apr 2019 09:40:00 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/</guid>
+      <description>第9题 Palindrome Number 问题 判断一个整数是否是回文数。负数一定不是回文数，因为有负号 解答 这题最简单的是将数字转为字符串，然后判断前后是否相等。 如果不转为字</description>
+    </item>
+    
+    <item>
+      <title>Leetcode 第8题 String to Integer</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/</link>
+      <pubDate>Mon, 29 Apr 2019 09:30:58 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/</guid>
+      <description>第8章 String to Integer 问题 这题要求实现atoi()方法，也就是将String转为整数。首先这个方法会忽略字符串开头的空格，直到遇到第一个非空格字符。如</description>
+    </item>
     
     <item>
       <title>Leetcode 第7题  Reverse Integer</title>

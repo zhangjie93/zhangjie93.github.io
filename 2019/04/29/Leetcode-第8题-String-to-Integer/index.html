@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Leetcode 第240题 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Leetcode 第240题 - zhangjie&#39;s blog">
+    <title>Leetcode 第8题 String to Integer | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第8题 String to Integer - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-03-14T13:23:29&#43;08:00">
+    <meta property="article:published_time" content="2019-04-29T09:30:58&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-03-14T13:23:29&#43;08:00">
+    <meta property="article:modified_time" content="2019-04-29T09:30:58&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="leetcode 第240题 Search a 2D Matrix II">
+    <meta name="description" content="leetcode 第8题 字符串转整数">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -74,10 +74,10 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Leetcode 第240题</h1>
+                            <h1 class="post-title">Leetcode 第8题 String to Integer</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年3月14日
+                            2019年4月29日
                         </date>
                         
                         <div class="post-meta">
@@ -91,38 +91,58 @@
                         <div class="post-content">
                             
 
-<h1 id="第240题-search-a-2d-matrix-ii-https-leetcode-com-problems-search-a-2d-matrix-ii">第240题 <a href="https://leetcode.com/problems/search-a-2d-matrix-ii/">Search a 2D Matrix II</a></h1>
+<h1 id="第8章-string-to-integer-https-leetcode-com-problems-string-to-integer-atoi">第8章 <a href="https://leetcode.com/problems/string-to-integer-atoi/">String to Integer</a></h1>
 
 <h2 id="问题">问题</h2>
 
-<p>编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：</p>
+<p>这题要求实现<code>atoi()</code>方法，也就是将String转为整数。首先这个方法会忽略字符串开头的空格，直到遇到第一个非空格字符。如果第一个字符（这里指第一个非空白字符，下同）不是数字，则检查其是否是正负号。如果第一个字符不是数字，也不是正负号，则认为其不合法，返回0，如<code>w123</code>不合法。如果第一个字符是正负号，则检查第2个字符是否是数字，是则认为其合法如<code>-12w</code>，可以转为Integer，否则返回0，如<code>-w12</code>。如果字符串合法，则检查到最后一个数字字符，如<code>123 with</code>返回123。</p>
 
-<p>每行的元素从左到右升序排列。
-每列的元素从上到下升序排列。</p>
+<p>注意这题要求转为Integer，所以可能存在数字溢出的情况，如<code>&quot;-91283472332&quot;</code>会下溢。因为Integer的范围是<code>2^31-1~-2^31</code>，也就是<code>2147483647~-2147483648</code>。下溢则返回Integer最小值，上溢则返回Integer最大值</p>
 
 <h2 id="解答">解答</h2>
 
-<p>从右上角开始查找。矩阵中右上角的数，它左边的数都比它小，下边的数都比它大。因此，从右上角开始查找，就可以根据 target 和当前元素的大小关系来缩小查找区间</p>
+<p>这题关键在于判断溢出。在用int型存储结果时，在溢出时并没有办法判断。一种方法就是存储结果时用long或double型，另一种方法是即将溢出时判断。</p>
 
-<pre><code class="language-java">public boolean searchMatrix(int[][] matrix, int target) {
-    int rows=matrix.length;
-    if(rows&lt;=0){
-        return false;
-    }
-    int cols=matrix[0].length;
-    int row=0,col=cols-1;
-    while (row&lt;rows&amp;&amp;col&gt;=0){
-        if(target==matrix[row][col]){
-            return true;
-        }else if(target&gt;matrix[row][col]){
-            //target比当前数大，向下找
-            row++;
-        }else{
-            col--;
+<p>不考虑符号时，溢出的界限是2147483647和2147483648。如果存储结果的sum大于214748364，则sum再加一位时必然溢出。如果等于214748364，则判断下一位数是否大于7，如果大于7，则必然溢出。（虽然下界最后一位是8，但只要大于7，就是小于等于下界）。</p>
+
+<pre><code class="language-java">public int myAtoi(String str) {
+        int length=str.length();
+        int sum=0;
+        int i=0;
+        int isPositive=1;
+        //将i移到第一个不是0的位置
+        while (i&lt;length&amp;&amp; str.charAt(i)==' '){
+            i++;
         }
+        if(i== str.length()|| length==0||str.isEmpty()){
+            return 0;
+        }
+        //判断第一个非空格字符是否是+/-，注意是+/-，i要右移一位
+        if(str.charAt(i)=='-'){
+            isPositive=-1;
+            i++;
+        }else if(str.charAt(i)=='+'){
+            i++;
+        }
+        for (int j = i; j &lt; length; j++) {
+            char temp=str.charAt(j);
+            //字符为数字
+            if(str.charAt(j)&gt;='0'&amp;&amp; str.charAt(j)&lt;='9'){
+                //判断是否溢出
+                if(sum&gt;Integer.MAX_VALUE/10 ||(sum==Integer.MAX_VALUE/10 &amp;&amp; str.charAt(j)-'0'&gt;7)){
+                    return (isPositive==1)?Integer.MAX_VALUE:Integer.MIN_VALUE;
+                }
+                sum=10*sum+ (str.charAt(j)-'0');
+            }else{
+                if(j==i){
+                    return 0;
+                }
+                break;
+            }
+        }
+        return sum*isPositive;
     }
-    return false;
-}
+
 </code></pre>
 
                         </div>
@@ -136,15 +156,15 @@
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">Leetcode 第136题</a></li>
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC7%E9%A2%98-Reverse-Integer/">Leetcode 第7题  Reverse Integer</a></li>
         
-        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        <li><a href="/2019/04/28/Leetcode-%E7%AC%AC6%E9%A2%98-Zigzag-Conversion/">Leetcode 第6题 Zigzag Conversion</a></li>
         
-        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC2%E9%A2%98-Add-Tow-Numbers/">Leetcode 第2题 Add Tow Numbers</a></li>
+        <li><a href="/2019/04/28/Leetcode-%E7%AC%AC5%E9%A2%98-Longest-Palindromic-Substring/">Leetcode 第5题 Longest Palindromic Substring</a></li>
         
-        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/">Leetcode 第1题 Two Sum</a></li>
+        <li><a href="/2019/04/27/Leetcode-%E7%AC%AC387%E9%A2%98/">Leetcode 第387题</a></li>
         
-        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/">Leetcode 第169题 Majority Element</a></li>
+        <li><a href="/2019/04/27/Leetcode-%E7%AC%AC344%E9%A2%98/">Leetcode 第344题</a></li>
         
     </ul>
 </div>
