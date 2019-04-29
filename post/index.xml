@@ -6,10 +6,19 @@
     <description>Recent content in Posts on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 28 Apr 2019 15:01:57 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 29 Apr 2019 09:26:09 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leetcode 第7题  Reverse Integer</title>
+      <link>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC7%E9%A2%98-Reverse-Integer/</link>
+      <pubDate>Mon, 29 Apr 2019 09:26:09 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC7%E9%A2%98-Reverse-Integer/</guid>
+      <description>第7题 Reverse Integer 问题 给定一个整数，将整数反转，如123变为321，120变为21(前导0要去除),-123变为(-321) 解答 这题很简单，从个位开</description>
+    </item>
     
     <item>
       <title>Leetcode 第6题 Zigzag Conversion</title>
