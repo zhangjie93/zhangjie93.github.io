@@ -6,10 +6,19 @@
     <description>Recent content in 剑指offer on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 22 Apr 2019 08:35:54 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 May 2019 09:50:48 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指offer树</title>
+      <link>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E6%A0%91/</link>
+      <pubDate>Sun, 12 May 2019 09:50:48 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E6%A0%91/</guid>
+      <description>[TOC] 树 重建二叉树 根据二叉树的前序遍历和中序遍历的结果，重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。 二叉树的重建可以根</description>
+    </item>
     
     <item>
       <title>剑指offer-链表</title>
