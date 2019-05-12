@@ -159,6 +159,54 @@
 }
 </code></pre>
 
+<h4 id="补充-根据前序和中序确定后序">补充：根据前序和中序确定后序</h4>
+
+<p>根据树的前序遍历和中序遍历确定后序遍历</p>
+
+<p>这题可以先重建树，然后得出后序遍历。其实在重建的过程中，后序遍历就已经得出了。</p>
+
+<ul>
+<li>确定根,确定左子树，确定右子树。</li>
+<li>在左子树中递归。</li>
+<li>在右子树中递归。</li>
+<li>打印当前根</li>
+</ul>
+
+<pre><code class="language-java">public class 前中序确定后序 {
+    private Map&lt;Integer, Integer&gt; indexForInOrders = new HashMap&lt;&gt;();
+    /**
+     * 根据前中序确定后序
+     * @param pre 前序
+     * @param in 中序
+     * @return 后序
+     */
+    public ArrayList&lt;Integer&gt; postOrder(int[] pre,int[] in){
+        ArrayList&lt;Integer&gt; res=new ArrayList&lt;&gt;();
+        if(pre.length&lt;=0||in.length&lt;=0){
+            return res;
+        }
+
+        for (int i = 0; i &lt; in.length; i++)
+            indexForInOrders.put(in[i], i);
+
+        postOrder(pre,0,pre.length-1,0,res);
+
+        return res;
+    }
+    private void postOrder(int[] pre, int preL,int preR,int inL , ArrayList&lt;Integer&gt; post){
+        if(preL&gt;preR){
+            return;
+        }
+        int root=pre[preL];
+        int inIndex=indexForInOrders.get(root);
+        int left=inIndex-inL;
+        postOrder(pre,preL+1,preL+left,inL,post);
+        postOrder(pre,preL+1+left,preR,inIndex+1,post);
+        post.add(root);
+    }
+}
+</code></pre>
+
 <h3 id="二叉树的下一个结点">二叉树的下一个结点</h3>
 
 <p>给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针</p>
