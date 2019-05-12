@@ -6,10 +6,19 @@
     <description>Recent content in Posts on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 12 May 2019 11:21:59 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 May 2019 13:51:43 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>剑指offer位运算和数学</title>
+      <link>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E4%BD%8D%E8%BF%90%E7%AE%97%E5%92%8C%E6%95%B0%E5%AD%A6/</link>
+      <pubDate>Sun, 12 May 2019 13:51:43 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E4%BD%8D%E8%BF%90%E7%AE%97%E5%92%8C%E6%95%B0%E5%AD%A6/</guid>
+      <description>位运算 不用加减乘除做加法 写一个函数，求两个整数之和，要求不得使用 +、-、*、/ 四则运算符号。 解答 首先看十进制是如何做的： 5+7=12，三步走</description>
+    </item>
     
     <item>
       <title>剑指offer动态规划</title>

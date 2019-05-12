@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="L7Eb3QuuRamqPjKJF7KispHkw-bj1bhG0JXH2Wqr5SI" />
+    <title>剑指offer位运算和数学 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="剑指offer位运算和数学 - zhangjie&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-05-12T13:51:43&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-05-12T13:51:43&#43;08:00">
+        
+    <meta name="Keywords" content="Java,算法,leetcode,spring">
+    <meta name="description" content="剑指offer">
+        
+    <meta name="author" content="zhangjie">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E4%BD%8D%E8%BF%90%E7%AE%97%E5%92%8C%E6%95%B0%E5%AD%A6/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139236179-1"></script>
+     <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-139236179-1');
+    </script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.njutzhangjie.cn/">
+                        zhangjie&#39;s blog
+                    </a>
+                
+                <p class="description">Loading...</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">剑指offer位运算和数学</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年5月12日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h2 id="位运算">位运算</h2>
+
+<h3 id="不用加减乘除做加法">不用加减乘除做加法</h3>
+
+<p>写一个函数，求两个整数之和，要求不得使用 +、-、*、/ 四则运算符号。</p>
+
+<p>解答</p>
+
+<p>首先看十进制是如何做的： 5+7=12，三步走</p>
+
+<ul>
+<li>第一步：相加各位的值，不算进位，得到2。</li>
+<li>第二步：计算进位值，得到10. 如果这一步的进位值为0，那么第一步得到的值就是最终结果。</li>
+<li>第三步：重复上述两步，只是相加的值变成上述两步的得到的结果2和10，得到12</li>
+</ul>
+
+<p>对于二进制相加，5-101，7-111</p>
+
+<ul>
+<li>第一步：相加各位的值，不算进位，得到010，二进制每位相加就相当于各位做异或操作，101^111</li>
+<li>计算进位值，得到1010，相当于各位做与操作得到101，再向左移一位得到1010，(101&amp;111)&lt;&lt;1</li>
+<li>第三步重复上述两步， 各位相加 <code>010^1010=1000</code>，进位值为<code>100=(010&amp;1010)&lt;&lt;1</code>。继续重复上述两步：<code>1000^100 = 1100</code>，进位值为0，跳出循环，1100为最终结果。</li>
+</ul>
+
+<pre><code class="language-java">public class Add {
+    public int add(int num1,int num2) {
+        while (num2!=0){
+            //不计进位
+            int temp=num1^num2;
+            //进位值
+            num2=(num1&amp;num2)&lt;&lt;1;
+            num1=temp;
+        }
+        return num1;
+    }
+}
+</code></pre>
+
+<h3 id="数组中只出现一次的数字">数组中只出现一次的数字</h3>
+
+<p>一个整型数组里除了两个数字之外，其他的数字都出现了两次，找出这两个数。</p>
+
+<p>解答：</p>
+
+<p>如果a、b两个值相同，异或结果为0，如果a、b两个值不相同，则异或结果为1</p>
+
+<p>一个数组里除了一个数字之外，其他的数字都出现了两次，找出这个数，只需要异或即可得到这个数字，出现两次的数字全部在异或中抵消掉了。</p>
+
+<p>如果能够把原数组分为两个子数组。在每个子数组中，包含一个只出现一次的数字，而其它数字都出现两次。如果能够这样拆分原数组，按照前面的办法就是分别求出这两个只出现一次的数字了</p>
+
+<p>将数组的所有元素异或得到的结果为不存在重复的两个元素异或的结果。因为其它数字都出现了两次，在异或中全部抵消掉了。由于这两个数字肯定不一样，那么这个异或结果肯定不为0 ，也就是说在这个结果数字的二进制表示中至少就有一位为1 。</p>
+
+<p>在结果数字中找到第一个为1 的位的位置，记为第N 位。现在我们以第N 位是不是1 为标准把原数组中的数字分成两个子数组，第一个子数组中每个数字的第N 位都为1 ，而第二个子数组的每个数字的第N 位都为0。</p>
+
+<p>现在我们已经把原数组分成了两个子数组，每个子数组都包含一个只出现一次的数字，而其它数字都出现了两次</p>
+
+<pre><code class="language-java">public class FindNumsAppearOnce {
+    public void FindNumsAppearOnce(int [] array,int num1[] , int num2[]) {
+        if(array.length&lt;2){
+            return;
+        }
+        int res=array[0];
+        //得到的结果是两个不同的数异或的结果，得到的结果最起码有一位是1
+        for (int i = 1; i &lt; array.length; i++) {
+            res=res^array[i];
+        }
+        //不存在两个不同的数
+        if(res==0){
+            return;
+        }
+        //找到最右侧为1的位，说明这一位上两个数中一个数为1，另一个数为0
+        int index=findFirst1(res);
+        for (int i = 0; i &lt; array.length; i++) {
+            //按照index位是否为1进行分类
+            if(isBit1(array[i],index)){
+                num1[0]^=array[i];
+            }else{
+                num2[0]^=array[i];
+            }
+        }
+
+    }
+
+
+    private int findFirst1(int bitResult){
+        int index = 0;
+        //获取第几位是1
+        //和1相与为0，表明最右边是0，然后向右移，直到相与1则表明这一位是1
+        //如01000，与1相与，直到第4位结果为1，则index为1
+        while(((bitResult &amp; 1) == 0) &amp;&amp; index &lt; 32){
+            bitResult &gt;&gt;= 1;
+            index++;
+        }
+        return index;
+    }
+
+    private boolean isBit1(int target, int index){
+        //把target右移index位，如果第index是1，则和1相与是1
+        //如0100，index为3，右移3位，然后和1(0001)与，为1则表明第3位为1
+        return ((target &gt;&gt; index) &amp; 1) == 1;
+    }
+}
+</code></pre>
+
+<h2 id="数学">数学</h2>
+
+<h3 id="从-1-到-n-整数中-1-出现的次数">从 1 到 n 整数中 1 出现的次数</h3>
+
+<p>给定n，求1到n十进制表示1出现的次数，如12，1~12中有1的数有1、10、11、12，1出现了5次</p>
+
+<p>解答：</p>
+
+<p>最简单的就是将每个数分解，求出1的个数，遍历，对每个数都这么做</p>
+
+<p>最简单的就是将每个数分解，求出1的个数，遍历，对每个数都这么做</p>
+
+<p>找规律</p>
+
+<pre><code class="language-java">1的个数          含1的数字                           数字范围
+
+1                   1                                [1, 9]                 
+11        10  11  12  13  14  15  16  17  18  19     [10, 19]  
+1                   21                               [20, 29]   
+1                   31                               [30, 39]   
+1                   41                               [40, 49]   
+1                   51                               [50, 59]
+1                   61                               [60, 69] 
+1                   71                               [70, 79]  
+1                   81                               [80, 89]   
+1                   91                               [90, 99]   
+11      100  101  102  103  104  105  106  107  108  109      [100, 109]
+21      110  111  112  113  114  115  116  117  118  119             [110, 119]
+11      120  121  122  123  124  125  126  127  128  129    [120, 129]
+</code></pre>
+
+<p>100以内的数字，除了10-19之间有11个‘1’之外，其余都只有1个。如果不考虑[10, 19]区间上那多出来的10个‘1’的话，那么我们在对任意一个两位数，十位数上的数字(加1)就代表1出现的个数，这时候我们再把多出的10个加上即可</p>
+
+<p>比如56就有(5+1)+10=16个,这里的5指的是11（个位上的1）、21、31、41、51个位上的1，然后1指的是1，10指的是10~19十位上的1</p>
+
+<p>是否要加上多出的10个取决于十位上的数字是否大于等于2，是的话就要加上多余的10个&rsquo;1&rsquo;。</p>
+
+<p>可以用(x+8)/10来判断一个数的十位是否大于等于2</p>
+
+<p>对于三位数区间 [100, 199] 内的数也是一样，除了[110, 119]之间多出的10个数之外，共21个‘1’，其余的每10个数的区间都只有11个‘1’，所以 [100, 199] 内共有21 + 11 * 9 = 120个‘1’</p>
+
+<p>想[0, 999]区间内‘1’的个数怎么求？根据前面的结果，[0, 99] 内共有20个，[100, 199] 内共有120个，而其他每100个数内‘1’的个数也应该符合之前的规律，即也是20个，那么总共就有 120 + 20 * 9 = 300 个‘1’。那么还是可以用相同的方法来判断并累加1的个数</p>
+
+<pre><code class="language-java">int countDigitOne(int n) {
+    int res = 0, a = 1, b = 1;
+    while (n &gt; 0) {
+        res += (n + 8) / 10 * a + (n % 10 == 1?1:0) * b;
+        b += n % 10 * a;
+        a *= 10;
+        n /= 10;
+    }
+    return res;
+}
+</code></pre>
+
+<h3 id="数值的整数次方">数值的整数次方</h3>
+
+<p>给定一个 double 类型的浮点数 base 和 int 类型的整数 exponent，求 base 的 exponent 次方</p>
+
+<p>解答：</p>
+
+<p>这题也就是要求出一个数的n次方，最简单的就是循环相乘，这样的复杂度是O(n)</p>
+
+<p>优化求幂函数</p>
+
+<p>当n为偶数，$a^n =（a^{n/2}）*（a^{n/2}）$
+当n为奇数，$a^n = a^{[(n-1)/2]} * a^{[(n-1)/2]} * a$
+时间复杂度O(logn)</p>
+
+<pre><code class="language-java">double power(double base, int exponent) {
+    long p = Math.abs(exponent);
+    double r = 1.0;
+    while(p!=0){
+        if((p &amp; 1)!=0){ //n为奇数
+            r *= base;
+        }
+        base *= base;
+        p &gt;&gt;= 1;
+    }
+    return exponent &lt; 0 ? 1/ r : r;
+}
+</code></pre>
+
+<p>参考：</p>
+
+<p><a href="https://xuanwo.io/2015/03/18/number-theory-quick-pow/">https://xuanwo.io/2015/03/18/number-theory-quick-pow/</a></p>
+
+<h3 id="二进制中-1-的个数">二进制中 1 的个数</h3>
+
+<p>输入一个整数，输出该数二进制表示中 1 的个数</p>
+
+<p><code>n&amp;(n-1)</code></p>
+
+<p>如果一个整数不为0，那么这个整数至少有一位是1。如果我们把这个整数减1，那么原来处在整数最右边的1就会变为0，原来在1后面的所有的0都会变成1，其余所有位将不会受到影响。</p>
+
+<p>如4=00000100，4-1会变成00000011</p>
+
+<p>这样<code>n&amp;(n-1)</code>就会将n的最后一个1变为0。如果n是2的次幂，也就是只有一个1，计算完后会变成0。</p>
+
+<pre><code class="language-java">public int NumberOf1(int n) {
+    int cnt = 0;
+    while (n != 0) {
+        cnt++; //统计1的个数
+        n &amp;= (n - 1);//去除二进制中最右边的1
+    }
+    return cnt;
+}
+</code></pre>
+
+<h3 id="构建乘积数组">构建乘积数组</h3>
+
+<p>给定一个数组 A[0, 1,&hellip;, n-1]，请构建一个数组 B[0, 1,&hellip;, n-1]，其中 B 中的元素 <code>B[i]=A[0]*A[1]*...*A[i-1]*A[i+1]*...*A[n-1]</code>。要求不能使用除法。</p>
+
+<p>解答：B[i]是<code>A[]</code>中除了<code>A[i]</code>的所有数的乘积。</p>
+
+<p>对于B[i],先从左往右计算A[0]*&hellip;<em>A[i-1]，然后从右往左计算A[n-1]</em>&hellip;*A[i+1];</p>
+
+<pre><code class="language-java">public int[] multiply(int[] A) {
+    int n=A.length;
+    int []B=new int[n];
+    int product=1;
+    for (int i = 0; i &lt; n; i++) { //从左往右计算
+        //product此时是A[0]*..*A[i-1]
+        B[i]=product;
+        product*=A[i];
+    }
+    product=1;
+    //从右往左计算
+    for (int i = n-1; i &gt;=0 ; i--) {
+        //不要忘记之前计算的积
+        B[i]=B[i]*product;
+        product*=A[i];
+    }
+    return B;
+}
+</code></pre>
+
+<h3 id="求-1-2-3-n">求 1+2+3+&hellip;+n</h3>
+
+<p>求1+2+3+&hellip;+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
+
+<p>解答</p>
+
+<p>递归</p>
+
+<p>是本题无法直接使用 if 语句来指定返回条件。</p>
+
+<p>条件与 &amp;&amp; 具有短路原则，即在第一个条件语句为 false 的情况下不会去执行第二个条件语句。利用这一特性，将递归的返回条件取非然后作为 &amp;&amp; 的第一个条件语句，递归的主体转换为第二个条件语句，那么当递归的返回条件为 true 的情况下就不会执行递归的主体部分，递归返回。</p>
+
+<p>本题的递归返回条件为 n &lt;= 0，取非后就是 n &gt; 0；递归的主体部分为 sum += Sum_Solution(n - 1)，转换为条件语句后就是 (sum += Sum_Solution(n - 1)) &gt; 0。</p>
+
+<pre><code class="language-java">public class SumN {
+    public int Sum_Solution(int n) {
+        int sum=n;
+        boolean b=(n&gt;0)&amp;&amp;(sum+=Sum_Solution(n-1))&gt;0;
+        return sum;
+    }
+}
+</code></pre>
+
+<h2 id="其它">其它</h2>
+
+<h3 id="圆圈中最后剩下的数-约瑟夫环">圆圈中最后剩下的数(约瑟夫环)</h3>
+
+<p>让小朋友们围成一个大圈。然后，随机指定一个数 m，让编号为 0 的小朋友开始报数。每次喊到 m-1 的那个小朋友要出列唱首歌，然后可以在礼品箱中任意的挑选礼物，并且不再回到圈中，从他的下一个小朋友开始，继续 0&hellip;m-1 报数 &hellip;. 这样下去 &hellip;. 直到剩下最后一个小朋友，可以不用表演。</p>
+
+<p>用链表模拟这个操作</p>
+
+<pre><code class="language-java">public class LastRemaining {
+    public int LastRemaining_Solution(int n, int m) {
+        if(n&lt;=0||m&lt;=0){
+            return -1;
+        }
+        LinkedList&lt;Integer&gt; linkedList=new LinkedList&lt;&gt;();
+        for (int i = 0; i &lt; n; i++) {
+            linkedList.add(i);
+        }
+        int bt=0;
+        while (linkedList.size()&gt;1){
+            bt=(bt+m-1)%linkedList.size();
+            linkedList.remove(bt);
+        }
+        return linkedList.get(0);
+    }
+}
+</code></pre>
+
+<h3 id="扑克牌顺子">扑克牌顺子</h3>
+
+<p>五张牌，其中大小鬼为癞子，牌面大小为 0。判断这五张牌是否能组成顺子。</p>
+
+<p>解答</p>
+
+<p>排序，然后统计癞子(0)的个数，然后用癞子补全不连续的位置</p>
+
+<pre><code class="language-java">public class Continuous {
+    public boolean isContinuous(int[] numbers) {
+        if (numbers.length &lt; 5) {
+            return false;
+        }
+        int cnt = 0;
+        //统计0的个数
+        for (int num :
+                numbers) {
+            if (num == 0) {
+                cnt++;
+            }
+        }
+        Arrays.sort(numbers);
+        //从第一个不是0的数字开始
+        for (int i = cnt; i &lt; numbers.length - 1; i++) {
+            //有相等的数字则直接false
+            if (numbers[i] == numbers[i + 1]) {
+                return false;
+            }
+            //缺失
+            if (numbers[i + 1] - numbers[i] &gt; 1) {
+                //用0去补全中间缺失的数
+                cnt -= (numbers[i + 1] - numbers[i] - 1);
+            }
+        }
+        return cnt &gt;= 0;
+    }
+}
+</code></pre>
+
+<h3 id="顺时针打印矩阵">顺时针打印矩阵</h3>
+
+<p>输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：</p>
+
+<pre><code class="language-java">1  2  3  4 
+5  6  7  8 
+9  10 11 12 
+13 14 15 16
+</code></pre>
+
+<p>则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10</p>
+
+<p>解答：</p>
+
+<p>可以模拟魔方逆时针旋转的方法，一直做取出第一行的操作
+例如
+1 2 3
+4 5 6
+7 8 9
+输出并删除第一行后，再进行一次逆时针旋转，就变成：
+6 9
+5 8
+4 7
+继续重复上述操作即可</p>
+
+<p>这种方式用Java写会很复杂</p>
+
+<!-- TODO -->
+
+<p>直接遍历，从左上到右上，再到右下，再到左下，最后回到到左上</p>
+
+<pre><code class="language-java"> public ArrayList&lt;Integer&gt; printMatrix(int[][] matrix{
+        ArrayList&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return result;
+        }
+        int row = matrix.length, column = matrix[0].length;
+
+        /*
+         * layers是循环遍历的层数，由行和列的较小值决定。除以2是因为每次循环都会因顶部从左到右和底部从右到左而用掉2行，对于列也是一样，每个循环都用去两列
+         * +1的原因是如果是行列最小值是奇数/2会少一层
+         * */
+        int layers = (Math.min(row, column) + 1) / 2 ;
+        for (int i = 0; i &lt; layers; i++) {
+            /*
+             * 从左上到右上是从对角线元素开始，因为每上一轮的从左下到左上会多用掉1个当前行前面的元素，所以一开始j=i。
+             * 遍历索引小于矩阵列数减去当前循环层数，因为前几轮从右上到右下会用掉当前行后面的元素
+             * */
+            for (int j = i; j &lt; column - i; j++) 
+                result.add(matrix[i][j]);
+            /*
+             * 从右上到右下，因为这一轮的从左上到右上会多用掉当前列上面的1个元素，所以一开始k=i+1。
+             * 遍历索引小于矩阵行数减去当前循环层数，因为前几轮从右下到左下会用掉当前列下面的元素。
+             * 矩阵列的最大索引为column-1（从0开始），所以填充列表result的元素列号为列最大索引减去循环层数，因为前几轮从右上到右下会用掉当前列后几列的元素
+             * */
+            for (int k = i + 1; k &lt; row - i; k++) 
+                result.add(matrix[k][column - 1 - i]);
+            /*
+             * 从右下到左下，矩阵列的最大索引为column-1（从0开始），因为这一轮的从右上到右下多用了一个当前行后面的元素，再结合前几轮从右上到右下用掉的后面i个元素，所以一开始j=column-1-i-1。
+             * 从右下到左下过程中最后当前列的索引要大于等于循环层数，因为前几轮从左下到左上用掉了前i-1列元素，所以j&gt;=i。
+             * 同时考虑矩阵行数小于列数（如3行6列）的情况，使行的最大索引row-1（行号从0开始）减去当前循环层数不会等于当前循环层数，否则最后一轮从左上到右上之后，接下来会再重复这一轮同样元素的从右下到左下。
+             * 填充列表result的元素行号为行最大索引减去循环层数，因为前几轮从右下到左下会用掉当前行下面几行的元素
+             * */
+            for (int j = column - 2 - i; (j &gt;= i) &amp;&amp; (row - 1 - i != i); j--)  
+                 result.add(matrix[row - 1 - i][j]);
+            /*
+             * 从左下到左上，矩阵行的最大索引为row-1（从0开始），因为这一轮的从右下到左下多用了1个当前列后面的元素，再结合前几轮从左下到左上用掉的下面i个元素，所以一开始k=row-1-i-1。
+             * 从左下到左上过程中最后当前行的索引要大于循环层数，和上一行的j&gt;=i不同，这里如果有了等号最后会重复到这一轮的从左上到右上过程的第一个元素，所以k&gt;i。
+             * 同时考虑矩阵列数小于行数（如6行3列）的情况，使列的最大索引column-1减去当前循环层数不会等于当前循环层数，否则最后一轮从右下到左下后，接下来会再重复这一轮同样元素的从左下到左上。
+             * 填充列表result的元素列号与当前一轮从左上到右上的开头元素的列索引相同，都为i
+             * */
+            for (int k = row - 2 - i; (k &gt; i) &amp;&amp; (column - 1 - i != i); k--)   
+                 result.add(matrix[k][i]);
+        }
+        return result;
+    }
+</code></pre>
+
+<h3 id="单例模式">单例模式</h3>
+
+<p>确保一个类只有一个实例，并提供该实例的全局访问点</p>
+
+<p>使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。</p>
+
+<p>私有构造函数保证了不能通过构造函数来创建对象实例，只能通过公有静态函数返回唯一的私有静态变量。</p>
+
+<p>饿汉模式</p>
+
+<pre><code class="language-java">public class EagerSingleton {
+    private static EagerSingleton instance = new EagerSingleton();
+    /**
+     * 私有默认构造子
+     */
+    private EagerSingleton(){}
+    /**
+     * 静态工厂方法
+     */
+    public static EagerSingleton getInstance(){
+        return instance;
+    }
+}
+</code></pre>
+
+<p>懒汉模式</p>
+
+<pre><code class="language-java">public class LazySingleton {
+    private static LazySingleton instance = null;
+    /**
+     * 私有默认构造子
+     */
+    private LazySingleton(){}
+    /**
+     * 静态工厂方法
+     */
+    public static synchronized LazySingleton getInstance(){
+        if(instance == null){
+            instance = new LazySingleton();
+        }
+        return instance;
+    }
+}
+</code></pre>
+
+<p>懒汉模式线程不安全。如果多个线程能够同时进入<code>if (instance == null)</code> ，并且此时 instance 为 null，那么会有多个线程执行 <code>instance = new LazySingleton();</code> 语句，这将导致实例化多次 instance。</p>
+
+<p>线程不安全问题主要是由于 instance 被实例化多次，采取直接实例化 instance 的方式就不会产生线程不安全问题，也就是饿汉模式。但是直接实例化的方式也丢失了延迟实例化带来的节约资源的好处。</p>
+
+<p>双重校验锁-线程安全</p>
+
+<p>双重校验锁先判断 instance 是否已经被实例化，如果没有被实例化，那么才对实例化语句进行加锁。</p>
+
+<pre><code class="language-java">public class Singleton {
+    private volatile static Singleton instance = null;
+    private Singleton(){}
+    public static Singleton getInstance(){
+        //先检查实例是否存在，如果不存在才进入下面的同步块
+        if(instance == null){
+            //同步块，线程安全的创建实例
+            synchronized (Singleton.class) {
+                //再次检查实例是否存在，如果不存在才真正的创建实例
+                if(instance == null){
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+</code></pre>
+
+<p>instance 只需要被实例化一次，之后就可以直接使用了。加锁操作只需要对实例化那部分的代码进行，只有当 instance 没有被实例化时，才需要进行加锁。</p>
+
+<p>用了两个if的原因:考虑下面的实现，也就是只使用了一个 if 语句。在 uinstance == null 的情况下，如果两个线程都执行了 if 语句，那么两个线程都会进入 if 语句块内。虽然在 if 语句块内有加锁操作，但是两个线程都会执行 <code>instance = new Singleton()</code>; 这条语句，只是先后的问题，那么就会进行两次实例化。因此必须使用双重校验锁，也就是需要使用两个 if 语句。</p>
+
+<pre><code class="language-java">if (instance == null) {
+    synchronized (Singleton.class) {
+        instance = new Singleton();
+    }
+}
+</code></pre>
+
+<p>instance采用 volatile 关键字修饰也是很有必要的， <code>instance = new Singleton();</code> 这段代码其实是分为三步执行：</p>
+
+<ol>
+<li>为 instance 分配内存空间</li>
+<li>初始化 instance</li>
+<li>将 instance 指向分配的内存地址</li>
+</ol>
+
+<p>但是由于 JVM 具有指令重排的特性，执行顺序有可能变成 1&gt;3&gt;2。指令重排在单线程环境下不会出现问题，但是在多线程环境下会导致一个线程获得还没有初始化的实例。例如，线程 T1 执行了 1 和 3，此时 T2 调用getInstance() 后发现 instance 不为空，因此返回 instance，但此时 instance 还未被初始化。</p>
+
+<p>使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行。</p>
+
+<p>内部类实现</p>
+
+<pre><code class="language-java">public class Singleton {
+    private Singleton() {
+    }
+    private static class SingletonHolder {
+        private static final Singleton INSTANCE = new Singleton();
+    }
+    public static Singleton getUniqueInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+}
+</code></pre>
+
+<p>当 Singleton 类加载时，静态内部类 <code>SingletonHolder</code> 没有被加载进内存。只有当调用 <code>getUniqueInstance()</code> 方法从而触发 <code>SingletonHolder.INSTANCE</code> 时 <code>SingletonHolder</code> 才会被加载，此时初始化 <code>INSTANCE 实例</code>，并且 JVM 能确保 <code>I</code>NSTANCE` 只被实例化一次。</p>
+
+<p>这种方式不仅具有延迟初始化的好处，而且由 JVM 提供了对线程安全的支持。</p>
+
+<p>枚举实现</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/剑指%20Offer%20题解%20-%20目录1">https://cyc2018.github.io/CS-Notes/#/notes/剑指%20Offer%20题解%20-%20目录1</a></li>
+</ul>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">剑指offer动态规划</a></li>
+        
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer-%E8%B4%AA%E5%BF%83%E5%9B%9E%E6%BA%AF/">剑指offer-贪心回溯</a></li>
+        
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%A0%86%E6%A0%88/">剑指offer-堆栈</a></li>
+        
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%AD%97%E7%AC%A6%E4%B8%B2/">剑指offer-字符串</a></li>
+        
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/">剑指offer-树相关的题目</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer">剑指offer</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.njutzhangjie.cn/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E4%BD%8D%E8%BF%90%E7%AE%97%E5%92%8C%E6%95%B0%E5%AD%A6/" title="剑指offer位运算和数学">剑指offer位运算和数学</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="剑指offer动态规划">剑指offer动态规划</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E8%B4%AA%E5%BF%83%E5%9B%9E%E6%BA%AF/" title="剑指offer-贪心回溯">剑指offer-贪心回溯</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%A0%86%E6%A0%88/" title="剑指offer-堆栈">剑指offer-堆栈</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="剑指offer-字符串">剑指offer-字符串</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/" title="剑指offer-树相关的题目">剑指offer-树相关的题目</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E6%95%B0%E7%BB%84/" title="剑指offer数组">剑指offer数组</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/Leetcode-%E7%AC%AC33%E9%A2%98-Search-in-Rotated-Sorted-Array/" title="Leetcode 第33题 Search in Rotated Sorted Array">Leetcode 第33题 Search in Rotated Sorted Array</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E9%98%BF%E9%87%8C%E4%BD%9C%E4%B8%9A%E5%B8%AE%E7%9B%9B%E5%A4%A7/" title="面试记录（阿里、作业帮、盛大）">面试记录（阿里、作业帮、盛大）</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/" title="Leetcode 第10题 Regular Expression Matching">Leetcode 第10题 Regular Expression Matching</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Java/">Java(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Redis/">Redis(2)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/mybatis/">mybatis(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/spring/">spring(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%8E%92%E9%94%99%E4%B9%8B%E8%B7%AF/">排错之路(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(28)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E9%9D%A2%E8%AF%95/">面试(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Java/">Java</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Redis/">Redis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/bug/">bug</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/leetcode/">leetcode</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mybatis/">mybatis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mysql/">mysql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/spring/">spring</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/sql/">sql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer/">剑指offer</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%BA%90%E7%A0%81/">源码</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%9B%86%E5%90%88/">集合</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.njutzhangjie.cn/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="http://blog.njutzhangjie.cn/">zhangjie&#39;s blog By zhangjie</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>
