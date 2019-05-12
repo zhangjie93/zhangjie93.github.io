@@ -455,6 +455,70 @@ private void swap(char[] chars, int i, int j) {
 }
 </code></pre>
 
+<h3 id="最长不含重复字符的子字符串">最长不含重复字符的子字符串</h3>
+
+<p>输入一个字符串（只包含 a~z 的字符），求其最长不含重复字符的子字符串的长度。例如对于 arabcacfr，最长不含重复字符的子字符串为 acfr，长度为 4</p>
+
+<p>解答</p>
+
+<p>首先考虑如果手工来做会如何做。以<code>abcabcbb</code>为例，从头开始遍历，首先a加入子串，然后b加入，c加入，当到a时，由于前面的字符串已经有a，所以子串变为bca，之前符合条件的子串长度为3。依次遍历下去，最后得到最长的不重复子串的长度为3</p>
+
+<p>这个过程就像一个滑动窗口，初始时滑动窗口为空，然后遍历字符串，第一个字符a加入滑动窗口，然后b加入，c加入，当到a时，由于滑动窗口中已有a，所以滑动窗口的左边界需要指向前面重复元素的下一个元素，也就是前一个a的下个元素b，然后右边界需要指向当前的a。</p>
+
+<p>所以当字符在窗口中不存在时加入到滑动窗口，如果已有，则将左边界移到前面重复元素的下一个元素，右边界指向当前的元素</p>
+
+<pre><code class="language-java">public int lengthLongestSubStr(String s){
+    int left=0,right=0;
+    if(s.length()==0||s==null){
+        return 0;
+    }
+    int max=0;
+    HashMap&lt;Character,Integer&gt; slideWindow=new HashMap&lt;&gt;();
+    while (right&lt;s.length()){
+        //right指向当前窗口的下一个元素
+        char c=s.charAt(right);
+        //如果right指向的元素不在窗口内，则加入，且right右移
+        if(!slideWindow.containsKey(c)){
+            slideWindow.put(c,right);
+            right++;
+        }else{
+            //在窗口内则需要将前面重复的元素
+            max=slideWindow.size()&gt;max?slideWindow.size():max;
+            int tempLeft=slideWindow.get(c)+1;
+            //这里left记录的是窗口的边界，所以需要从左边界删除到重复元素
+            while (left&lt;tempLeft){
+                slideWindow.remove(s.charAt(left++));
+            }
+            //right指向的元素要加入到滑动窗口内
+            slideWindow.put(c,right);
+            right++;
+        }
+    }
+    //最后返回最大值，这里不能直接返回max
+    return slideWindow.size()&gt;max?slideWindow.size():max;
+}
+</code></pre>
+
+<p>下面使用了HashSet，思想是一样的，出现的字符放入Set中，left指向左边界。right指向窗口的下一个字符，如果没有重复的，right指向的字符会加入，否则从left开始删除，直到删除到重复字符</p>
+
+<pre><code class="language-java">public int lengthOfLongestSubstring(String s) {
+    int res = 0, left = 0, right = 0;
+    HashSet&lt;Character&gt; t = new HashSet&lt;Character&gt;();
+    while (right &lt; s.length()) {
+        //不含字符，加入
+        if (!t.contains(s.charAt(right))) {
+            t.add(s.charAt(right++));
+            res = Math.max(res, t.size());
+        } else {
+            //从左边界开始删除，因为删除一个后，如果还没有删除重复字符后，在下一个循环会继续删除，直到删掉重复字符
+            //由于这里采用了Set，无法直接取到重复字符的索引，所以无法像上面的代码一样用另一个循环删除
+            t.remove(s.charAt(left++));
+        }
+    }
+    return res;
+}
+</code></pre>
+
                         </div>
 
                         
@@ -514,6 +578,10 @@ private void swap(char[] chars, int i, int j) {
 <ul class="widget-list">
     
     <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="剑指offer动态规划">剑指offer动态规划</a>
+    </li>
+    
+    <li>
         <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E8%B4%AA%E5%BF%83%E5%9B%9E%E6%BA%AF/" title="剑指offer-贪心回溯">剑指offer-贪心回溯</a>
     </li>
     
@@ -547,10 +615,6 @@ private void swap(char[] chars, int i, int j) {
     
     <li>
         <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/" title="Leetcode 第9题 Palindrome Number">Leetcode 第9题 Palindrome Number</a>
-    </li>
-    
-    <li>
-        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/" title="Leetcode 第8题 String to Integer">Leetcode 第8题 String to Integer</a>
     </li>
     
 </ul>
@@ -587,7 +651,7 @@ private void swap(char[] chars, int i, int j) {
     </li>
     
     <li>
-        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(26)</a>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(27)</a>
     </li>
     
     <li>
