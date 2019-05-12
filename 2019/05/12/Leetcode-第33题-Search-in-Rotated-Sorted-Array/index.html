@@ -110,6 +110,8 @@
 
 <p>在旋转数组中，中间数字的一边是有序，而另一边可能是无序的，在和target比较时，可以确定target是否在有序的那个半边。这样可以缩小target的查找范围</p>
 
+<p>比如<code>{4,5,6,7,1,2,3}</code>，初始nums[mid]是7，此时0~mid是有序的，因为nums[mid]&gt;nums[right]，若target比7小且比4大，则确定target在0~mid之间，比如target是5；若不满足这个条件，则说明target在mid的右边。这样不断的二分，可以找到target</p>
+
 <p>二分查找，在查找时，先确定mid在左半有序区还有右半有序区</p>
 
 <pre><code class="language-java">int findData(int[] nums,int target){
