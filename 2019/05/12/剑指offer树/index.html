@@ -320,7 +320,7 @@ public boolean subTree(TreeNode node1,TreeNodenode2){
     3  4 4   3
 </code></pre>
 
-<p>当根结点不为空时判断左右子树，当左右子树的根结点相同时，继续向下判断，判断左子树的左子树和右子树的右子树是否相等、左子树的右子树和右子树的左子树是否相等</p>
+<p>当根结点不为空时判断左右子树，当左右子树的根结点相同时，继续向下判断，判断<strong>左子树的左子树</strong>和<strong>右子树的右子树</strong>是否相等、左子树的右子树和右子树的左子树是否相等</p>
 
 <pre><code class="language-java">boolean isSymmetrical(TreeNode pRoot){
     if(pRoot==null){
@@ -332,13 +332,15 @@ private boolean compare(TreeNode left,TreeNode ight){
     if(left==null &amp;&amp;right==null){
         return true;
     }
+    //结束
     if(left==null||right==null){
         return false;
     }
+    //两个子树的根节点是否相等
     if(left.val!=right.val){
         return false;
     }
-
+    //判断左子树的左子树和右子树的右子树是否相等、左子树的右子树和右子树的左子树是否相等
     return compare(left.left,right.right)&amp;&amp;compare(left.right,right.left);
 }
 </code></pre>
@@ -376,7 +378,7 @@ private boolean compare(TreeNode left,TreeNode ight){
 
 <p>从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。</p>
 
-<p>解答：这题和层序遍历基本一样，层序遍历时会在输出每一层的结点时也会将下一层将入到队列中。在这题中需要记住</p>
+<p>解答：这题和层序遍历基本一样，层序遍历时会在输出每一层的结点时也会将下一层将入到队列中。在这题中需要记住每层的结点数</p>
 
 <pre><code class="language-java">public class Print {
     ArrayList&lt;ArrayList&lt;Integer&gt;&gt; print(TreeNode pRoot) {
@@ -413,7 +415,7 @@ private boolean compare(TreeNode left,TreeNode ight){
 
 <p>解答：</p>
 
-<p>和上一题相似，只是需要控制一下是正序和逆序输出</p>
+<p>和上一题相似，只是需要控制一下是正序和逆序输出。只要给个标志位，开始正序，然后取反表示逆序，再取反就能实现之字形输出</p>
 
 <pre><code class="language-java">public class PrintZ {
     public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; print(TreeNode pRoot) {
