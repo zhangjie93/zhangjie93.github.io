@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="google-site-verification" content="L7Eb3QuuRamqPjKJF7KispHkw-bj1bhG0JXH2Wqr5SI" />
-    <title>Windows平台下向IDEA中导入Spring源码 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Windows平台下向IDEA中导入Spring源码 - zhangjie&#39;s blog">
+    <title>Leetcode 第240题 Search a 2D Matrix II | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第240题 Search a 2D Matrix II - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-03-16T22:26:39&#43;08:00">
+    <meta property="article:published_time" content="2019-03-14T13:23:29&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-03-16T22:26:39&#43;08:00">
+    <meta property="article:modified_time" content="2019-03-14T13:23:29&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Spring">
+    <meta name="description" content="leetcode 第240题 Search a 2D Matrix II">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98-Search-a-2D-Matrix-II/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -81,16 +81,16 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Windows平台下向IDEA中导入Spring源码</h1>
+                            <h1 class="post-title">Leetcode 第240题 Search a 2D Matrix II</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年3月16日
+                            2019年3月14日
                         </date>
                         
                         <div class="post-meta">
                             <span>|</span>
                             
-                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/spring">spring</a></span>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
                             
                         </div>
                         
@@ -98,59 +98,39 @@
                         <div class="post-content">
                             
 
-<h1 id="向idea中导入spring源码并编译">向IDEA中导入Spring源码并编译</h1>
+<h1 id="第240题-search-a-2d-matrix-ii-https-leetcode-com-problems-search-a-2d-matrix-ii">第240题 <a href="https://leetcode.com/problems/search-a-2d-matrix-ii/">Search a 2D Matrix II</a></h1>
 
-<p>由于需要学习Spring源码，所以需要向IDEA中导入源码。</p>
+<h2 id="问题">问题</h2>
 
-<p>首先到Github中下载源码,地址：<a href="https://github.com/spring-projects/spring-framework">https://github.com/spring-projects/spring-framework</a>。也可以直接git clone</p>
+<p>编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：</p>
 
-<p>Spring的源码采用的Gradle编译。所以需要下载Gradle。IDEA已经自带了IDEA，但自带的gradle无法在终端中执行命令，所以最好还是另外下载gradle。</p>
+<p>每行的元素从左到右升序排列。
+每列的元素从上到下升序排列。</p>
 
-<p>下载完成后，将Gradle加入到环境变量，便于使用Gradle的命令。使用<code>gradle  -v</code>验证是否成功</p>
+<h2 id="解答">解答</h2>
 
-<p>更改Gradle的源为阿里的源，在用户文件夹下的<code>.gradle</code>文件夹下建立<code>init.gradle</code>文件，配置如下</p>
+<p>从右上角开始查找。矩阵中右上角的数，它左边的数都比它小，下边的数都比它大。因此，从右上角开始查找，就可以根据 target 和当前元素的大小关系来缩小查找区间</p>
 
-<pre><code class="language-java">allprojects{
-    repositories {
-        def ALIYUN_REPOSITORY_URL = 'http://maven.aliyun.com/nexus/content/groups/public'
-        def ALIYUN_JCENTER_URL = 'http://maven.aliyun.com/nexus/content/repositories/jcenter'
-        all { ArtifactRepository repo -&gt;
-            if(repo instanceof MavenArtifactRepository){
-                def url = repo.url.toString()
-                if (url.startsWith('https://repo1.maven.org/maven2')) {
-                    project.logger.lifecycle &quot;Repository ${repo.url} replaced by $ALIYUN_REPOSITORY_URL.&quot;
-                    remove repo
-                }
-                if (url.startsWith('https://jcenter.bintray.com/')) {
-                    project.logger.lifecycle &quot;Repository ${repo.url} replaced by $ALIYUN_JCENTER_URL.&quot;
-                    remove repo
-                }
-            }
-        }
-        maven {
-                url ALIYUN_REPOSITORY_URL
-            url ALIYUN_JCENTER_URL
+<pre><code class="language-java">public boolean searchMatrix(int[][] matrix, int target) {
+    int rows=matrix.length;
+    if(rows&lt;=0){
+        return false;
+    }
+    int cols=matrix[0].length;
+    int row=0,col=cols-1;
+    while (row&lt;rows&amp;&amp;col&gt;=0){
+        if(target==matrix[row][col]){
+            return true;
+        }else if(target&gt;matrix[row][col]){
+            //target比当前数大，向下找
+            row++;
+        }else{
+            col--;
         }
     }
+    return false;
 }
 </code></pre>
-
-<p>根据Spring官方给出的导入步骤即可：</p>
-
-<ol>
-<li>使用<code>./gradlew :spring-oxm:compileTestJava</code>编译spring-oxm</li>
-<li>将代码导入IDEA，注意导入时选择自己的gradle。一般导入后IDEA会自己编译，由于会下载比较多的依赖，所以时间会比较长</li>
-<li><code>spring-aspects</code>会编译出错，所以将这个模块移除。在File-Project Structure-Modules中移除</li>
-</ol>
-
-<p>然后就可以运行其中单元测试了</p>
-
-<p>参考：</p>
-
-<ul>
-<li><a href="https://github.com/spring-projects/spring-framework/blob/master/import-into-idea.md">https://github.com/spring-projects/spring-framework/blob/master/import-into-idea.md</a></li>
-<li><a href="https://blog.csdn.net/bskfnvjtlyzmv867/article/details/81171802">https://blog.csdn.net/bskfnvjtlyzmv867/article/details/81171802</a></li>
-</ul>
 
                         </div>
 
@@ -163,15 +143,15 @@
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/2019/03/16/Mybatis-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AFCaused-by-java.lang.ClassNotFoundException-org.apache.log4j.Priority/">Mybatis 出现错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority</a></li>
-        
-        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98-Search-a-2D-Matrix-II/">Leetcode 第240题 Search a 2D Matrix II</a></li>
-        
         <li><a href="/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">Leetcode 第136题</a></li>
         
-        <li><a href="/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/">Sql查询练习</a></li>
-        
         <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        
+        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC2%E9%A2%98-Add-Tow-Numbers/">Leetcode 第2题 Add Tow Numbers</a></li>
+        
+        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC1%E9%A2%98-Two-Sum/">Leetcode 第1题 Two Sum</a></li>
+        
+        <li><a href="/2019/03/10/Leetcode-%E7%AC%AC169%E9%A2%98-Majority-Element/">Leetcode 第169题 Majority Element</a></li>
         
     </ul>
 </div>
@@ -181,9 +161,9 @@
                             
                             <ul class="clearfix">
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/spring">spring</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E6%BA%90%E7%A0%81">源码</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
                                 
                             </ul>
                             

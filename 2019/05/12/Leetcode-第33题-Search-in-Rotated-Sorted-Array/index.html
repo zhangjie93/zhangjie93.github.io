@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="google-site-verification" content="L7Eb3QuuRamqPjKJF7KispHkw-bj1bhG0JXH2Wqr5SI" />
-    <title>Windows平台下向IDEA中导入Spring源码 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Windows平台下向IDEA中导入Spring源码 - zhangjie&#39;s blog">
+    <title>Leetcode 第33题 Search in Rotated Sorted Array | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="Leetcode 第33题 Search in Rotated Sorted Array - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-03-16T22:26:39&#43;08:00">
+    <meta property="article:published_time" content="2019-05-12T09:37:27&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-03-16T22:26:39&#43;08:00">
+    <meta property="article:modified_time" content="2019-05-12T09:37:27&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Spring">
+    <meta name="description" content="leetcode 第33题 旋转数组中查找">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/05/12/Leetcode-%E7%AC%AC33%E9%A2%98-Search-in-Rotated-Sorted-Array/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -81,16 +81,16 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Windows平台下向IDEA中导入Spring源码</h1>
+                            <h1 class="post-title">Leetcode 第33题 Search in Rotated Sorted Array</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年3月16日
+                            2019年5月12日
                         </date>
                         
                         <div class="post-meta">
                             <span>|</span>
                             
-                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/spring">spring</a></span>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
                             
                         </div>
                         
@@ -98,59 +98,90 @@
                         <div class="post-content">
                             
 
-<h1 id="向idea中导入spring源码并编译">向IDEA中导入Spring源码并编译</h1>
+<h1 id="第33题-search-in-rotated-sorted-array-https-leetcode-com-problems-search-in-rotated-sorted-array">第33题 <a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">Search in Rotated Sorted Array</a></h1>
 
-<p>由于需要学习Spring源码，所以需要向IDEA中导入源码。</p>
+<h2 id="问题">问题</h2>
 
-<p>首先到Github中下载源码,地址：<a href="https://github.com/spring-projects/spring-framework">https://github.com/spring-projects/spring-framework</a>。也可以直接git clone</p>
+<p>在一个排序的数组中，如{1,2,3,4,5,6,7}，经过旋转后得到{4,5,6,7,1,2,3}，当然也可以得到原数组{1,2,3,4,5,6,7}，在该旋转后的数组中查找某个元素</p>
 
-<p>Spring的源码采用的Gradle编译。所以需要下载Gradle。IDEA已经自带了IDEA，但自带的gradle无法在终端中执行命令，所以最好还是另外下载gradle。</p>
+<h2 id="解答">解答</h2>
 
-<p>下载完成后，将Gradle加入到环境变量，便于使用Gradle的命令。使用<code>gradle  -v</code>验证是否成功</p>
+<p>在一个排序数组中查找，通常是用二分查找，因为通过中间数字和target能够确定target在数组的哪一边。</p>
 
-<p>更改Gradle的源为阿里的源，在用户文件夹下的<code>.gradle</code>文件夹下建立<code>init.gradle</code>文件，配置如下</p>
+<p>在旋转数组中，中间数字的一边是有序，而另一边可能是无序的，在和target比较时，可以确定target是否在有序的那个半边。这样可以缩小target的查找范围</p>
 
-<pre><code class="language-java">allprojects{
-    repositories {
-        def ALIYUN_REPOSITORY_URL = 'http://maven.aliyun.com/nexus/content/groups/public'
-        def ALIYUN_JCENTER_URL = 'http://maven.aliyun.com/nexus/content/repositories/jcenter'
-        all { ArtifactRepository repo -&gt;
-            if(repo instanceof MavenArtifactRepository){
-                def url = repo.url.toString()
-                if (url.startsWith('https://repo1.maven.org/maven2')) {
-                    project.logger.lifecycle &quot;Repository ${repo.url} replaced by $ALIYUN_REPOSITORY_URL.&quot;
-                    remove repo
-                }
-                if (url.startsWith('https://jcenter.bintray.com/')) {
-                    project.logger.lifecycle &quot;Repository ${repo.url} replaced by $ALIYUN_JCENTER_URL.&quot;
-                    remove repo
-                }
+<p>二分查找，在查找时，先确定mid在左半有序区还有右半有序区</p>
+
+<pre><code class="language-java">int findData(int[] nums,int target){
+    int left=0,right=nums.length-1;
+    while (left&lt;=right){
+        int mid=(right-left)/2+left;
+        if(nums[mid]==target){
+            return mid;
+        }
+        //mid在右半有序区
+        if(nums[mid]&lt;nums[right]){
+            //右半边是有序的
+            if(target&gt;nums[mid]&amp;&amp;target&lt;=nums[right]){
+                //target在右半边，在mid的右边
+                //注意仅有target比nums[mid]大无法判断target在右半边
+                left=mid+1;
+            }else{
+                //此时target会出现两种情况：在右半有序区，但比mid所在所元素小；在左半有序区
+                //在右半边
+                right=mid-1;
+            }
+        }else{
+            //mid在左半有序区
+            //此时target比mid所在元素小，且比left大，则表明target在left和mid之间
+            if(target&gt;=nums[left]&amp;&amp;target&lt;nums[mid]){
+                right=mid-1;
+            }else{
+                //target在右半有序区或者target比mid大，则在mid到right之间
+                left=mid+1;
             }
         }
-        maven {
-                url ALIYUN_REPOSITORY_URL
-            url ALIYUN_JCENTER_URL
+    }
+    return -1;
+}
+</code></pre>
+
+<p>递归实现</p>
+
+<pre><code class="language-java">private static int search(int[] arr, int target, int left, int right){
+    // 在search失败情况下递归终止的条件
+    if (left &gt; right){
+        return -1;
+    }
+    int mid  = (left+right)/2;
+
+    // 左半区有序
+    if (arr[mid] &gt;= arr[left]){
+        if (target == arr[mid]){
+            return mid;
+        }
+        // target就是在左半区
+        if (target &gt;= arr[left] &amp;&amp; target &lt; arr[mid]) {
+            // 搜索左半区
+            return search(arr, target, left, mid-1);
+        }else {
+            // 搜索右半区
+            return search(arr, target, mid+1, right);
+        }
+    }else {
+        // 右半区有序
+        if (target == arr[mid]) {
+            return mid;
+        }
+        // target在右半区
+        if (target &lt;= arr[right] &amp;&amp; target &gt; arr[mid]){
+            return search(arr, target, mid+1, right);
+        }else {
+            return search(arr, target, left, mid-1);
         }
     }
 }
 </code></pre>
-
-<p>根据Spring官方给出的导入步骤即可：</p>
-
-<ol>
-<li>使用<code>./gradlew :spring-oxm:compileTestJava</code>编译spring-oxm</li>
-<li>将代码导入IDEA，注意导入时选择自己的gradle。一般导入后IDEA会自己编译，由于会下载比较多的依赖，所以时间会比较长</li>
-<li><code>spring-aspects</code>会编译出错，所以将这个模块移除。在File-Project Structure-Modules中移除</li>
-</ol>
-
-<p>然后就可以运行其中单元测试了</p>
-
-<p>参考：</p>
-
-<ul>
-<li><a href="https://github.com/spring-projects/spring-framework/blob/master/import-into-idea.md">https://github.com/spring-projects/spring-framework/blob/master/import-into-idea.md</a></li>
-<li><a href="https://blog.csdn.net/bskfnvjtlyzmv867/article/details/81171802">https://blog.csdn.net/bskfnvjtlyzmv867/article/details/81171802</a></li>
-</ul>
 
                         </div>
 
@@ -163,15 +194,15 @@
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/2019/03/16/Mybatis-%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AFCaused-by-java.lang.ClassNotFoundException-org.apache.log4j.Priority/">Mybatis 出现错误：Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Priority</a></li>
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/">Leetcode 第10题 Regular Expression Matching</a></li>
         
-        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC240%E9%A2%98-Search-a-2D-Matrix-II/">Leetcode 第240题 Search a 2D Matrix II</a></li>
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/">Leetcode 第9题 Palindrome Number</a></li>
         
-        <li><a href="/2019/03/14/Leetcode-%E7%AC%AC136%E9%A2%98/">Leetcode 第136题</a></li>
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/">Leetcode 第8题 String to Integer</a></li>
         
-        <li><a href="/2019/03/13/Sql%E6%9F%A5%E8%AF%A2%E7%BB%83%E4%B9%A0/">Sql查询练习</a></li>
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC7%E9%A2%98-Reverse-Integer/">Leetcode 第7题  Reverse Integer</a></li>
         
-        <li><a href="/2019/03/13/Leetcode-%E7%AC%AC3%E9%A2%98-Longest-Substring-Without-Repeating-Characters/">Leetcode 第3题 Longest Substring Without Repeating Characters</a></li>
+        <li><a href="/2019/04/28/Leetcode-%E7%AC%AC6%E9%A2%98-Zigzag-Conversion/">Leetcode 第6题 Zigzag Conversion</a></li>
         
     </ul>
 </div>
@@ -181,9 +212,9 @@
                             
                             <ul class="clearfix">
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/spring">spring</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/leetcode">leetcode</a></li>
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E6%BA%90%E7%A0%81">源码</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
                                 
                             </ul>
                             
