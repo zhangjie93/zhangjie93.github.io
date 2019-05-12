@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="L7Eb3QuuRamqPjKJF7KispHkw-bj1bhG0JXH2Wqr5SI" />
+    <title>剑指offer-树相关的题目 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="剑指offer-树相关的题目 - zhangjie&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-05-12T09:50:48&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-05-12T09:50:48&#43;08:00">
+        
+    <meta name="Keywords" content="Java,算法,leetcode,spring">
+    <meta name="description" content="剑指offer">
+        
+    <meta name="author" content="zhangjie">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139236179-1"></script>
+     <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-139236179-1');
+    </script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.njutzhangjie.cn/">
+                        zhangjie&#39;s blog
+                    </a>
+                
+                <p class="description">Loading...</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">剑指offer-树相关的题目</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年5月12日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h2 id="树">树</h2>
+
+<h3 id="重建二叉树">重建二叉树</h3>
+
+<p>根据二叉树的前序遍历和中序遍历的结果，重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p>
+
+<p>二叉树的重建可以根据前序和中序，也可以根据中序和后序。但是前序和后序本质上都是将父节点与子结点进行分离，但并没有指明左子树和右子树的能力，因此得到这两个序列只能明确父子关系，而不能确定一个二叉树</p>
+
+<p>前序遍历的第一个值为根节点的值，使用这个值将中序遍历结果分成两部分，左部分为树的左子树中序遍历结果，右部分为树的右子树中序遍历的结果。</p>
+
+<p>此时需要找到左子树和右子数的前序遍历，只要有这两个子树的前序遍历，就可以重复上面的过程</p>
+
+<p>只需要确定左子树的结点个数就可以判断出左右子树</p>
+
+<pre><code class="language-java">public class ReconstructTree {
+    // 缓存中序遍历数组每个值对应的索引
+    private Map&lt;Integer, Integer&gt; indexForInOrders = new HashMap&lt;&gt;();
+    /**
+     * 输入是前序遍历和中序遍历
+     * @param pre
+     * @param in
+     * @return
+     */
+    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        //结点在中序遍历中的索引，这里指定了每个结点的值是不同的，所以用hashmap先存储
+        //也可以不存储，这样在找到每个树的根节点后都要在中序遍历中再次遍历找到相应的根节点，确定左右子树
+        for (int i = 0; i &lt; in.length; i++)
+            indexForInOrders.put(in[i], i);
+        return  reConstructBinaryTree(pre,0,pre.length-1,0);
+    }
+
+    /**
+     *
+     * @param pre 前序遍历
+     * @param preL 当前子树在前序遍历的左边界
+     * @param preR 前序遍历的右边界
+     * @param inL 表示当前子树的中序遍历的左边界索引
+     * @return
+     */
+    private TreeNode reConstructBinaryTree(int[] pre,int preL,int preR,int inL){
+        if (preL &gt; preR)
+            return null;
+        //当前树的根结点
+        TreeNode root=new TreeNode(pre[preL]);
+        //根结点在中序遍历的索引
+        //是为了找到根节点在中序遍历中的位置
+        int inIndex=indexForInOrders.get(root.val);
+        //左子树的大小
+        int leftTreeSize=inIndex-inL;
+        //两个遍历都被分成左右两个子树
+        //左子树在前序遍历中的索引就是pre+1到preL+leftTreeSize
+        //右子树就是preL+1+leftTreeSize
+        //左子树在中序遍历中的索引还是以inL开始
+        //右子树在中序遍历的左索引就是inIndex+1
+        root.left=reConstructBinaryTree(pre,preL+1,preL+leftTreeSize,inL);
+        root.right=reConstructBinaryTree(pre,preL+1+leftTreeSize,preR,inIndex+1);
+        return root;
+    }
+}
+</code></pre>
+
+<h3 id="二叉树的下一个结点">二叉树的下一个结点</h3>
+
+<p>给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针</p>
+
+<pre><code class="language-java">//二叉树结点的定义
+public class TreeLinkNode {
+    int val;
+    TreeLinkNode left = null;
+    TreeLinkNode right = null;
+    TreeLinkNode next = null;
+
+    TreeLinkNode(int val) {
+        this.val = val;
+    }
+}
+</code></pre>
+
+<p>解答：</p>
+
+<p>因为这题是中序遍历，所以一个结点的下一个节点有如下情况：</p>
+
+<ul>
+<li>节点存在右子树，则从节点的右孩子出发，一直沿着指向左子结点的指针找到的叶子节点即为下一个节点</li>
+<li>节点不是根节点。如果该节点是其父节点的左孩子，则返回父节点；否则继续向上遍历其父节点的父节点，重复之前的判断（也就是父节点是其父节点的左孩子，则返回父结点的父结点，是右孩子则需要继续向上遍历）</li>
+</ul>
+
+<pre><code class="language-java">public TreeLinkNode GetNext(TreeLinkNode pNode) {
+    if(pNode.right!=null){
+        //右子树存在，则从右孩子出发，向左遍历
+        TreeLinkNode right=pNode.right;
+        TreeLinkNode leftChild=null;
+        while (right!=null){
+            leftChild=right;
+            right=right.left;
+        }
+        return leftChild;
+    }else{
+        //右子树为空
+        //存在父节点
+        while (pNode.next!=null){
+            TreeLinkNode parent=pNode.next;
+            if(parent.left==pNode){
+                //pNode是父节点的左子树
+                return parent;
+            }
+            //向父结点的父结点遍历
+            pNode=pNode.next;
+        }
+    }
+    return null;
+}
+</code></pre>
+
+<h3 id="树的子结构">树的子结构</h3>
+
+<p>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）</p>
+
+<p>子结构</p>
+
+<pre><code class="language-java">      8
+     /  \                 8
+    8    7               / \ 
+   / \  / \             9   2
+  9   2 1  1                 
+                          
+</code></pre>
+
+<pre><code class="language-java"> public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+    boolean result=false;
+    if(root1!=null&amp;&amp;root2!=null){
+        //找到第一个相等的点
+        //如果不等或者比较出的结果为false，这用root1的左子树和root2比较
+        if(!result){
+            
+             // result=subTree(root1.left,root2);  //错误代码
+            result=HasSubtree(root1.left,root2);
+        }
+        if(!result){
+              // result=subTree(root1.right,root2); //错误代码
+            result=HasSubtree(root1.right,root2);
+        }
+    }
+    return result;
+}
+public boolean subTree(TreeNode node1,TreeNodenode2){
+    //如果Tree2已经遍历完了都能对应的上，返回true
+    if(node2==null){
+        return true;
+    }
+    //如果Tree2还没有遍历完，Tree1却遍历完了。返回false
+    if(node1==null){
+        return false;
+    }
+    //有一个结点不等，则false
+    if(node1.val!=node2.val){
+        return false;
+    }
+    //该结点相等，则比较相应的子树，A的左(右)子树对应B的左(右)子树
+    return subTree(node1.left,node2.left)&amp;&amp;subTree(node1.right,node2.right);
+}
+</code></pre>
+
+<h3 id="二叉树的镜像">二叉树的镜像</h3>
+
+<p>操作给定的二叉树，将其变换为源二叉树的镜像</p>
+
+<p>二叉树的镜像定义：</p>
+
+<pre><code class="language-java">源二叉树
+        8
+       /  \
+      6   10
+     / \  / \
+    5  7 9 11
+    镜像二叉树
+        8
+       /  \
+      10   6
+     / \  / \
+    11 9 7  5
+</code></pre>
+
+<p>根据上面的图，对于根结点不需要操作，对于左右子树，交换。然后在左右子树中，进行同样的操作，根结点不变，左右子树交换，直到为两个子树都为空。</p>
+
+<pre><code class="language-java">public void mirror(TreeNode root){
+    if(root==null){
+        return;
+    }
+    if(root.left==null&amp;&amp;root.right==null){
+        return;
+    }
+    //至少有一个子树交换左右子树
+    TreeNode temp=root.left;
+    root.left=root.right;
+    root.right=temp;
+    if(root.left!=null){
+        //求左子树的镜像
+        mirror(root.left);
+    }
+    if(root.right!=null){
+        //右子树的镜像
+        mirror(root.right);
+    }
+}
+</code></pre>
+
+<h3 id="对称的二叉树">对称的二叉树</h3>
+
+<p>用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的</p>
+
+<p>如</p>
+
+<pre><code class="language-java">        1
+       /  \
+      2   2
+     / \  / \
+    3  4 4   3
+</code></pre>
+
+<p>当根结点不为空时判断左右子树，当左右子树的根结点相同时，继续向下判断，判断<strong>左子树的左子树</strong>和<strong>右子树的右子树</strong>是否相等、左子树的右子树和右子树的左子树是否相等</p>
+
+<pre><code class="language-java">boolean isSymmetrical(TreeNode pRoot){
+    if(pRoot==null){
+        return true;
+    }
+    return compare(pRoot.left,pRoot.right);
+}
+private boolean compare(TreeNode left,TreeNode ight){
+    if(left==null &amp;&amp;right==null){
+        return true;
+    }
+    //结束
+    if(left==null||right==null){
+        return false;
+    }
+    //两个子树的根节点是否相等
+    if(left.val!=right.val){
+        return false;
+    }
+    //判断左子树的左子树和右子树的右子树是否相等、左子树的右子树和右子树的左子树是否相等
+    return compare(left.left,right.right)&amp;&amp;compare(left.right,right.left);
+}
+</code></pre>
+
+<h3 id="从上往下打印二叉树">从上往下打印二叉树</h3>
+
+<p>也就是层序遍历</p>
+
+<pre><code class="language-java">public class PrintFromTopToBottom {
+    public ArrayList&lt;Integer&gt; printFromTopToBottom(TreeNode root) {
+        Queue&lt;TreeNode&gt; queue=new LinkedList&lt;&gt;();
+        ArrayList&lt;Integer&gt; res=new ArrayList&lt;&gt;();
+        if(root!=null){
+            queue.add(root);
+        }
+        while (!queue.isEmpty()){
+            //出队
+            TreeNode node=queue.poll();
+//            System.out.println(node.val);
+            res.add(node.val);
+            //将结点的左右子结点加入队列
+            if(node.left!=null){
+                queue.add(node.left);
+            }
+            if(node.right!=null){
+                queue.add(node.right);
+            }
+        }
+        return res;
+    }
+}
+</code></pre>
+
+<h3 id="把二叉树打印成多行">把二叉树打印成多行</h3>
+
+<p>从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。</p>
+
+<p>解答：这题和层序遍历基本一样，层序遍历时会在输出每一层的结点时也会将下一层将入到队列中。在这题中需要记住每层的结点数</p>
+
+<pre><code class="language-java">public class Print {
+    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; print(TreeNode pRoot) {
+        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; res=new ArrayList&lt;&gt;();
+        Queue&lt;TreeNode&gt; queue=new LinkedList&lt;&gt;();
+        if(pRoot!=null){
+            queue.add(pRoot);
+        }
+        while (!queue.isEmpty()){
+            //这里和层序遍历不同，要先记住此层的结点数
+            int cnt=queue.size();
+            ArrayList&lt;Integer&gt; temp=new ArrayList&lt;&gt;();
+            //先将一层遍历完，因为在遍历时，有下一层的结点加入队列，所以不能像层序遍历那样写
+            while (cnt--!=0){
+                TreeNode node=queue.poll();
+                temp.add(node.val);
+                if(node.left!=null){
+                    queue.add(node.left);
+                }
+                if(node.right!=null){
+                    queue.add(node.right);
+                }
+            }
+            res.add(new ArrayList&lt;&gt;(temp));
+        }
+        return res;
+    }
+}
+</code></pre>
+
+<h3 id="按之字形顺序打印二叉树">按之字形顺序打印二叉树</h3>
+
+<p>请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。</p>
+
+<p>解答：</p>
+
+<p>和上一题相似，只是需要控制一下是正序和逆序输出。只要给个标志位，开始正序，然后取反表示逆序，再取反就能实现之字形输出</p>
+
+<pre><code class="language-java">public class PrintZ {
+    public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; print(TreeNode pRoot) {
+        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; res = new ArrayList&lt;&gt;();
+        Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();
+        if (pRoot != null) {
+            queue.add(pRoot);
+        }
+        boolean reverse=false;
+        while (!queue.isEmpty()) {
+            //这里和层序遍历不同，要先记住此层的结点数
+            int cnt = queue.size();
+            ArrayList&lt;Integer&gt; temp=new ArrayList&lt;&gt;();
+            while (cnt--&gt;0){
+                TreeNode node=queue.poll();
+                if(node==null){
+                    continue;
+                }
+                temp.add(node.val);
+                queue.add(node.left);
+                queue.add(node.right);
+            }
+            if(reverse){
+                Collections.reverse(temp);
+            }
+            reverse=!reverse;
+            if(temp.size()&gt;0) {
+                res.add(temp);
+            }
+        }
+        return res;
+    }
+}
+</code></pre>
+
+<h3 id="二叉搜索树的后序遍历序列">二叉搜索树的后序遍历序列</h3>
+
+<p>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。假设输入的数组的任意两个数字都互不相同。</p>
+
+<p>例如，下图是后序遍历序列 1,3,2 所对应的二叉搜索树。</p>
+
+<pre><code class="language-dot">digraph G{
+    2 -&gt; 1
+    2-&gt;3;
+}
+</code></pre>
+
+<p>解答：</p>
+
+<p>如果一个序列S是二叉搜索树（BST）的后序序列，则满足：最一个元素是X（根），若去掉最后一个元素X的序列为T，那么T满足，前一段小于X（左子树），后一段大于X（右子树），且两个子树都递归的地满足该条件</p>
+
+<p>所以只需要找到左子树，然后判断剩余的序列是否满足右子树。再递归判断左子树和右子树</p>
+
+<pre><code class="language-java">public class VerifySquenceOfBST {
+    public boolean verifySquenceOfBST(int [] sequence) {
+        if(sequence==null||sequence.length&lt;=0){
+            return false;
+        }
+        if(sequence.length==1){
+            return true;
+        }
+        return judge(sequence,0,sequence.length-1);
+    }
+    boolean judge(int[] sequence,int left ,int right){
+        if(left&gt;=right){
+            return true;
+        }
+        int i=left;
+        //找到第一个比根大的数
+        while (sequence[i]&lt;sequence[right]){
+            i++;
+        }
+        //从i到right-1的数都应该比索引为right的数大
+        for (int j = i; j &lt; right; j++) {
+            if(sequence[j]&lt;sequence[right]){
+                return false;
+            }
+        }
+        //注意右子树是i到right-1，不是right，right对应的是根
+        return judge(sequence,left,i-1)&amp;&amp;judge(sequence,i,right-1);
+    }
+}
+</code></pre>
+
+<h3 id="二叉树中和为某一值的路径">二叉树中和为某一值的路径</h3>
+
+<p>输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。</p>
+
+<p>解答：</p>
+
+<pre><code class="language-java">public class FindPath {
+    void dfs(ArrayList&lt;ArrayList&lt;Integer&gt;&gt; res,ArrayList&lt;Integer&gt; temp,TreeNode root,int target){
+        //到达该路径结
+        if(root==null){
+            return;
+        }
+        temp.add(root.val);
+        target-=root.val;
+        //满足条件
+        if(target==0&amp;&amp;root.left==null&amp;&amp;root.right==null){
+            res.add(new ArrayList&lt;&gt;(temp));
+        }else{
+            dfs(res,temp,root.left,target);
+            dfs(res,temp,root.right,target);
+        }
+        temp.remove(temp.size()-1);
+        //target += root.val;//这句可加可不加，不会影响上一层调用的target
+
+    }
+    public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; findPath(TreeNode root, int target) {
+        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; res=new ArrayList&lt;&gt;();
+        ArrayList&lt;Integer&gt; temp=new ArrayList&lt;&gt;();
+        dfs(res,temp,root,target);
+        return res;
+    }
+}
+</code></pre>
+
+<h3 id="二叉搜索树与双向链表">二叉搜索树与双向链表</h3>
+
+<p>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向</p>
+
+<p>解答</p>
+
+<p>对BST进行中序遍历，可以得到一个有序的序列。在遍历时，需要记住当前链表的头尾结点</p>
+
+<pre><code class="language-java">public class TreeConvertList {
+    private TreeNode pre = null; //记尾结点
+    private TreeNode head = null;//头结点
+    public TreeNode convert(TreeNode pRootOfTree) {
+        inOrder(pRootOfTree);
+        return head;
+    }
+    private void inOrder(TreeNode node) {
+        if(node==null){
+            return;
+        }
+
+        inOrder(node.left);
+        node.left=pre;
+        if(pre!=null){
+            pre.right=node;
+        }
+        pre=node;
+        //此时只有node，作为头结点
+        if(head==null){
+            head=node;
+        }
+        inOrder(node.right);
+    }
+}
+</code></pre>
+
+<h3 id="序列化二叉树">序列化二叉树</h3>
+
+<p>请实现两个函数，分别用来序列化和反序列化二叉树</p>
+
+<p>解答</p>
+
+<p>采用先序遍历，在遇到null时，用‘#’表示，</p>
+
+<p>如</p>
+
+<pre><code class="language-java">     30
+   /    \   
+  10    20
+ /     /  \
+50    45  35
+</code></pre>
+
+<p>就是<code>30 10 50 # # # 20 45 # # 35 # #</code>,因为50有两个null，所以50后面有两个#，20的前一个#是10的右节点</p>
+
+<pre><code class="language-java">public class Serialize {
+    //需要使用成员变量
+    String str1;
+    String Serialize(TreeNode root) {
+        if(root==null){
+            return &quot;#&quot;;
+        }
+        return root.val+&quot; &quot;+Serialize(root.left)+&quot; &quot;+Serialize(root.right);
+    }
+    TreeNode Deserialize(String str) {
+        str1=str;
+        return Deserialize();
+    }
+    //反序列化，也是按照根左右来重建
+    TreeNode Deserialize() {
+        if(str1.length()==0){
+            return null;
+        }
+        
+        int index=str1.indexOf(&quot; &quot;);
+        String node=&quot;&quot;;
+        //分割结点的值
+        //-1表示最后一个结点了
+        if(index==-1){
+            node=str1;
+            //此时字符串没有了，长度为0
+            str1=&quot;&quot;;
+        }else{
+            //分割结点
+            node=str1.substring(0,index);
+            str1=str1.substring(index+1);
+        }
+        //若为#表示结点为null
+        if(node.equals(&quot;#&quot;)){
+            return null;
+        }
+        int val=Integer.valueOf(node);
+        TreeNode t=new TreeNode(val);
+        //如果不用成员变量，右子树感知不到左子树对字符串的改变
+        t.left=Deserialize();
+        t.right=Deserialize();
+        return t;
+    }
+
+}
+</code></pre>
+
+<h3 id="二叉树的深度">二叉树的深度</h3>
+
+<p>输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。</p>
+
+<pre><code class="language-java">public int treeDepth(TreeNode pRoot){
+    if(pRoot == null){
+        return 0;
+    }
+    int left = TreeDepth(pRoot.left);
+    int right = TreeDepth(pRoot.right);
+    return Math.max(left, right) + 1;
+}
+</code></pre>
+
+<p>非递归</p>
+
+<!-- TODO -->
+
+<pre><code class="language-java">public class Solution {
+    public int TreeDepth(TreeNode pRoot)
+    {
+        if(pRoot == null){
+            return 0;
+        }
+        Queue&lt;TreeNode&gt; queue = new LinkedList&lt;TreeNode&gt;();
+        queue.add(pRoot);
+        int depth = 0, count = 0, nextCount = 1;
+        while(queue.size()!=0){
+            TreeNode top = queue.poll();
+            count++;
+            if(top.left != null){
+                queue.add(top.left);
+            }
+            if(top.right != null){
+                queue.add(top.right);
+            }
+            if(count == nextCount){
+                nextCount = queue.size();
+                count = 0;
+                depth++;
+            }
+        }
+        return depth;
+    }
+}
+</code></pre>
+
+<h3 id="二叉查找树的第-k-个结点">二叉查找树的第 K 个结点</h3>
+
+<p>给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。</p>
+
+<p>解答：</p>
+
+<p>二叉查找树的中序遍历是有序的</p>
+
+<pre><code class="language-java">public class KthNod {
+    private int cnt=0;
+    TreeNode res;
+    TreeNode KthNode(TreeNode pRoot, int k) {
+
+        inOrder(pRoot,k);
+        return res;
+    }
+    private void inOrder(TreeNode root,int k){
+        if(root==null||cnt&gt;=k){
+            return;
+        }
+        inOrder(root.left,k);
+        cnt++;
+        if(cnt==k){
+            res=root;
+        }
+        inOrder(root.right,k);
+    }
+}
+</code></pre>
+
+<h3 id="平衡二叉树">平衡二叉树</h3>
+
+<p>输入一棵二叉树，判断该二叉树是否是平衡二叉树。</p>
+
+<p>解答：</p>
+
+<p>左右子树高度差不超过1</p>
+
+<pre><code class="language-java">boolean isBlanced=true;
+public boolean IsBalanced_Solution(TreeNode root) {
+    height(root);
+    return isBlanced;
+}
+private int height(TreeNode root){
+    if(root==null){
+        return 0;
+    }
+    int left=height(root.left);
+    int right=height(root.right);
+    if(Math.abs(left-right)&gt;1){
+        isBlanced=false;
+    }
+    return 1+Math.max(left,right);
+}
+</code></pre>
+
+<h3 id="树中两个节点的最低公共祖先">树中两个节点的最低公共祖先</h3>
+
+<p>在二叉查找树中找到两个节点的最低公共祖先。这题也是leetcode 第235题</p>
+
+<p>二叉查找树中，两个节点 p, q 的最低公共祖先 root 满足 <code>root.val &gt;= p.val &amp;&amp; root.val &lt;= q.val</code>，或者是<code>root.val &lt;= p.val &amp;&amp; root.val &gt;= q.val</code>。所以只需要遍历。从根结点开始遍历，找到符合条件的节点即可。</p>
+
+<p>注意条件中的等于是因为可能出现p(q)是q(p)的祖先</p>
+
+<pre><code class="language-java">public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if(root==null){
+        return null;
+    }
+    TreeNode t=root;
+    while (t!=null){
+        if(t.val&gt;p.val&amp;&amp;t.val&gt;q.val){
+            t=t.left;
+        }else if(t.val&lt;p.val&amp;&amp;t.val&lt;q.val){
+            t=t.right;
+        }else{
+            return t;
+        }
+    }
+    return root;
+}
+</code></pre>
+
+<p>递归的写法</p>
+
+<pre><code class="language-java">public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null)
+        return root;
+    if (root.val &gt; p.val &amp;&amp; root.val &gt; q.val)
+        return lowestCommonAncestor(root.left, p, q);
+    if (root.val &lt; p.val &amp;&amp; root.val &lt; q.val)
+        return lowestCommonAncestor(root.right, p, q);
+    return root;
+}
+</code></pre>
+
+<p>如果树是普通二叉树，寻找p、q的最低公共祖先。这题也是leetcode 第236题</p>
+
+<p>若p和q要么分别位于左右子树中，那么对左右子结点调用递归函数，会分别返回p和q结点的位置，而当前结点正好就是p和q的最小共同父结点，直接返回当前结点即可，这就是题目中的例子1的情况。</p>
+
+<p>若p和q同时位于左子树，这里有两种情况，一种情况是left会返回p和q中较高的那个位置，而right会返回空，所以我们最终返回非空的left即可，这就是题目中的例子2的情况。还有一种情况是会返回p和q的最小父结点，就是说当前结点的左子树中的某个结点才是p和q的最小父结点，会被返回。</p>
+
+<p>若p和q同时位于右子树，同样这里有两种情况，一种情况是right会返回p和q中较高的那个位置，而left会返回空，所以我们最终返回非空的right即可，还有一种情况是会返回p和q的最小父结点，就是说当前结点的右子树中的某个结点才是p和q的最小父结点，会被返回</p>
+
+<pre><code class="language-java">public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q)
+        return root;
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+     if (left != null &amp;&amp; right != null)          // p and q in two subtrees
+            return root;
+        else
+            return left != null ? left : right;
+}
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/04/22/%E5%89%91%E6%8C%87offer-%E9%93%BE%E8%A1%A8/">剑指offer-链表</a></li>
+        
+        <li><a href="/2019/05/12/Leetcode-%E7%AC%AC33%E9%A2%98-Search-in-Rotated-Sorted-Array/">Leetcode 第33题 Search in Rotated Sorted Array</a></li>
+        
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/">Leetcode 第10题 Regular Expression Matching</a></li>
+        
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/">Leetcode 第9题 Palindrome Number</a></li>
+        
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/">Leetcode 第8题 String to Integer</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer">剑指offer</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.njutzhangjie.cn/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/" title="剑指offer-树相关的题目">剑指offer-树相关的题目</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/Leetcode-%E7%AC%AC33%E9%A2%98-Search-in-Rotated-Sorted-Array/" title="Leetcode 第33题 Search in Rotated Sorted Array">Leetcode 第33题 Search in Rotated Sorted Array</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E9%98%BF%E9%87%8C%E4%BD%9C%E4%B8%9A%E5%B8%AE%E7%9B%9B%E5%A4%A7/" title="面试记录（阿里、作业帮、盛大）">面试记录（阿里、作业帮、盛大）</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/" title="Leetcode 第10题 Regular Expression Matching">Leetcode 第10题 Regular Expression Matching</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/" title="Leetcode 第9题 Palindrome Number">Leetcode 第9题 Palindrome Number</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/" title="Leetcode 第8题 String to Integer">Leetcode 第8题 String to Integer</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC7%E9%A2%98-Reverse-Integer/" title="Leetcode 第7题  Reverse Integer">Leetcode 第7题  Reverse Integer</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/28/Leetcode-%E7%AC%AC6%E9%A2%98-Zigzag-Conversion/" title="Leetcode 第6题 Zigzag Conversion">Leetcode 第6题 Zigzag Conversion</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/28/Leetcode-%E7%AC%AC5%E9%A2%98-Longest-Palindromic-Substring/" title="Leetcode 第5题 Longest Palindromic Substring">Leetcode 第5题 Longest Palindromic Substring</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/27/%E5%B8%B8%E8%A7%81%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="常见排序算法">常见排序算法</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Java/">Java(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Redis/">Redis(2)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/mybatis/">mybatis(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/spring/">spring(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%8E%92%E9%94%99%E4%B9%8B%E8%B7%AF/">排错之路(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(22)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E9%9D%A2%E8%AF%95/">面试(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Java/">Java</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Redis/">Redis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/bug/">bug</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/leetcode/">leetcode</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mybatis/">mybatis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mysql/">mysql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/spring/">spring</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/sql/">sql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer/">剑指offer</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%BA%90%E7%A0%81/">源码</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%9B%86%E5%90%88/">集合</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.njutzhangjie.cn/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="http://blog.njutzhangjie.cn/">zhangjie&#39;s blog By zhangjie</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>
