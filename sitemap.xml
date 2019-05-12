@@ -198,13 +198,13 @@
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/Java/</loc>
+    <loc>http://blog.njutzhangjie.cn/tags/Java/</loc>
     <lastmod>2019-03-18T11:25:22+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/tags/Java/</loc>
+    <loc>http://blog.njutzhangjie.cn/categories/Java/</loc>
     <lastmod>2019-03-18T11:25:22+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -216,13 +216,13 @@
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/Redis/</loc>
+    <loc>http://blog.njutzhangjie.cn/tags/Redis/</loc>
     <lastmod>2019-03-29T16:21:37+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/tags/Redis/</loc>
+    <loc>http://blog.njutzhangjie.cn/categories/Redis/</loc>
     <lastmod>2019-03-29T16:21:37+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -246,13 +246,13 @@
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/mybatis/</loc>
+    <loc>http://blog.njutzhangjie.cn/tags/mybatis/</loc>
     <lastmod>2019-03-16T22:15:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/tags/mybatis/</loc>
+    <loc>http://blog.njutzhangjie.cn/categories/mybatis/</loc>
     <lastmod>2019-03-16T22:15:32+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -264,13 +264,13 @@
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/spring/</loc>
+    <loc>http://blog.njutzhangjie.cn/tags/spring/</loc>
     <lastmod>2019-03-16T22:26:39+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/tags/spring/</loc>
+    <loc>http://blog.njutzhangjie.cn/categories/spring/</loc>
     <lastmod>2019-03-16T22:26:39+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -312,13 +312,13 @@
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <loc>http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2019-03-13T20:50:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <loc>http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2019-03-13T20:50:07+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -330,25 +330,25 @@
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2019-05-12T13:51:43+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2019-05-12T13:51:43+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2019-03-10T15:40:13+08:00</lastmod>
+    <loc>http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2019-05-12T13:51:43+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://blog.njutzhangjie.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2019-03-10T15:40:13+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/</loc>
     <lastmod>2019-03-10T15:40:13+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -372,13 +372,13 @@
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/categories/%E9%9D%A2%E8%AF%95/</loc>
+    <loc>http://blog.njutzhangjie.cn/tags/%E9%9D%A2%E8%AF%95/</loc>
     <lastmod>2019-04-29T09:49:57+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://blog.njutzhangjie.cn/tags/%E9%9D%A2%E8%AF%95/</loc>
+    <loc>http://blog.njutzhangjie.cn/categories/%E9%9D%A2%E8%AF%95/</loc>
     <lastmod>2019-04-29T09:49:57+08:00</lastmod>
     <priority>0</priority>
   </url>

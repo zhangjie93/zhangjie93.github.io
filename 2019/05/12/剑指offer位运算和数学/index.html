@@ -615,7 +615,7 @@
 }
 </code></pre>
 
-<p>当 Singleton 类加载时，静态内部类 <code>SingletonHolder</code> 没有被加载进内存。只有当调用 <code>getUniqueInstance()</code> 方法从而触发 <code>SingletonHolder.INSTANCE</code> 时 <code>SingletonHolder</code> 才会被加载，此时初始化 <code>INSTANCE 实例</code>，并且 JVM 能确保 <code>I</code>NSTANCE` 只被实例化一次。</p>
+<p>当 Singleton 类加载时，静态内部类 <code>SingletonHolder</code> 没有被加载进内存。只有当调用 <code>getUniqueInstance()</code> 方法从而触发 <code>SingletonHolder.INSTANCE</code> 时 <code>SingletonHolder</code> 才会被加载，此时初始化 <code>INSTANCE</code> 实例，并且 JVM 能确保 <code>INSTANCE</code> 只被实例化一次。</p>
 
 <p>这种方式不仅具有延迟初始化的好处，而且由 JVM 提供了对线程安全的支持。</p>
 
