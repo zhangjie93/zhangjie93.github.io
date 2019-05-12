@@ -6,17 +6,35 @@
     <description>Recent content in Posts on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 12 May 2019 11:14:02 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 May 2019 11:20:35 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>剑指offer字符串</title>
-      <link>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <title>剑指offer-贪心回溯</title>
+      <link>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E8%B4%AA%E5%BF%83%E5%9B%9E%E6%BA%AF/</link>
+      <pubDate>Sun, 12 May 2019 11:20:35 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E8%B4%AA%E5%BF%83%E5%9B%9E%E6%BA%AF/</guid>
+      <description>贪心 剪绳子 把一根绳子剪成多段，并且使得每段的长度乘积最大。也就是将一个整数分成多个数，使这些数的积最大 这题也是leetcode 343 贪心： 尽可能</description>
+    </item>
+    
+    <item>
+      <title>剑指offer-堆栈</title>
+      <link>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%A0%86%E6%A0%88/</link>
+      <pubDate>Sun, 12 May 2019 11:19:24 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%A0%86%E6%A0%88/</guid>
+      <description>栈 用两个栈实现队列 用两个栈来实现一个队列，完成队列的 Push 和 Pop 操作。 解答：in 栈用来处理入栈（push）操作，out 栈用来处理出栈（pop）操作</description>
+    </item>
+    
+    <item>
+      <title>剑指offer-字符串</title>
+      <link>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
       <pubDate>Sun, 12 May 2019 11:14:02 +0800</pubDate>
       
-      <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
       <description>字符串 替换空格 将一个字符串中的空格替换成 &amp;ldquo;%20&amp;rdquo;。 先遍历字符串，遇到空格则在字符串尾部填充任意字符，使得字符串的长</description>
     </item>
     
@@ -27,6 +45,15 @@
       
       <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/</guid>
       <description>树 重建二叉树 根据二叉树的前序遍历和中序遍历的结果，重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。 二叉树的重建可以根据</description>
+    </item>
+    
+    <item>
+      <title>剑指offer数组</title>
+      <link>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Sun, 12 May 2019 09:50:19 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E6%95%B0%E7%BB%84/</guid>
+      <description>数组 数组中重复的数字 在一个长度为 n 的数组里的所有数字都在 0 到 n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字是重复的，也不知道每个数字</description>
     </item>
     
     <item>

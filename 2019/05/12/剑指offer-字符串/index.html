@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-site-verification" content="L7Eb3QuuRamqPjKJF7KispHkw-bj1bhG0JXH2Wqr5SI" />
+    <title>剑指offer-字符串 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="剑指offer-字符串 - zhangjie&#39;s blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-05-12T11:14:02&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-05-12T11:14:02&#43;08:00">
+        
+    <meta name="Keywords" content="Java,算法,leetcode,spring">
+    <meta name="description" content="剑指offer">
+        
+    <meta name="author" content="zhangjie">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139236179-1"></script>
+     <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-139236179-1');
+    </script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://blog.njutzhangjie.cn/">
+                        zhangjie&#39;s blog
+                    </a>
+                
+                <p class="description">Loading...</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://blog.njutzhangjie.cn/">首页</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://blog.njutzhangjie.cn/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">剑指offer-字符串</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年5月12日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h2 id="字符串">字符串</h2>
+
+<h3 id="替换空格">替换空格</h3>
+
+<p>将一个字符串中的空格替换成 &ldquo;%20&rdquo;。</p>
+
+<p>先遍历字符串，遇到空格则在字符串尾部填充任意字符，使得字符串的长度等于替换之后的长度。因为一个空格要替换成三个字符（%20），因此当遍历到一个空格时，需要在尾部填充两个任意字符。</p>
+
+<p>令 P1 指向字符串原来的末尾位置，P2 指向字符串现在的末尾位置。P1 和 P2 从后向前遍历，当 P1 遍历到一个空格时，就需要令 P2 指向的位置依次填充 <code>0</code>、<code>2</code>、<code>%</code>（注意是逆序的），否则就填充上 P1 指向字符的值。</p>
+
+<p>从后向前遍是为了在改变 P2 所指向的内容时，不会影响到 P1 遍历原来字符串的内容。</p>
+
+<pre><code class="language-java">public String replaceSpace(StringBuilder str){
+    //p1指向原字符串的末尾
+    int p1=str.length()-1;
+    for (int i = 0; i &lt;=p1; i++) {
+        if(str.charAt(i)==' '){
+            //有一个空格在末尾加两个字符，结束后的字符串长度就是替换完空格后字符串应有的长度
+            str.append(&quot;  &quot;);
+            //这里用两个空格来占位，可以用任意字符占位
+        }
+    }
+    //如：字符串&quot;A B C D&quot;，在上面填充完成后就是A B C D      &quot;,在后面加了6个空格
+    //p1指向D，p2指向最后一个空格因为p1指向不是空格，所以p2指向的位置填充上D。p1，p2前进。
+    //p1此时指向空格，所以p2指向的地方放入0，p2前进，放入2，p2前进，放入%，p2前进，此时p1也要前进，依次类推
+    //p2是现在字符串末尾的位置
+    int p2=str.length()-1;
+    while (p1&gt;=0&amp;&amp;p2&gt;p1){
+        char c=str.charAt(p1--);
+        if(c==' '){
+            //为空格,则填充02%，注意是%20的逆序
+            str.setCharAt(p2--,'0');
+            str.setCharAt(p2--,'2');
+            str.setCharAt(p2--,'%');
+        }else{
+            str.setCharAt(p2--,c);
+        }
+    }
+    return str.toString();
+}
+</code></pre>
+
+<h3 id="字符串转整数">字符串转整数</h3>
+
+<p>将一个字符串转换成一个整数(实现Integer.valueOf(string)的功能，但是string不符合数字要求时返回0)，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0</p>
+
+<p>解答：只需要按字符判断即可，对于第一个字符可以为数字或者正负号，其它位置的字符都应该是数字。在遍历时判断是否合法即可</p>
+
+<pre><code class="language-java">public int StrToInt(String str) {
+    if(str==null||str.length()&lt;=0){
+        return 0;
+    }
+    //正负号
+    int flag=1;
+    flag=str.charAt(0)=='-'?-1:1;
+    int res=0;
+    for (int i = 0; i &lt; str.length(); i++) {
+        char c=str.charAt(i);
+        //第1个字符单独判断
+        if(i==0&amp;&amp;(c=='+'||c=='-')){
+            continue;
+        }
+        //合法
+        if(c&gt;='0'&amp;&amp;c&lt;='9'){
+            res=res*10+(c-'0');
+        }else{
+            return 0;
+        }
+    }
+    return flag*res;
+}
+</code></pre>
+
+<h3 id="表示数值的字符串">表示数值的字符串</h3>
+
+<p>请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串&rdquo;+100&rdquo;,&ldquo;5e2&rdquo;,&ldquo;-123&rdquo;,&ldquo;3.1416&rdquo;和&rdquo;-1E-16&rdquo;都表示数值。 但是&rdquo;12e&rdquo;,&ldquo;1a3.14&rdquo;,&ldquo;1.2.3&rdquo;,&ldquo;+-5&rdquo;和&rdquo;12e+4.3&rdquo;都不是</p>
+
+<p>解答：</p>
+
+<p>这题可以用正则<code>[+-]?\\d*(\\.\\d+)?([eE][+-]?\\d+)?</code>，判断是否符合该正则。这个正则有问题<code>e12</code>也能通过</p>
+
+<p>正则解释：[+-]?表示有0或1个+/-，然后是0或多个数字，有0个或1个小数点+数字，然后是可选的e/E，+/-可选（指0或1），后面是至少一个数字</p>
+
+<p>按位判断</p>
+
+<pre><code class="language-java">public boolean isNumeric(char[] str) {
+    boolean sign=false,dot=false,hasE=false;
+    for (int i = 0; i &lt; str.length; i++) {
+        if(str[i]=='e'||str[i]=='E'){
+            //指数符号前必须有整数
+            if(i==0){
+                return false;
+            }
+            //e不能是最后一位
+            if(i==str.length-1){
+                return false;
+            }
+            //不能有两个e
+            if(hasE){
+                return false;
+            }
+                hasE=true;
+        }else if(str[i]=='+'||str[i]=='-'){
+            //第一次出现+''-'符号只能在第一个字符或者指数符号后
+            if(!sign &amp;&amp; i != 0 &amp;&amp; !hasE)  {
+                return false;
+            }
+            //第二次出现一定要在e/E的后面
+            if(sign&amp;&amp;str[i-1]!= 'e' &amp;&amp; str[i-1] != 'E'){
+                return false;
+            }
+            //第一次出现不在字符串开头则必须在e/E后面
+            if(!sign&amp;&amp;i&gt;0&amp;&amp;str[i-1]!='e'&amp;&amp;str[i-1]!='E'){
+               return false;
+            }
+            sign=true;
+        }else if(str[i]=='.'){
+            // // e后面不能接小数点，小数点不能出现两次
+            if(hasE||dot){
+                return false;
+            }
+            dot=true;
+        } else if (str[i] &lt; '0' || str[i] &gt; '9') // 不合法字符
+            return false;
+    }
+    return true;
+}
+</code></pre>
+
+<h3 id="字符流中第一个不重复的字符">字符流中第一个不重复的字符</h3>
+
+<p>请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符 &ldquo;go&rdquo; 时，第一个只出现一次的字符是 &ldquo;g&rdquo;。当从该字符流中读出前六个字符“google&rdquo; 时，第一个只出现一次的字符是 &ldquo;l&rdquo;。</p>
+
+<p>如果当前字符流没有存在出现一次的字符，返回#字符。</p>
+
+<p>注意是数据流，所以数据的数目是不断变化的</p>
+
+<p>用数组记录次数，队列中只保留次数为1的字符</p>
+
+<pre><code class="language-java">public class FirstAppearingOnce {
+    private int[] cnts = new int[256];
+    private Queue&lt;Character&gt; queue = new LinkedList&lt;&gt;();
+
+    //Insert one char from stringstream
+    public void Insert(char ch) {
+        queue.add(ch);
+        //记录出现次数
+        cnts[ch]++;
+        //去掉大于1的
+        while (!queue.isEmpty()&amp;&amp;cnts[queue.peek()]&gt;1){
+            queue.poll();
+        }
+    }
+
+    //return the first appearence once char in current stringstream
+    public char FirstAppearingOnce() {
+        return queue.isEmpty() ? '#' : queue.peek();
+    }
+}
+</code></pre>
+
+<h3 id="把数字翻译成字符串">把数字翻译成字符串</h3>
+
+<p>给定一个数字，按照如下规则翻译成字符串：1 翻译成“a”，2 翻译成“b”&hellip; 26 翻译成“z”。一个数字有多种翻译可能，例如 12258 一共有 5 种，分别是 abbeh，lbeh，aveh，abyh，lyh。实现一个函数，用来计算一个数字有多少种不同的翻译方法</p>
+
+<p>解答：</p>
+
+<pre><code class="language-java">public class NumDecodings {
+    public int numDecodings(String s) {
+        if (s == null || s.length() == 0 || s.charAt(0) == '0') {
+            return 0;
+        }
+        int len=s.length();
+        int[] dp=new int[len+1];
+        dp[0]=0;
+        dp[1]=s.charAt(0)=='0'?0:1;
+        for (int i = 2; i &lt;=len; i++) {
+            //取第i个字符
+            char c=s.charAt(i-1);
+            //若不为0则可以将c翻译
+            if(c!='0'){
+                dp[i]+=dp[i-1];
+            }
+            //如果前一个字符为0，则c和不能为前一个字符组成一个数
+            if(s.charAt(i-2)=='0'){
+                continue;
+            }
+            //第i个字符和第i-1个字符组成一个数字
+            if(Integer.parseInt(s.substring(i-2,i))&lt;=26){
+                //在前两位数的情况下，如123，在i=2时，12是符合情况的，此时需要加1
+                if(i-2==0){
+                    dp[i]+=1;
+                }else{
+                    dp[i]+=dp[i-2];
+                }
+
+
+            }
+
+        }
+        return dp[len];
+    }
+}
+</code></pre>
+
+<h3 id="第一个只出现一次的字符位置">第一个只出现一次的字符位置</h3>
+
+<p>在一个字符串(0&lt;=字符串长度&lt;=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）</p>
+
+<p>解答：</p>
+
+<p>遍历字符串，将每个字符的个数统计下来，然后再次遍历字符串，找到个数为1的字符</p>
+
+<pre><code class="language-java">public int FirstNotRepeatingChar(String str) {
+    Map&lt;Character,Integer&gt; map=new HashMap&lt;&gt;();
+    //map存储字符个数
+    for (int i = 0; i &lt; str.length(); i++) {
+        char c=str.charAt(i);
+        if(map.containsKey(c)){
+            map.put(c,map.get(c)+1);
+        }else{
+            map.put(c,1);
+        }
+    }
+    //重新遍历字符串，得到个数为1的字符
+    for (int i = 0; i &lt; str.length(); i++) {
+        char c=str.charAt(i);
+        if(map.get(c)==1){
+            return i;
+        }
+    }
+    return -1;
+}
+</code></pre>
+
+<p>由于字符是有限的，所以可以用数组代替HashMap</p>
+
+<pre><code class="language-java">public int FirstNotRepeatingChar1(String str){
+    //由于字符的范围是固定的，所以用数组来代替HashMap
+    //索引就表示字符对应的ASCII
+    int[] cnt=new int[256];
+    for (int i = 0; i &lt; str.length(); i++) {
+        char c=str.charAt(i);
+        cnt[c]++;
+    }
+    for (int i = 0; i &lt; str.length(); i++) {
+        char c=str.charAt(i);
+        if(cnt[c]==1){
+            return i;
+        }
+    }
+    return -1;
+}
+</code></pre>
+
+<p>在计数时，其实只需记录字符数是0，1以及不是0或1，所以一个字符只需要2个bit位就可以记录</p>
+
+<pre><code class="language-java">public int FirstNotRepeatingChar2(String str) {
+    BitSet bs1 = new BitSet(256);
+    BitSet bs2 = new BitSet(256);
+    for (char c : str.toCharArray()) {
+        //如果是第一次遇到，则将第1个比特位(从右向左)设为1，表示字符数为1
+        if (!bs1.get(c) &amp;&amp; !bs2.get(c))
+            bs1.set(c);     // 0 0 -&gt; 0 1
+        //如果第二次遇到，则将第2个比特位设为1，表法字符数已经大于1了
+        else if (bs1.get(c) &amp;&amp; !bs2.get(c))
+            bs2.set(c);     // 0 1 -&gt; 1 1
+    }
+    for (int i = 0; i &lt; str.length(); i++) {
+        char c = str.charAt(i);
+        //只有第1个比特位为1的字符个数才是1
+        if (bs1.get(c) &amp;&amp; !bs2.get(c))  // 0 1
+            return i;
+    }
+    return -1;
+}
+</code></pre>
+
+<h3 id="翻转单词顺序列">翻转单词顺序列</h3>
+
+<p>牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？</p>
+
+<pre><code class="language-java">Input:
+&quot;I am a student.&quot;
+
+Output:
+&quot;student. a am I&quot;
+</code></pre>
+
+<p>解答</p>
+
+<p>先旋转每个单词，再旋转整个字符串</p>
+
+<pre><code class="language-java">public class ReverseSentence {
+    public String ReverseSentence(String str) {
+        int n=str.length();
+        char[] c=str.toCharArray();
+        int j=0;
+        for (int i = 0; i &lt;=n; i++) {
+            if(i==n||c[i]==' '){
+                reverse(c,j,i-1);
+                j=i+1;
+            }
+        }
+        reverse(c,0,n-1);
+        return new String(c);
+    }
+    //翻转i到j
+    private void reverse(char[] c, int i, int j) {
+        while (i &lt; j)
+            swap(c, i++, j--);
+    }
+    private void swap(char[] c, int i, int j) {
+        char t = c[i];
+        c[i] = c[j];
+        c[j] = t;
+    }
+
+}
+</code></pre>
+
+<h3 id="左旋转字符串">左旋转字符串</h3>
+
+<p>汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！</p>
+
+<pre><code class="language-java">Input:
+S=&quot;abcXYZdef&quot;
+K=3
+
+Output:
+&quot;XYZdefabc&quot;
+</code></pre>
+
+<p>先将 &ldquo;abc&rdquo; 和 &ldquo;XYZdef&rdquo; 分别翻转，得到 &ldquo;cbafedZYX&rdquo;，然后再把整个字符串翻转得到 &ldquo;XYZdefabc&rdquo;</p>
+
+<pre><code class="language-java">public String LeftRotateString(String str, int n) {
+    if (n &gt;= str.length())
+        return str;
+    char[] chars = str.toCharArray();
+    reverse(chars, 0, n - 1);
+    reverse(chars, n, chars.length - 1);
+    reverse(chars, 0, chars.length - 1);
+    return new String(chars);
+}
+
+private void reverse(char[] chars, int i, int j) {
+    while (i &lt; j)
+        swap(chars, i++, j--);
+}
+
+private void swap(char[] chars, int i, int j) {
+    char t = chars[i];
+    chars[i] = chars[j];
+    chars[j] = t;
+}
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/">剑指offer-树相关的题目</a></li>
+        
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer%E6%95%B0%E7%BB%84/">剑指offer数组</a></li>
+        
+        <li><a href="/2019/04/22/%E5%89%91%E6%8C%87offer-%E9%93%BE%E8%A1%A8/">剑指offer-链表</a></li>
+        
+        <li><a href="/2019/05/12/Leetcode-%E7%AC%AC33%E9%A2%98-Search-in-Rotated-Sorted-Array/">Leetcode 第33题 Search in Rotated Sorted Array</a></li>
+        
+        <li><a href="/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/">Leetcode 第10题 Regular Expression Matching</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer">剑指offer</a></li>
+                                
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://blog.njutzhangjie.cn/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E8%B4%AA%E5%BF%83%E5%9B%9E%E6%BA%AF/" title="剑指offer-贪心回溯">剑指offer-贪心回溯</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%A0%86%E6%A0%88/" title="剑指offer-堆栈">剑指offer-堆栈</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="剑指offer-字符串">剑指offer-字符串</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/" title="剑指offer-树相关的题目">剑指offer-树相关的题目</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer%E6%95%B0%E7%BB%84/" title="剑指offer数组">剑指offer数组</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/05/12/Leetcode-%E7%AC%AC33%E9%A2%98-Search-in-Rotated-Sorted-Array/" title="Leetcode 第33题 Search in Rotated Sorted Array">Leetcode 第33题 Search in Rotated Sorted Array</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/%E9%9D%A2%E8%AF%95%E8%AE%B0%E5%BD%95%E9%98%BF%E9%87%8C%E4%BD%9C%E4%B8%9A%E5%B8%AE%E7%9B%9B%E5%A4%A7/" title="面试记录（阿里、作业帮、盛大）">面试记录（阿里、作业帮、盛大）</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC10%E9%A2%98-Regular-Expression-Matching/" title="Leetcode 第10题 Regular Expression Matching">Leetcode 第10题 Regular Expression Matching</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC9%E9%A2%98-Palindrome-Number/" title="Leetcode 第9题 Palindrome Number">Leetcode 第9题 Palindrome Number</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/2019/04/29/Leetcode-%E7%AC%AC8%E9%A2%98-String-to-Integer/" title="Leetcode 第8题 String to Integer">Leetcode 第8题 String to Integer</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Java/">Java(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/Redis/">Redis(2)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/mybatis/">mybatis(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/spring/">spring(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%8E%92%E9%94%99%E4%B9%8B%E8%B7%AF/">排错之路(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95/">算法(26)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://blog.njutzhangjie.cn/categories/%E9%9D%A2%E8%AF%95/">面试(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Java/">Java</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/Redis/">Redis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/bug/">bug</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/leetcode/">leetcode</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mybatis/">mybatis</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/mysql/">mysql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/spring/">spring</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/sql/">sql</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer/">剑指offer</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E6%BA%90%E7%A0%81/">源码</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/">编程工具</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%93%BE%E8%A1%A8/">链表</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%9B%86%E5%90%88/">集合</a>
+    
+    <a href="http://blog.njutzhangjie.cn/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://blog.njutzhangjie.cn/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="http://blog.njutzhangjie.cn/">zhangjie&#39;s blog By zhangjie</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="google-site-verification" content="L7Eb3QuuRamqPjKJF7KispHkw-bj1bhG0JXH2Wqr5SI" />
-    <title>Redis开发与运维笔记2 | zhangjie&#39;s blog</title>
-    <meta property="og:title" content="Redis开发与运维笔记2 - zhangjie&#39;s blog">
+    <title>剑指offer-堆栈 | zhangjie&#39;s blog</title>
+    <meta property="og:title" content="剑指offer-堆栈 - zhangjie&#39;s blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-03-29T16:21:37&#43;08:00">
+    <meta property="article:published_time" content="2019-05-12T11:19:24&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-03-29T16:21:37&#43;08:00">
+    <meta property="article:modified_time" content="2019-05-12T11:19:24&#43;08:00">
         
     <meta name="Keywords" content="Java,算法,leetcode,spring">
-    <meta name="description" content="Redis开发与运维笔记2">
+    <meta name="description" content="剑指offer">
         
     <meta name="author" content="zhangjie">
-    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/03/29/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B02/">
+    <meta property="og:url" content="http://blog.njutzhangjie.cn/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%A0%86%E6%A0%88/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -81,16 +81,16 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">Redis开发与运维笔记2</h1>
+                            <h1 class="post-title">剑指offer-堆栈</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年3月29日
+                            2019年5月12日
                         </date>
                         
                         <div class="post-meta">
                             <span>|</span>
                             
-                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/Redis">Redis</a></span>
+                                <span class="meta-category"><a href="http://blog.njutzhangjie.cn/categories/%E7%AE%97%E6%B3%95">算法</a></span>
                             
                         </div>
                         
@@ -98,153 +98,222 @@
                         <div class="post-content">
                             
 
-<h1 id="redis功能">Redis功能</h1>
+<h2 id="栈">栈</h2>
 
-<h2 id="慢查询分析">慢查询分析</h2>
+<h3 id="用两个栈实现队列">用两个栈实现队列</h3>
 
-<p>一个命令的执行过程：</p>
+<p>用两个栈来实现一个队列，完成队列的 Push 和 Pop 操作。</p>
 
-<pre><code class="language-mermaid">graph LR
-发送命令--&gt;命令排队
-命令排队--&gt;命令执行
-命令执行--&gt;返回结果
+<p>解答：in 栈用来处理入栈（push）操作，out 栈用来处理出栈（pop）操作。一个元素进入 in 栈之后，出栈的顺序被反转。当元素要出栈时，需要先进入 out 栈，此时元素出栈顺序再一次被反转，因此出栈顺序就和最开始入栈顺序是相同的，先进入的元素先退出，这就是队列的顺序</p>
+
+<pre><code class="language-java">Stack&lt;Integer&gt; in = new Stack&lt;Integer&gt;();
+Stack&lt;Integer&gt; out = new Stack&lt;Integer&gt;();
+
+//入队
+public void push(int node) {
+    in.push(node);
+}
+//出队
+public int pop() throws Exception {
+    //此时out栈没有元素可以出队，需要从in栈中获取元素
+    if (out.isEmpty())
+        //将in栈中的元素全部出栈，放入out栈
+        while (!in.isEmpty())
+            out.push(in.pop());
+    //从in栈中获取元素后仍为空，则表明此时队列为空
+    if (out.isEmpty())
+        throw new Exception(&quot;queue is empty&quot;);
+    return out.pop();
+}
 </code></pre>
 
-<p>慢查询只统计命令执行时间</p>
+<h3 id="包含-min-函数的栈">包含 min 函数的栈</h3>
 
-<p><code>slowlog-log-slower-than</code>:指定预设阀值，单位微秒。超过这个值记录到慢查询日志。为0时表示记录所有，小于0表示不记录
-<code>slowlog-max-len</code>：了慢查询日志最多存储多少条。Redis使用列表来存储慢查询日志，slowlog-max-len就是列表的最大长度</p>
+<p>设计一个最小值栈，支持push,pop,top和在常数时间内取得最小值。注意push,pop,top是正常的栈操作。</p>
 
-<p>获取慢查询日志：<code>slowlog get [n]</code>,n指定条数</p>
+<p>这里的栈并不是指第1个元素是最小值，那是最小堆。而是普通栈的同时，能在常数时间内取得最小值。</p>
 
-<p>日志包括：慢查询日志的标识id、发生时间戳、命令耗时、执行命令和参数，</p>
+<p>解答：</p>
 
-<p><code>slowlog len</code>：获取慢查询日志列表当前的长度
-<code>slowlog reset</code>:慢查询日志重置</p>
+<p>正常的栈操作可以直接使用库的栈，但关键在于常数内取得最小值。如果只是用一个变量维持当前的最小值，那在做完pop操作后，最小值可能改变，此时就需要$O(n)$的时间重新取得最小值。</p>
 
-<p>实践：</p>
+<p>所以可以用栈来维持插入元素时的最小值。在插入时，辅助栈也要进行插入。如果当前入栈元素比最小值小，则辅助栈的入栈元素就是当前元素。否则将当前的最小值入栈。这样在pop操作时，将minStack也进行pop操作，此时minStack栈顶对应的元素就是当前的最小值。</p>
 
-<ul>
-<li><code>slowlog-max-len</code>：建议调大慢查询列表，减缓慢查询被剔除的可能</li>
-<li><code>slowlog-log-slower-than</code>:默认值超过10毫秒判定为慢查询。当执行时间为1ms以上时，Redis支撑OPS不到1000</li>
-</ul>
+<pre><code class="language-java">public class MinStack {
+    private Stack&lt;Integer&gt; dataStack=new Stack&lt;&gt;();
+    private Stack &lt;Integer&gt; minStack=new Stack&lt;&gt;();
+    int min;
+    /** initialize your data structure here. */
+    public MinStack() {
+        dataStack=new Stack&lt;&gt;();
+        minStack=new Stack&lt;&gt;();
+        min=Integer.MAX_VALUE;
+    }
+    //入栈一个元素
+    public void push(int x) {
+        dataStack.add(x);
+        min=Math.min(min,x);
+        minStack.add(min);
+    }
 
-<p>慢查询只记录命令执行时间，并不包括命令排队和网络传输时间</p>
+    public void pop() {
+        //出栈
+        dataStack.pop();
+        minStack.pop();
+        //出栈后需要取得新的最小值
+        min=minStack.isEmpty()?Integer.MAX_VALUE:minStack.peek();
+    }
 
-<p>慢查询日志是一个先进先出的队列，如果慢查询比较多的情况下，可能会丢失部分慢查询命令。</p>
+    public int top() {
+        return dataStack.peek();
+    }
 
-<p>`<code>slow get</code>可以将慢查询日志持久化到其他存储中</p>
-
-<h2 id="redis-shell">Redis Shell</h2>
-
-<p>redis-cli、redis-server、redis-benchmark</p>
-
-<p>redis-cli：</p>
-
-<ul>
-<li><code>-r [count]</code>重复多次，如<code>redis-cli -r 3 ping</code>执行3次ping</li>
-<li><code>-i （interval）</code>每隔几秒执行一次命令,必须和<code>-r</code>一起使用。<code>redis-cli -r 5 -i 1 ping</code>每隔1秒执行一次ping命令，一共执行5次</li>
-<li><code>-x</code>:从标准输入（stdin）读取数据作为redis-cli的最后一个参数.<code>echo &quot;world&quot; | redis-cli -x set hello</code>将字符串world作为set hello的值</li>
-<li><code>-c</code>连接Redis Cluster节点</li>
-<li><code>-a</code>密码</li>
-<li><code>--scan</code>和<code>--pattern</code>:于扫描指定模式的键，相当于scan</li>
-<li><code>--slave</code>:把当前客户端模拟成当前Redis节点的从节点</li>
-</ul>
-
-<p>redis-server</p>
-
-<p>redis-benchmark:为Redis做基准性能测试</p>
-
-<h2 id="redis-pipeline">Redis Pipeline</h2>
-
-<p>在批量操作命令时，客户端是分n次将命令传给服务端的，这样会耗费时间</p>
-
-<p>Pipeline能将一组Redis命令进行组装，通过一次RTT传输给Redis</p>
-
-<p>redis-cli的&ndash;pipe选项就是Pipeline机制</p>
-
-<h2 id="事务与lua">事务与Lua</h2>
-
-<p>放到multi和exec两个命令之间表示事务</p>
-
-<pre><code class="language-java">//事务开始
-multi
-
-//事务结束
-exec
+    public int getMin() {
+//        return minStack.peek();
+        return min;
+    }
+}
 </code></pre>
 
-<p>discardsk 可以放弃事务。在exec之前执行</p>
+<p>可以只用一个栈。用变量min维持当前的最小值。在入栈时，如果入栈的元素x小于等于min，则将min入栈，然后将x入栈，如果x比min大则x直接入栈。 出栈时，先将栈顶元素移出栈，再判断该元素是否和min相等，相等的话我们将min更新为新栈顶元素，再将新栈顶元素移出栈即可</p>
 
-<p>不支持事务中的回滚特性，同时无法实现命令之间的逻辑关系计算</p>
+<p>在出栈时</p>
 
-<p>lua脚本好处：</p>
+<pre><code class="language-java">class MinStack {
+ private  int min=Integer.MAX_VALUE;
+    private Stack&lt;Integer&gt; stack=new Stack&lt;&gt;();
+    /** initialize your data structure here. */
+    public MinStack() {
 
-<ul>
-<li>Lua脚本在Redis中是原子执行的，执行过程中间不会插入其他命令。</li>
-<li>Lua脚本可以定制命令，并可以将这些命令常驻在Redis内存中，实现复用的效果。</li>
+    }
 
-<li><p>Lua脚本可以将多条命令一次性打包，有效地减少网络开销</p></li>
+    public void push(int x) {
+        if(x&lt;=min){
+            stack.push(min);
+            min=x;
+        }
+        stack.push(x);
+    }
 
-<li><p><code>script load</code>加载Lua脚本</p></li>
+    public void pop() {
+        if(stack.pop()==min){
+            min= stack.pop();
+        }
+    }
 
-<li><p><code>script exists sha1 [sha1 …]</code>用于判断sha1是否已经加载到Redis内存</p></li>
+    public int top() {
+        return stack.peek();
+    }
 
-<li><p><code>script flush</code>于清除Redis内存已经加载的所有Lua脚本</p></li>
+    public int getMin() {
+        return min;
+    }
+}
 
-<li><p><code>script kill</code>杀掉正在执行的Lua脚本。</p></li>
-</ul>
+</code></pre>
 
-<h2 id="bitmaps">Bitmaps</h2>
+<h3 id="栈的压入-弹出序列">栈的压入、弹出序列</h3>
 
-<p>Bitmaps本身不是一种数据结构，实际上就是字符.但是可以对字符串的位进行操作</p>
+<p>输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。</p>
 
-<h2 id="hyperloglog">HyperLogLog</h2>
+<p>例如序列 1,2,3,4,5 是某栈的压入顺序，序列 4,5,3,2,1 是该压栈序列对应的一个弹出序列，但 4,3,5,1,2 就不可能是该压栈序列的弹出序列。</p>
 
-<h2 id="发布订阅">发布订阅</h2>
+<p>解答</p>
 
-<p>发布者客户端向指定的频道（channel）发布消息，订阅该频道的每个客户端都可以收到该消息</p>
+<p>这里就是用栈来实际模拟入栈和出栈动作。如果符合出栈顺序则出栈，直到栈顶元素和需要出栈的元素不等，这时需要入栈。如果最后栈是空的，则说明出栈和入栈相符</p>
 
-<p><code>publish channel_name message</code>向channel_name发布message</p>
+<pre><code class="language-java">public class PopOrder {
+    public boolean IsPopOrder(int[] pushA, int[] popA) {
+        int n = pushA.length;
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+        int pop = 0;
+        for (int i = 0; i &lt; n; i++) {
+            //入栈
+            stack.push(pushA[i]);
+            //查看此时出栈能否满足出栈的顺序
+            while (!stack.isEmpty() &amp;&amp; stack.peek() == popA[pop]) {
+                stack.pop();
+                pop++;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+</code></pre>
 
-<p><code>subscribe channel [channel ...]</code></p>
+<h2 id="堆">堆</h2>
 
-<p>客户端在执行订阅命令之后进入了订阅状态，只能接收subscribe、
-psubscribe、unsubscribe、punsubscribe的四个命令。</p>
+<h3 id="数据流中的中位数">数据流中的中位数</h3>
 
-<p>新开启的订阅客户端，无法收到该频道之前的消息，因为Redis不会对
-发布的消息进行持久化。</p>
+<p>如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。</p>
 
-<p><code>unsubscribe [channel [channel ...]]</code>:取消订阅</p>
+<p>解答：</p>
 
-<p>按照模式订阅和取消订阅:<code>psubscribe pattern [pattern...]</code>和<code>punsubscribe [pattern [pattern ...]]</code></p>
+<p>由于是数据流，所以数据是变化的。所以需要用容器存储数据</p>
 
-<p><code>pubsub channels [pattern]</code>:查看活跃的频道(指当前频道至少有一个订阅者),<code>[pattern]</code>是可以指定具体的模式</p>
+<ol>
+<li>数组：用数组存储，然后用快排的思想找到中位数或者直接排序</li>
+<li>数组：在插入时就让数组有序，复杂度O(n)，也就是插入排序</li>
+<li>链表：寻找合适的位置时仍然需要O(n)，而且需要两个指针记录中间数字</li>
+<li>树：保证树一直有序</li>
+</ol>
 
-<p><code>pubsub numsub [channel ...]</code>查看频道订阅数</p>
+<p>由于中位数将数分为两部分，若p1、p2指向中间，则p1左边比p1小，p2右边比p2大</p>
 
-<p><code>pubsub numpat</code>查看模式订阅数</p>
+<p>可以用最大堆存储左边数据，最小堆存储右边</p>
 
-<h2 id="geo">GEO</h2>
+<p>数据需要平均分配到两个堆中，两个堆中数据的数目差不能超过1.当数据总数目是偶数时，新数据插入最小堆</p>
 
-<p>GEO（地理信息定位）</p>
+<p>最大堆中的所有数要小于最小堆的数据，当数据总数偶数，新数据插入最小堆，若此时新数据比最大堆中的数据要小，可以将新数据插入最大堆，然后将最大堆中最大数字拿出插入到最小堆中</p>
 
-<ul>
-<li>增加地理位置信息 <code>geoadd key longitude latitude member [longitude latitude member ...]</code> longitude、latitude、member分别是该地理位置的经度、纬度、成员。如<code>geoadd cities:locations 116.28 39.55 beijing</code>返回结果代表添加成功的个数，如果cities：locations已经包含beijing则返回0，否则1。如果添加时已经包括，则会<strong>更新已有数据</strong></li>
-<li>获取<code>geopos key member [member ...]</code>，如<code>geopos cities:locations tianjin</code></li>
-<li><code>geodist key member1 member2 [unit]</code>获取两个地理位置的距离。unit代表返回结果的单位,如m/km</li>
-<li>获取指定位置范围内的地理信息位置集合。是以一个地理位置为中心算出指定半径内的其他地理信息位置。georadius给出中心位置的经纬度，而georadiusbymember给出成员
+<pre><code class="language-java">import java.util.PriorityQueue;
 
-<ul>
-<li><code>georadius key longitude latitude radiusm|km|ft|m[withcoord] [withdist] [withhash] [COUNT count] [asc|desc] [store key] [storedist key]</code></li>
-<li><code>georadiusbymember key member radiusm|km|ft|m[withcoord] [withdist] [withhash] [COUNT count] [asc|desc] [store key] [storedist key]</code></li>
-</ul></li>
-<li><code>geohash key member [member ...]</code>:获取geohash,将二维经纬度转换为一维字符串</li>
-</ul>
+/**
+ * @author zhangjie
+ * @date 2019/4/16 10:11
+ * 如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。
+ * 如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。
+ * 我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
+ */
+public class GetMedian {
+    //最大堆
+    private PriorityQueue&lt;Integer&gt; left = new PriorityQueue&lt;&gt;((o1, o2) -&gt; o2 - o1);
+    //最小堆
+    private PriorityQueue&lt;Integer&gt; right = new PriorityQueue&lt;&gt;();
+    //元素个数
+    private int n=0;
+    public void Insert(Integer num) {
+        if(n%2==0){
+            /* N 为偶数的情况下插入到右半边。
+             * 因为右半边元素都要大于左半边，但是新插入的元素不一定比左半边元素来的大，
+             * 因此需要先将元素插入左半边，然后利用左半边为大顶堆的特点，取出堆顶元素即为最大元素，此时插入右半边 */
+            if(!left.isEmpty()&amp;&amp;num&gt;left.peek()){
+                right.add(num);
+            }else{
+                left.add(num);
+                right.add(left.poll());
+            }
+        }else{
+            if(!right.isEmpty()&amp;&amp;num&lt;right.peek()){
+                left.add(num);
+            }else{
+                right.add(num);
+                left.add(right.poll());
+            }
+        }
+        n++;
+    }
 
-<p>GEO的数据类型为zset</p>
-
-<p>删除地理位置信息:由于GEO的底层实现是zset，所以可以借用zrem命令实现对地理位置信息的删除</p>
+    public Double GetMedian() {
+        if(n%2==0){
+            return (left.peek()+right.peek())/2.0;
+        }
+        else{
+            return Double.valueOf(right.peek());
+        }
+    }
+}
+</code></pre>
 
                         </div>
 
@@ -257,15 +326,15 @@ psubscribe、unsubscribe、punsubscribe的四个命令。</p>
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/2019/03/19/Redis%E5%BC%80%E5%8F%91%E4%B8%8E%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B01/">Redis开发与运维笔记1</a></li>
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer-%E5%AD%97%E7%AC%A6%E4%B8%B2/">剑指offer-字符串</a></li>
         
-        <li><a href="/2019/03/22/Leetcode-%E7%AC%AC229%E9%A2%98-Majority-Element-II/">Leetcode 第229题 Majority Element II</a></li>
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer-%E6%A0%91%E7%9B%B8%E5%85%B3%E7%9A%84%E9%A2%98%E7%9B%AE/">剑指offer-树相关的题目</a></li>
         
-        <li><a href="/2019/03/18/Leetcode-%E7%AC%AC343%E9%A2%98/">Leetcode 第343题</a></li>
+        <li><a href="/2019/05/12/%E5%89%91%E6%8C%87offer%E6%95%B0%E7%BB%84/">剑指offer数组</a></li>
         
-        <li><a href="/2019/03/18/Java%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86/">Java集合的遍历</a></li>
+        <li><a href="/2019/04/22/%E5%89%91%E6%8C%87offer-%E9%93%BE%E8%A1%A8/">剑指offer-链表</a></li>
         
-        <li><a href="/2019/03/16/Windows%E5%B9%B3%E5%8F%B0%E4%B8%8B%E5%90%91IDEA%E4%B8%AD%E5%AF%BC%E5%85%A5Spring%E6%BA%90%E7%A0%81/">Windows平台下向IDEA中导入Spring源码</a></li>
+        <li><a href="/2019/05/12/Leetcode-%E7%AC%AC33%E9%A2%98-Search-in-Rotated-Sorted-Array/">Leetcode 第33题 Search in Rotated Sorted Array</a></li>
         
     </ul>
 </div>
@@ -275,9 +344,9 @@ psubscribe、unsubscribe、punsubscribe的四个命令。</p>
                             
                             <ul class="clearfix">
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/Redis">Redis</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E5%89%91%E6%8C%87offer">剑指offer</a></li>
                                 
-                                <li><a href="http://blog.njutzhangjie.cn/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0">读书笔记</a></li>
+                                <li><a href="http://blog.njutzhangjie.cn/tags/%E7%AE%97%E6%B3%95">算法</a></li>
                                 
                             </ul>
                             
