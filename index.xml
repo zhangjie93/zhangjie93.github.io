@@ -6,10 +6,19 @@
     <description>Recent content on zhangjie&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 12 May 2019 13:51:43 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 24 Jan 2021 11:33:57 +0800</lastBuildDate>
     
 	<atom:link href="http://blog.njutzhangjie.cn/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>git https转ssh</title>
+      <link>http://blog.njutzhangjie.cn/2021/01/24/git-https%E8%BD%ACssh/</link>
+      <pubDate>Sun, 24 Jan 2021 11:33:57 +0800</pubDate>
+      
+      <guid>http://blog.njutzhangjie.cn/2021/01/24/git-https%E8%BD%ACssh/</guid>
+      <description>git https转ssh 之前clone仓库的时候用了https，fetch/push总是需要输入密码，将远程仓库的url改成ssh的形式 设置密钥</description>
+    </item>
     
     <item>
       <title>剑指offer位运算和数学</title>
